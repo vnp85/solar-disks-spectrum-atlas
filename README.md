@@ -29,6 +29,13 @@ This project consists of two parts:
 * check the `cubes-info/*.json` files
 * check the `cubes/*.*` folder contents referenced by the JSON files above
 
+In a `cubes/foo-bar/` folder there will be an `average.jpg` or png file, which has a green line. The green line denotes pixel-offset zero:\
+
+* the `rawLum` image P000 (plus-zero) is extracted from that pixel-offset
+* in the filename, the P123 denotes a plus 123 pixels, from the green line, towards the red, which is bottom or right
+* in the filename, the M456 denotes a minus 456 pixels, from the green line, towards the blue, which is top or left
+* in the filename, the C789 is a counter, to guarantee the files' order
+
 
 ## Author
 
