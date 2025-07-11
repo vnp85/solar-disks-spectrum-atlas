@@ -29,13 +29,34 @@ This project consists of two parts:
 * check the `cubes-info/*.json` files
 * check the `cubes/*.*` folder contents referenced by the JSON files above
 
-In a `cubes/foo-bar/` folder there will be an `average.jpg` or png file, which has a green line. The green line denotes pixel-offset zero:\
+In a `cubes/foo-bar/` folder there will be an `average.jpg` or png file, which has a green line. The green line denotes pixel-offset zero:
 
 * the `rawLum` image P000 (plus-zero) is extracted from that pixel-offset
-* in the filename, the P123 denotes a plus 123 pixels, from the green line, towards the red, which is bottom or right
-* in the filename, the M456 denotes a minus 456 pixels, from the green line, towards the blue, which is top or left
-* in the filename, the C789 is a counter, to guarantee the files' order
+* in the filename, the `P123` denotes a plus 123 pixels offset, from the green line, towards the red, which is bottom or right
+* in the filename, the `M456` denotes a minus 456 pixels offset, from the green line, towards the blue, which is top or left
+* in the filename, the `C789` is a counter, to guarantee the files' order
 
+The JSol'Ex ImageMath script was generated, and contained lines similar to this snippet:
+
+```
+lineOffset = 0
+
+[outputs]
+
+rot_rawLum_img_C000_M328 = rotate_rad(img(lineOffset -328), angleP)
+rot_rawLum_img_C001_M327 = rotate_rad(img(lineOffset -327), angleP)
+
+rot_rawLum_img_C008_M320 = rotate_rad(img(lineOffset -320), angleP)
+
+rot_rawLum_img_C326_M002 = rotate_rad(img(lineOffset -2), angleP)
+rot_rawLum_img_C327_M001 = rotate_rad(img(lineOffset -1), angleP)
+rot_rawLum_img_C328_P000 = rotate_rad(img(lineOffset +0), angleP)
+rot_rawLum_img_C329_P001 = rotate_rad(img(lineOffset +1), angleP)
+rot_rawLum_img_C330_P002 = rotate_rad(img(lineOffset +2), angleP)
+
+rot_rawLum_img_C715_P387 = rotate_rad(img(lineOffset +387), angleP)
+rot_rawLum_img_C716_P388 = rotate_rad(img(lineOffset +388), angleP)
+```
 
 ## Author
 
