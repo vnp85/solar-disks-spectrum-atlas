@@ -1,0 +1,16 @@
+{
+    "cubeLocation": "cubes/2025-04-26-0920-Mg-triplet-5183/",
+    "averageFilename": "20250426_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 5183.62,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        { "px": 446, "lambda_A": 5183.62 },
+        { "px": 267, "lambda_A": 5172.7 }
+    ],
+    "wavelengths-of-interest": [
+        { "lambda_A": 5169.10, "caption": "Fe II %wavelength%"}
+    ],
+    "title": "Mg triplet"
+}

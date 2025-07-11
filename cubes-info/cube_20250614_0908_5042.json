@@ -1,0 +1,22 @@
+{
+    "cubeLocation": "cubes/2025-06-14-0908_4-Sun-5042/",
+    "averageFilename": "20250614_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 5041.76,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        {
+            "px": 232,
+            "lambda_A": 5041.76
+        },
+        {
+            "px": 768,
+            "lambda_A": 5074.74
+        }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm",
+    "trim_M": 0,
+    "trim_P": 0
+}

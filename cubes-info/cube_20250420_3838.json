@@ -1,0 +1,16 @@
+{
+    "cubeLocation": "cubes/2025-04-20-0904-Mg1-3838/",
+    "averageFilename": "20250420_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 3838.3,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        { "px": 122, "lambda_A": 3838.3 },
+        { "px": 30, "lambda_A": 3832.3 }
+    ],
+    "wavelengths-of-interest": [
+        { "lambda_A": 3835.4, "caption": "H eta" }
+    ],
+    "title": "not used atm"
+}

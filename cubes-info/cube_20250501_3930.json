@@ -1,0 +1,15 @@
+{
+    "cubeLocation": "cubes/2025-05-01-0943-CaK-CaH/",
+    "averageFilename": "20250501_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 3933.66,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        { "px": 111, "lambda_A": 3933.66, "caption": "CaK" },
+        { "px": 650, "lambda_A": 3968.47, "caption": "CaH" }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm"
+}
+

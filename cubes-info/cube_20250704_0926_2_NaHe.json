@@ -1,0 +1,23 @@
+{
+    "cubeLocation": "cubes/2025-07-04-0926_2-Sun-NaHe-wide/",
+    "averageFilename": "20250704_average.jpg",
+    "instrument-id": 2,
+    "datetime": "from-path",
+    "cwl_A": 5889.95,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        {
+            "px": 505,
+            "lambda_A": 5889.95
+        },
+        {
+            "px": 160,
+            "lambda_A": 5855.54
+        }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm",
+    "trim_M": 0,
+    "trim_P": 0
+}

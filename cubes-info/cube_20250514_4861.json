@@ -1,0 +1,15 @@
+{
+    "cubeLocation": "cubes/2025-05-14-1054-Hbeta-4861/",
+    "averageFilename": "20250514_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 4861.34,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        { "px": 392, "lambda_A": 4861.34 },
+        { "px": 663, "lambda_A": 4878.17 }
+    ],
+    "wavelengths-of-interest": [
+    ],
+    "title": "H beta"
+}

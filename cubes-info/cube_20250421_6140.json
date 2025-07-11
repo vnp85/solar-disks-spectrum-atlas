@@ -1,0 +1,16 @@
+{
+    "cubeLocation": "cubes/2025-04-21-0945-Sun-6140/",
+    "averageFilename": "20250421_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 6136.61,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        { "px": 54, "lambda_A": 6136.61 },
+        { "px": 208, "lambda_A": 6145.04 }
+    ],
+    "wavelengths-of-interest": [
+        { "lambda_A": 6141.7278, "caption": "Ba II %wavelength%"}
+    ],
+    "title": "not used atm"
+}

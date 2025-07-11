@@ -1,0 +1,16 @@
+{
+    "cubeLocation": "cubes/2025-04-26-0916-Sun-5000/",
+    "averageFilename": "20250426_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 5041.66,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        { "px": 697, "lambda_A": 5041.66 },
+        { "px": 320, "lambda_A": 5018.46 }
+    ],
+    "wavelengths-of-interest": [
+        { "lambda_A": 5018.45, "caption": "Fe II %wavelength%"}
+    ],
+    "title": "not used atm"
+}

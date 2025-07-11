@@ -1,0 +1,27 @@
+{
+    "cubeLocation": "cubes/2025-07-04-0903_8-Sun-Ha/",
+    "instrument-id": 2,
+    "averageFilename": "20250704_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 6562.81,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        {
+            "px": 371,
+            "lambda_A": 6562.81
+        },
+        {
+            "px": 54,
+            "lambda_A": 6533.95
+        },
+        {
+            "px": 640,
+            "lambda_A": 6586.99
+        }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm",
+    "trim_M": 0,
+    "trim_P": 0
+}

@@ -1,0 +1,19 @@
+{
+    "cubeLocation": "cubes/2025-04-21-0725-FeHe5880/",
+    "averageFilename": "20250421_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 5883.82,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        { "px": 193, "lambda_A": 5883.82, "caption": "Fe I" },
+        { "px": 49, "lambda_A": 5875.62, "caption": "He I D3" },
+        { "px": 119, "lambda_A": 5877.77, "comment": "something" }
+    ],
+    "wavelengths-of-interest": [
+       "pixelWavelengthPairs[0]",
+       "pixelWavelengthPairs[1]"
+    ],
+    "title": "not used atm"
+}
+

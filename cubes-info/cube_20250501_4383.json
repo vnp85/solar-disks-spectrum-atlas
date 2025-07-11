@@ -1,0 +1,16 @@
+{
+    "cubeLocation": "cubes/2025-05-01-1036-Sun-4383/",
+    "averageFilename": "20250501_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 4383.5,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        { "px": 58, "lambda_A": 4383.5 },
+        { "px": 391, "lambda_A": 4404.75 }
+    ],
+    "wavelengths-of-interest": [
+        { "lambda_A": 4395, "caption": "Ti II %wavelength%" }
+    ],
+    "title": "not used atm"
+}

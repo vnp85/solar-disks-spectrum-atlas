@@ -1,0 +1,15 @@
+<div class="cube-list-item" 
+     style="user-select:none; cursor:pointer; display:inline-block; border-radius: 5px; border: 1px solid black;padding: 5px;" 
+     onclick="CubeListItem_divClick(this)" 
+     data-cube-id="%id%" >
+    <div>
+        %title% %wavelength-extremes-blue-rounded%&Aring;&ndash;%wavelength-extremes-red-rounded%&Aring; 
+        <div style="border-radius: 0.5em; background-color: %spectral-color%; display:inline-block;width:1em; height:1em;">
+            &nbsp;
+        </div>
+    </div>
+    <div style="font-size:80%">
+        <span title="instrument id" style="font-size: 80%; font-style: italic">(%instrument-id%)</span>         
+        <span title="datetime is UT: YYYY-MM-DD-HHMM" class="cube-datetime">%datetime%</span>
+    </div>
+</div>    

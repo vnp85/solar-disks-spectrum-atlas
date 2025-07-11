@@ -1,0 +1,20 @@
+{
+    "cubeLocation": "cubes/2025-06-01-0949-Sun-4150/",
+    "averageFilename": "20250601_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 4143.86,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        {
+            "px": 242,
+            "lambda_A": 4143.86
+        },
+        {
+            "px": 605,
+            "lambda_A": 4167.3
+        }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm"
+}

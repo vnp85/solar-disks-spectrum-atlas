@@ -1,0 +1,15 @@
+{
+    "cubeLocation": "cubes/2025-05-28-0747-Sun-4045/",
+    "averageFilename": "20250528_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 4045.74,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        { "px": 129, "lambda_A": 4045.74 },
+        { "px": 624, "lambda_A": 4077.67 }
+    ],
+    "wavelengths-of-interest": [
+    ],
+    "title": "tbd"
+}

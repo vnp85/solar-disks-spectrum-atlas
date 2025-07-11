@@ -1,0 +1,18 @@
+{
+    "cubeLocation": "cubes/2025-05-02-1011-Sun-4554/",
+    "averageFilename": "20250502_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 4549.6,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        { "px": 90, "lambda_A": 4549.6 },
+        { "px": 594, "lambda_A": 4581.44 }
+    ],
+    "wavelengths-of-interest": [
+        { "lambda_A": 4554.036, "caption": "Ba II %wavelength%" },
+        { "lambda_A": 4549.6, "caption": "Fe II, Ti II %wavelength%" },
+        { "lambda_A": 4571.982, "caption": "Ti II %wavelength%" }
+    ],
+    "title": "not used atm"
+}

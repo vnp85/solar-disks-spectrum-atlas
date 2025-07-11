@@ -1,0 +1,16 @@
+{
+    "cubeLocation": "cubes/2025-04-20-0720-Sun-4078/",
+    "averageFilename": "20250420_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 4077.72,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        { "px": 45, "lambda_A": 4077.72 },
+        { "px": 137, "lambda_A": 4083.62 }
+    ],
+    "wavelengths-of-interest": [
+        { "lambda_A": 4077.724, "caption": "Sr II %wavelength%"}
+    ],
+    "title": "not used atm"
+}

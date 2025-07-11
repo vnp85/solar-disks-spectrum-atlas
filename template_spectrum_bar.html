@@ -1,0 +1,78 @@
+<div id="template-container-of-spectrum-%id%" style="display: %display%" class="spectrum-container %container-class%">
+<div>
+    <div align="center">%title%</div>
+    <div style="font-size: 80%">
+<table>
+    <tr> 
+        <td>
+            <div>
+                <button style="display:none" 
+                  class="spectrum-or-diagram-opacity" 
+                  onclick="OnAllImages_adjustSpectrumOpacities(1)">spectrum ++</button>
+            </div>
+            <div>&nbsp;</div>
+                <div align="right">%wavelength-extremes-blue%&Aring;</div>
+            <div>&nbsp;</div>
+            <div>
+                <button style="display:none" 
+                  class="spectrum-or-diagram-opacity" 
+                  onclick="OnAllImages_adjustSpectrumOpacities(-1)">diagram ++</button>
+            </div>
+            </td>
+        <td style="vertical-align: bottom;" draggable="false">
+            
+            <a class="tile" href="#view-anchor-%id%" tabindex="0" draggable="false" style="outline: none;  cursor: crosshair; border: 0px">
+
+                <div id="wrapper-%id%" style="width:%rainbow-width%px; height: 120px; position:relative; overflow:hidden">                    
+          <img draggable="false" id="diagram-twin-of-%id%" src="%img_src_diagram_twin%" 
+             style="position: absolute; left:0; top: 0; user-select: none; width:%rainbow-width%px;min-height:60px; max-height:90px;">
+          <img draggable="false" id="%id%" src="%img_src%" 
+             class="spectrum-image"
+             data-lambda-precision="%lambda-precision%" 
+             data-extreme-pixel-shifts="%extremePixelShifts%" 
+             data-spectrum-cursor-move-callback-name="%onSpectrumCursorMove%"
+             data-parent-id="%parent-id%"
+             data-operates-on-the-cube-slices="%data-operates-on-the-cube-slices%"
+             style="opacity: 0.5; position: absolute; left:0; top: 0; user-select: none; width:%rainbow-width%px;min-height:60px; max-height:90px;">
+          <div id="cube-slice-list-%id%" class="cube-slices-list-enumeration" style="display:none">%cube-slices-list%</div>
+        <script src="%mapfile%"></script>
+        </div>    
+        </a>
+    </td>   
+    <td>%wavelength-extremes-red%&Aring;</td>
+    <td style="vertical-align: bottom;" align="left">
+        <div style="margin-left: 15px; font-size: 150%">
+            <div>
+                <span class="greek">&lambda;</span> 
+                <input type="text" id="lambda-%id%" data-cube-id="%id%" class="lambda-editor" onchange="lambda_input_changed(this)" style="width:100px;font-size:105%">&Aring; 
+                <button data-img-id="%id%" id="lambda-input-button-of-%id%" onclick="SpectrumLambdaInputClick(this)">&#8629;</button>    
+            </div>
+            <div>
+                <input id="identified-chemical-of-%id%" class="identified-chemical-wrapper" type="text" readonly style="width:140px;border:0px;">
+            </div>
+        </div>    
+        <div style="height:30px">&nbsp;</div>
+    </td>    
+    <td style="vertical-align: bottom;" align="left">
+        <div style="margin-left: 15px">
+           pixel-shift from CWL<br>(green line) %cwl_A% &Aring;<br>
+           <input type="text" id="pixelshift-%id%" class="pixel-editor" style="width:80px">px 
+           <button data-img-id="%id%" id="pixelshift-input-button-of-%id%" onclick="SpectrumPixelShiftInputClick(this, 0)">&#8629;</button>
+           <button data-img-id="%id%" id="pixelshift-decrement-of-%id%" onclick="SpectrumPixelShiftInputClick(this, -1)">-</button>
+           <button data-img-id="%id%" id="pixelshift-increment-of-%id%" onclick="SpectrumPixelShiftInputClick(this, 1)">+</button>
+           <span style="font-size:90%; display:%interval-player-display-value%;">
+            <br>
+           <button data-img-id="%id%" id="pixelshift-playback-decrement-of-%id%" onclick="SpectrumPixelShiftPlaybackClick(this, -1)">&#9664;</button>
+           <button data-img-id="%id%" id="pixelshift-playback-stop-of-%id%" onclick="SpectrumPixelShiftStopPlaybackClick(this, 1)">&#x25FC;</button>
+           <button data-img-id="%id%" id="pixelshift-playback-increment-of-%id%" onclick="SpectrumPixelShiftPlaybackClick(this, 1)">&#9654;</button>
+           <button data-img-id="%id%" id="pixelshift-playback-loop-around-of-%id%" hint="walk around this CWL with plus-minus pixelshifts" onclick="SpectrumPixelShiftPlaybackLoopClick(this, 1, 2)">&plusmn;2 &#x21B9;&#9654;</button>                                 
+           <button data-img-id="%id%" id="pixelshift-playback-loop-around-of-%id%" hint="walk around this CWL with plus-minus pixelshifts" onclick="SpectrumPixelShiftPlaybackLoopClick(this, 1, 4)">&plusmn;4 &#x21B9;&#9654;</button>                                 
+           </span>
+        </div>
+        <div style="height:30px">&nbsp;</div>
+    </td>        
+    </tr>
+    </table> 
+</div>
+</div>
+</div>

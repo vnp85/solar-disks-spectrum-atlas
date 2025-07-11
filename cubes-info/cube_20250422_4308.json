@@ -1,0 +1,16 @@
+{
+    "cubeLocation": "cubes/2025-04-22-0934-Gband-4308/",
+    "averageFilename": "20250422_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 4307.9,
+    "putMarkerToCwl": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        { "px": 269, "lambda_A": 4307.9, "caption": "Fe" },
+        { "px": 438, "lambda_A": 4318.64  }
+    ],
+    "wavelengths-of-interest": [
+    ],
+    "title": "not used atm"
+}
+
