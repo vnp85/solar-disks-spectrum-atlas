@@ -168,6 +168,35 @@
             return this;
         },
 
+        isNanIsh: function (e){
+            if (typeof e === 'undefined'){
+                return true;
+            }
+            if (e === false){
+                return true;
+            }
+            if (e === 'false'){
+                return true;
+            }
+            if (e === 'NaN'){
+                return true;
+            }
+            if (e === 'n/a'){
+                return true;
+            }
+            return false;
+        },
+
+        stringOrFalse: function (dict, key){
+            if (typeof dict[key] === 'string'){
+                if (this.isNanIsh(dict[key])){
+                    dict[key] = false;
+                }
+            }else{
+                dict[key] = false;
+            }
+        },
+
         parseStateFromUrl: function (){
             var ret = false;
             var u = document.URL.split('#')[0];
@@ -184,19 +213,17 @@
                     e.push('n/a');
                     acc[e[0]] = e[1];
                 });
-                if ("NaN" === acc["wavelength_A"]){
+                if (that.isNanIsh(acc["wavelength_A"])){
                     acc["wavelength_A"] = that._defaultWavelength_A;
                 }
-                if ("n/a" === acc["wavelength_A"]){
-                    acc["wavelength_A"] = that._defaultWavelength_A;
-                }
-                if (typeof acc['cubeId'] === 'string'){
-                    // there is something
-                    if ('false' == acc['cubeId']){
-                        acc['cubeId'] = false;
+                that.stringOrFalse(acc, 'cubeId');
+                that.stringOrFalse(acc, 'preferCube');
+                console.log("parsed from the URL: "+JSON.stringify(acc));
+                
+                if (false === acc['cubeId']){
+                    if (false !== acc['preferCube']){
+                        acc['cubeId'] = acc['preferCube'];
                     }
-                }else{
-                    acc['cubeId'] = false;
                 }
                 Spectrum_showWavelengthA(acc["wavelength_A"], acc['cubeId']);
             };    
@@ -493,32 +520,33 @@
         }        
     }
         
+    function ImageFilename_doesItHaveThePixelshift(filename, pixelShift){
+        if (false === pixelShift){
+            return true;
+        }
+        pixelShift = Math.round(pixelShift);
 
+        filename = (filename+'').split('\\').join('/').split('/').pop();        
+        //console.log("should have the basename now", filename);
+        filename = filename.split('.').join('_');
+        filename = filename.split('img_C').pop(); 
+        filename = filename.split('_');
+        filename.shift();
+        filename = filename.shift();
+        filename = filename.replace('P', '+').replace('M', '-');
+        filename = parseInt(filename, 10);
+        //console.log("pixelshift in filename", filename, "pixelshift in argument", pixelShift);
+        return (filename == pixelShift);
+    }
 
     function OnImage_getImageList(img, filter_px = false){
         img = OnImage_domify(img);
         if (false === filter_px){
             // carry on
         }else{
-            var pre = '_P';
-            if (filter_px >= 0){
-                //
-            }else{
-                pre = '_M';
-                filter_px = Math.abs(filter_px);                
-            }
-            if (filter_px < 1){
-                filter_px = 0;
-                pre = '_P';
-            }
-            filter_px = Math.round(filter_px);
-            filter_px = filter_px+'';
-            while (filter_px.length < 3){
-                 filter_px = '0'+filter_px;
-            }
-            filter_px = pre + filter_px;
+            // see function call
         }
-        //console.log(img, filter_px);
+        //console.log('filename should contain: ', img, filter_px);
         var p = OnImage_getFirstParentWithTagname(img, "table").getElementsByClassName("cube-slices-list-enumeration")[0];
         var ret = p.innerHTML.split(',').map(function (e){
             e = e.trim();
@@ -527,7 +555,7 @@
             if (false === filter_px){
                 // don't check
             }else{
-                return e.indexOf(filter_px) > -1;
+                return ImageFilename_doesItHaveThePixelshift(e, filter_px);
             }    
             return e.length > 0;
         });

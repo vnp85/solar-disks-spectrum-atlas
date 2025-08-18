@@ -26,7 +26,7 @@
                 <div id="wrapper-%id%" style="width:%rainbow-width%px; height: 120px; position:relative; overflow:hidden">                    
           <img draggable="false" id="diagram-twin-of-%id%" src="%img_src_diagram_twin%" 
              style="position: absolute; left:0; top: 0; user-select: none; width:%rainbow-width%px;min-height:60px; max-height:90px;">
-          <img draggable="false" id="%id%" src="%img_src%" 
+          <img draggable="false" id="%id%" src="%img_src%%img_hash_postfix%" 
              class="spectrum-image"
              data-lambda-precision="%lambda-precision%" 
              data-extreme-pixel-shifts="%extremePixelShifts%" 
@@ -55,7 +55,7 @@
     </td>    
     <td style="vertical-align: bottom;" align="left">
         <div style="margin-left: 15px">
-           pixel-shift from CWL<br>(green line) %cwl_A% &Aring;<br>
+           pixel-shift from "green line"<br>(used as guide) %cwl_A% &Aring;<br>
            <input type="text" id="pixelshift-%id%" class="pixel-editor" style="width:80px">px 
            <button data-img-id="%id%" id="pixelshift-input-button-of-%id%" onclick="SpectrumPixelShiftInputClick(this, 0)">&#8629;</button>
            <button data-img-id="%id%" id="pixelshift-decrement-of-%id%" onclick="SpectrumPixelShiftInputClick(this, -1)">-</button>

@@ -9,8 +9,13 @@ function getPixelShiftFromCubeFilename($f){
     $f = array_pop($f);
     $f = str_replace('P', '+', $f); 
     $f = str_replace('M', '-', $f); 
-    $f = floatval($f);
-    return $f;
+    $fn = floatval($f);
+    if (strlen($f) > 4){
+        //var_dump($fn);
+        //var_dump($f);
+        //die();
+    }
+    return $fn;
 }  
 
 function cube_getAngstromPerPixel($parsedCube){
@@ -100,7 +105,7 @@ function cube_getFileListOnLocation($parsed){
 }
 
 function cube_parseJsonFile($filename){
-    $id = $filename;
+    $id = basename($filename);
     $id = str_replace('.json', '', $id);
     $id = str_replace('/', '_', $id);
     $id = str_replace('.', '_', $id);

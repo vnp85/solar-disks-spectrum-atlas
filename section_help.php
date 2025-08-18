@@ -104,7 +104,7 @@
         <div class="help-paragraph">
             <div><strong>Sun Data</strong></div>
             <div class="help-sub-paragraph">
-            The solar disks and spectral cubes presented here are the author's own work, 
+            The solar disks and spectral cubes presented here are the author's own work (see licence), 
             his own observations with his own instruments. Some of the gear was bought off the shelf, 
             some was built/hacked/repurposed.
             </div>
@@ -144,7 +144,35 @@
             </div>
         </div>
         <div class="help-paragraph">
-            <div><strong>Software</strong></div>
+            <div><strong>Licence</strong></div>
+            <div class="help-sub-paragraph">
+            This work, the data release and the viewer, are published under the terms of the 
+            Creative Commons Attribution 4.0 licence. 
+            Any further distribution of this work must maintain attribution to the author(s) 
+            and the title of the work, journal citation and DOI.
+            </div>
+
+            <div class="help-sub-paragraph">
+                <div>First published at: <a href="https://iopscience.iop.org/article/10.3847/2515-5172/adef50">https://iopscience.iop.org/article/10.3847/2515-5172/adef50</a></div>
+                <div>P. Váradi Nagy and A. G. M. Pietrow 2025 Res. Notes AAS 9 188</div>
+                <div>DOI 10.3847/2515-5172/adef50</div>
+            </div>
+        </div>    
+        <div class="help-paragraph">
+            <div><strong>Published at</strong></div>
+            <div class="help-sub-paragraph">
+                github: https://github.com/vnp85/solar-disks-spectrum-atlas
+            </div>
+            <div class="help-sub-paragraph">
+                <div>paper: https://iopscience.iop.org/article/10.3847/2515-5172/adef50</div>
+                <div>on arXiv: https://arxiv.org/abs/2507.13025</div>
+            </div>
+            <div class="help-sub-paragraph">
+                zenodo: https://doi.org/10.5281/zenodo.15863784
+            </div>    
+        </div>    
+        <div class="help-paragraph">
+            <div><strong>Used Software</strong></div>
             <ul>
                 <li>
                     The author's own Ersatz-Obsi, from driving the telescope mount, power management etc. to handling the amassed data as a database/librarian.

@@ -3,7 +3,7 @@
 $homedir = str_replace('\\', '/', dirname(__FILE__));
 
 $cubeFolders = glob($homedir.'/cubes/*', GLOB_ONLYDIR);
-$cubeFiles = glob($homedir.'/cube_*.json');
+$cubeFiles = glob($homedir.'/cubes-info/cube_*.json');
 $cubeFilesReferenceFolders = array();
 foreach ($cubeFiles as $c){
     $c = json_decode(file_get_contents($c), true);
@@ -178,6 +178,7 @@ foreach ($cubeFolders  as $cubeFolder){
     $k["title"] = "not used atm";
     $k["trim_M"] = 0;
     $k["trim_P"] = 0;
+    $k["instrument-id"] = 2;
     var_dump($k);
     $candidate_filename = explode('/', $k["cubeLocation"]);
     $n = array_pop($candidate_filename);
@@ -186,7 +187,7 @@ foreach ($cubeFolders  as $cubeFolder){
     }
     $candidate_filename = explode('-', $n);
     $last = array_pop($candidate_filename);
-    $candidate_filename = $homedir.'/cube_'.$candidate_filename[0].$candidate_filename[1].$candidate_filename[2].'_'.$candidate_filename[3].'_'.$last.'.json';    
+    $candidate_filename = $homedir.'/cubes-info/cube_'.$candidate_filename[0].$candidate_filename[1].$candidate_filename[2].'_'.$candidate_filename[3].'_'.$last.'.json';    
     if (!file_exists($candidate_filename)){
         $j = json_encode($k, JSON_PRETTY_PRINT);
         $j = str_replace('\\', '/', $j);

@@ -1,6 +1,7 @@
 <?php
 
 require_once("wavelength_info_helpers.php");
+require_once("wavelength_info_nist.php");
 
 /* wavelength info are 
     [1] 
@@ -67,6 +68,8 @@ function get_hydrogen_balmer_series(){
   return $ret;
 }
 
+
+
 function get_basic_wavelengths(){
     $a = get_hydrogen_balmer_series();
     $a = array_merge($a, array(
@@ -86,12 +89,50 @@ function get_basic_wavelengths(){
 
       array("lambda_A" => 5173, "caption" => "Mg triplet",  "photogenyClass" => 2, "displayImportanceFactor" => 1.5, "max_ionization_level" => 0),
 
-      array("lambda_A" => 5889.95, "caption" => "Na doublet",  "photogenyClass" => 2, "ionized" => false),
+      array("lambda_A" => 5892, "caption" => "Na doublet",  "photogenyClass" => 2, "ionized" => false),
   
     ));
     $a = wavelengthInfo_getPolyfilledItemArray($a, array("must_include" => true));
     return $a;
   }
+
+
+  function getHeliumLines(){
+    $ret = array();
+
+    $faintBag = array(
+      "displayImportanceFactor" => 0.5, 
+      "ionized" => false,
+      "photogenyClass" => 5
+    );
+    $faintBag2 = array(
+      "displayImportanceFactor" => 50, 
+      "ionized" => false,
+      "photogenyClass" => 5
+    );
+    $brightBag = array(
+      "displayImportanceFactor" => 0.8, 
+      "ionized" => false,
+      "photogenyClass" => 1
+    );
+        
+    
+    // where did this come from? $ret[] =  awl_notImportant__NIST_intensityNotWidth(6867, "caption" => "He I %wavelength%", "width_mA" => 500,"photogenyClass" => 5, "displayImportanceFactor" => 0.5, "ionized" => false); 
+    
+    $ret[] =  awl_notImportant__NIST_intensityNotWidth(3888.648, 500, "He I", $brightBag); 
+    $ret[] =  awl_notImportant__NIST_intensityNotWidth(4921.931, 20, "He I", $faintBag); 
+
+    $ret[] =  awl_notImportant__NIST_intensityNotWidth(6678.151, 200, 'He I', $faintBag);
+    $ret[] =  awl_notImportant__NIST_intensityNotWidth(5015.6783, 100, "He I", $faintBag); 
+
+    $ret[] =  awl_notImportant__NIST_intensityNotWidth(4471.5, 225, 'He I', $faintBag);
+    $ret[] =  awl_notImportant__NIST_intensityNotWidth(7065.2, 180, 'He I', $faintBag2);
+    $ret[] =  awl_notImportant__NIST_intensityNotWidth(10830.2, 1650, '~He I', $brightBag);
+    
+    $ret[] =  awl_notImportant__NIST_intensityNotWidth(4685.7, 45, "~He II", $faintBag); 
+
+    return $ret;
+  }    
 
 
   function get_basic_and_additional_wavelengths(){
@@ -186,7 +227,7 @@ function get_basic_wavelengths(){
     $ret[] = awl_helper(4337.925, "Ti II", 89, 4);
     $ret[] = awl_helper(4351.921, "Mg I", 283, 3);
     $ret[] = awl_helper(4354.615, "Se II", 70);
-    $ret[] = awl_helper(4374.944, "Y II", 88, 4);
+    $ret[] = awl_helper(4374.944, "Y II", 88, 4);    
     $ret[] = awl_helper(4383.557, "Fe I", 1008, 2);
     $ret[] = awl_helper(4385.387, "Fe II", 81, 3);
     $ret[] = awl_helper(4395.040, "Ti II", 135, 2, array("displayClusterBoundaryMarker" => "2"));
@@ -260,18 +301,19 @@ function get_basic_wavelengths(){
     $ret[] = awl_helper(6416.928, "Fe II", 47.5, $unkown_todo);
     $ret[] = awl_helper(6496.908, "Ba II", 98, $unkown_todo);
 
-    $ret[] = array("lambda_A" => 5875.62, "caption" => "He I D3", "width_mA" => 500,"photogenyClass" => 2, "displayImportanceFactor" => 2.5, "ionized" => false); 
     $ret[] = array("lambda_A" => 5889.973, "caption" =>"Na I D2", "width_mA" =>752, "photogenyClass" => 2, "displayImportanceFactor" => 2.5, "ionized" => false); 
     $ret[] = array("lambda_A" => 5895.940, "caption" =>"Na I D1", "width_mA" =>564, "photogenyClass" => 2, "ionized" => false, "displayClusterBoundaryMarker" => "1");
 
-    $ret[] = array("lambda_A" => 6678.151 , "caption" => "He I %wavelength%", "width_mA" => 500,"photogenyClass" => 5, "displayImportanceFactor" => 0.5, "ionized" => false); 
-    $ret[] = array("lambda_A" => 6867, "caption" => "He I %wavelength%", "width_mA" => 500,"photogenyClass" => 5, "displayImportanceFactor" => 0.5, "ionized" => false); 
-    $ret[] = array("lambda_A" => 5015.6783, "caption" => "He I %wavelength%", "width_mA" => 500,"photogenyClass" => 5, "displayImportanceFactor" => 0.5, "ionized" => false); 
-    $ret[] = array("lambda_A" => 4471.5, "caption" => "He I %wavelength%", "width_mA" => 500,"photogenyClass" => 5, "displayImportanceFactor" => 0.5, "ionized" => false); 
-    $ret[] = array("lambda_A" => 3888.648, "caption" => "He I %wavelength%", "width_mA" => 500,"photogenyClass" => 5, "displayImportanceFactor" => 0.5, "ionized" => false); 
-    $ret[] = array("lambda_A" => 4685.7038, "caption" => "He II %wavelength%", "width_mA" => 500,"photogenyClass" => 5, "displayImportanceFactor" => 0.5, "ionized" => true); 
-    $ret[] = array("lambda_A" => 4921.931, "caption" => "He I %wavelength%", "width_mA" => 500,"photogenyClass" => 5, "displayImportanceFactor" => 0.5, "ionized" => false); 
-    
+    $ret[] = array(
+      "lambda_A" => 5875.62, 
+      "caption" => "He I D3", 
+      "relativeIntensity" => 900,
+      "photogenyClass" => 2, 
+      "displayImportanceFactor" => 2.5, 
+      "ionized" => false,
+      "must_include" => true,
+      "displayImportance" => 1000
+    );     
 
 
     $ret = wavelengthInfo_getPolyfilledItemArray($ret, array("must_include" => true));
@@ -288,6 +330,32 @@ function get_basic_wavelengths(){
     return awl_helper($lambda_A, $caption, $width_mA, $displayImportance);
   }
 
+  function awl_notImportant__NIST_intensityNotWidth($lambda_A, $caption_, $relativeIntensity_, $bag = false){
+    $displayImportance = 99;
+    $ret = array();
+    
+    if (is_string($relativeIntensity_)){
+      $relativeIntensity = $caption_;
+      $caption = $relativeIntensity_;
+    }else{
+      $relativeIntensity = $relativeIntensity_;
+      $caption = $caption_;
+    }
+
+    $ret["lambda_A"] = $lambda_A;
+    $ret["relativeIntensity"] /* see NIST */ = $relativeIntensity;
+    // ignore, see NIST $ret["width_mA"] = $width_mA;
+    $ret["caption"] = $caption." %wavelength%";
+
+    if (is_array($bag)){
+        foreach ($bag as $key=>$value){
+            $ret[$key] = $value;
+        }
+    }
+
+    return $ret;
+  }
+
   function awl_coronalLine($lambda_A, $caption, $irradiance){
     $lambda_A_string = number_format($lambda_A, 1, '.', ""); 
     // may not display in the table
@@ -298,7 +366,8 @@ function get_basic_wavelengths(){
       "photogenyClass" => 6 - $irradiance / 1000,
       "widthForCalculations" => 100,
       "must_include" => true,
-      "displayImportance" => round($irradiance / 10)
+      "displayImportance" => round($irradiance / 10),
+      "irradiance" => $irradiance,
     );
     return $ret;
     
@@ -349,6 +418,52 @@ function getMagneticWavelengths(){
 
   function getFurtherWavelengthWorthyToLabelOnScreenButNotWithDedicatedButtons(){
     $ret = array();    
+
+    $ret[] = awl_notImportant(3500.335, 90, "Ti II");
+    $ret[] = awl_notImportant(3500.857, 163, "Ni I");
+    $ret[] = awl_notImportant(3500.715, 84, "~Co II");
+    $ret[] = awl_notImportant(3502.291, 111, "Co I");
+    $ret[] = awl_notImportant(3502.6, 111, "~Ni I, Co I");
+    $ret[] = awl_notImportant(3503.473, 50, "Fe II");
+    $ret[] = awl_notImportant(3504.442, 65, "V II, Fe I");
+    $ret[] = awl_notImportant(3504.892, 132, "Fe I, Ti II");
+    $ret[] = awl_notImportant(3506.328, 140, "Co I");
+    $ret[] = awl_notImportant(3506.506, 132, "Fe I");
+    $ret[] = awl_notImportant(3507.698, 80, "Ni I");
+    $ret[] = awl_notImportant(3508.5, 105, "~Fe I");
+    $ret[] = awl_notImportant(3509.853, 105, "Co I, Fe I, Ti II");
+    $ret[] = awl_notImportant(3510.327, 489, 'Ni I');
+    $ret[] = awl_notImportant(3510.846, 87, 'Ti II');
+    $ret[] = awl_notImportant(3511.839, 90, 'Cr II');
+    $ret[] = awl_notImportant(3512.646, 132, 'Co I');
+    $ret[] = awl_notImportant(3513.825, 307, 'Fe I');
+    $ret[] = awl_notImportant(3515.066, 718, 'Ni I');
+    $ret[] = awl_notImportant(3518.348, 98, 'Co I');
+    $ret[] = awl_notImportant(3519.764, 171, 'Ni I');
+    $ret[] = awl_notImportant(3520.5, 114, '~V II, Co I');
+    $ret[] = awl_notImportant(3521.270, 381, 'Fe I');
+    $ret[] = awl_notImportant(3521.57, 109, "~Co I");
+    $ret[] = awl_notImportant(3524.536, 1271, 'Ni I');
+    $ret[] = awl_notImportant(3526.170, 422, 'Fe I');
+    $ret[] = awl_notImportant(3526.847, 209, 'Co I');
+    $ret[] = awl_notImportant(3527.795, 107, 'Fe I'); 
+    $ret[] = awl_notImportant(3529.823, 148, 'Fe I');
+    $ret[] = awl_notImportant(3532.120, 101, 'Mn I');
+    $ret[] = awl_notImportant(3533.203, 223, 'Fe I');
+    $ret[] = awl_notImportant(3535.412, 79, "Ti II");
+    $ret[] = awl_notImportant(3536.567, 189, "Fe I");
+    $ret[] = awl_notImportant(3537.903, 107, "Fe I");
+    $ret[] = awl_notImportant(3540.126, 93, "Fe I");
+    $ret[] = awl_notImportant(3541.095, 214, "Fe I");
+    $ret[] = awl_notImportant(3542.090, 224, "Fe I");
+    $ret[] = awl_notImportant(3545.644, 108, "Fe I");
+    $ret[] = awl_notImportant(3547.799, 124, "Mn I");
+    $ret[] = awl_notImportant(3548.033, 107, "Mn I, Fe I");
+    $ret[] = awl_notImportant(3548.190, 139, "Ni I, Mn I");
+    $ret[] = awl_notImportant(3552.845, 120, "Fe I");
+    $ret[] = awl_notImportant(3553.483, 96, "Ni I");
+    $ret[] = awl_notImportant(3553.746, 116, "Fe I");
+
 
     $ret[] = awl_notImportant(3554.122, 127, "Fe I");
     $ret[] = awl_notImportant(3554.937, 404, 'Fe I');
@@ -419,6 +534,7 @@ function getMagneticWavelengths(){
     $ret[] = awl_notImportant(3621.201, 72, 'V II, Co II');
     $ret[] = awl_notImportant(3621.467, 140, 'Fe I');
     $ret[] = awl_notImportant(3622.009, 127, 'Fe I');
+    $ret[] = awl_notImportant(3662.240, 94, "Ti II");
     $ret[] = awl_notImportant(3623.192, 105, 'Fe I');
     $ret[] = awl_notImportant(3624.733, 132, 'Ni I');
     $ret[] = awl_notImportant(3627.813, 98, 'Co I');
@@ -428,6 +544,12 @@ function getMagneticWavelengths(){
     $ret[] = awl_notImportant(3632.049, 117, 'Fe I');
     $ret[] = awl_notImportant(3634.332, 136, 'Fe I');
     $ret[] = awl_notImportant(3641.335, 109, 'Ti II');
+    $ret[] = awl_notImportant(3645.313, 132, 'Sc II');
+    $ret[] = awl_notImportant(3642.806, 150, "Sc II");
+    $ret[] = awl_notImportant(3645.497, 90, 'Fe I');    
+    $ret[] = awl_notImportant(3645.827, 103, 'Fe I');    
+    $ret[] = awl_notImportant(3644.417, 141, "Ca I");
+    $ret[] = awl_notImportant(3647.851, 970, "Fe I");
     $ret[] = awl_notImportant(3664.405, 103, 'Fe I');
 
     $ret[] = awl_notImportant(3705.577, "Fe I", 562);
@@ -472,8 +594,13 @@ function getMagneticWavelengths(){
     $ret[] = awl_notImportant(4271.774, 756, "Fe I");
     $ret[] = awl_notImportant(4325.775, 793, "Fe I");
     $ret[] = awl_notImportant(4354.615, 70, "Se II");
+    $ret[] = awl_notImportant(4355.093, 104, "Ca I");
     $ret[] = awl_notImportant(4358.718, 75, "Y II");
     $ret[] = awl_notImportant(4359.623, 139, "Ni I");
+    $ret[] = awl_notImportant(4367.594, 143, "Fe I, CH");
+    $ret[] = awl_notImportant(4375.944, 152, "Fe I");
+    $ret[] = awl_notImportant(4371.286, 110, "Cr I");
+
     $ret[] = awl_notImportant(4427.317, 147, "Fe I");
     $ret[] = awl_notImportant(4431.360, 30, "Sc II");
     $ret[] = awl_notImportant(4454.793, 176, "Ca I");
@@ -506,20 +633,35 @@ function getMagneticWavelengths(){
     $ret[] = awl_notImportant(5410.918, 169, 'Fe I');
     $ret[] = awl_notImportant(5404.145, 239, 'Fe I');
     $ret[] = awl_notImportant(5415.210, 212, 'Fe I');
+    $ret[] = awl_notImportant(5424.080, 239, 'Fe I');
     $ret[] = awl_notImportant(5429.77, 285, "~Fe I");
+    $ret[] = awl_notImportant(5432.548, 46, 'Mn I');
+    $ret[] = awl_notImportant(5432.955, 72, 'Fe I');
     $ret[] = awl_notImportant(5434.534, 184, 'Fe I');
     $ret[] = awl_notImportant(5446.924, 238, 'Fe I');
     $ret[] = awl_notImportant(5463.289, 118, 'Fe I');
     $ret[] = awl_notImportant(5455.465, 112,  'Fe I');
     $ret[] = awl_notImportant(5455.624, 219,  'Fe I');
+    $ret[] = awl_notImportant(5470.636, 46, 'Mn I');
+    $ret[] = awl_notImportant(5473.910, 80, 'Fe I');
     $ret[] = awl_notImportant(5476.921, 164, 'Ni I');
-    $ret[] = awl_notImportant(5512.989, 94, 'Ca I'  );
+    $ret[] = awl_notImportant(5497.4, 128, '~Fe I (Y II)');
+    $ret[] = awl_notImportant(5501.477, 115, 'Fe I');
+    $ret[] = awl_notImportant(5506.791, 120, 'Fe I');
+
+    $ret[] = awl_notImportant(5512.989, 94, 'Ca I');
+    $ret[] = awl_notImportant(5525.135, 13, 'Fe II');
     $ret[] = awl_notImportant(5525.552, 102, 'Fe I');
     $ret[] = awl_notImportant(5528.418, 293, 'Mg I');
     $ret[] = awl_notImportant(5535.51, 113, "~ Fe I, Ba I");
     $ret[] = awl_notImportant(5554.900, 102, 'Fe I');
     $ret[] = awl_notImportant(5572.851, 205, 'Fe I');
     $ret[] = awl_notImportant(5586.771, 245, 'Fe I');
+
+    $ret[] = awl_notImportant(5594.471, 117, 'Ca I');
+
+    $ret[] = awl_notImportant(5598.3, 200, '~Ca I, Fe I');
+    $ret[] = awl_notImportant(5602.864, 215, 'Ca I, Fe I');
 
     $ret[] = awl_notImportant(5615.658, 288, "Fe I");
     $ret[] = awl_notImportant(5658.668, 222, "Fe I");
@@ -542,37 +684,168 @@ function getMagneticWavelengths(){
     $ret[] = awl_notImportant(5883.814, "Fe I", 95);
 
     $ret[] = awl_notImportant(5905.680, 58, "Fe I"); 
+    $ret[] = awl_notImportant(5914.17, 139, "~Fe I");
     $ret[] = awl_notImportant(5930.191, 86, "Fe I");
     $ret[] = awl_notImportant(5934.665, 78, "Fe I");
 
-    
-    $ret[] = awl_notImportant(6065.494, 115, "Fe I");
+    $ret[] = awl_notImportant(5983.688, 68, "Fe I");
+    $ret[] = awl_notImportant(5984.826, 84, "Fe I");
+    $ret[] = awl_notImportant(5997.782, 67, "Fe I");
+
+    $ret[] = awl_notImportant(6003.022, 86, "Fe I");
+    $ret[] = awl_notImportant(6013.497, 86, "Mn I");
+    $ret[] = awl_notImportant(6016.78, 92, "~Mn I, Fe I");
+    $ret[] = awl_notImportant(6020.186, 94, "Fe I");
+    $ret[] = awl_notImportant(6021.803, 96, "Mn I");
+    $ret[] = awl_notImportant(6024.0, 117, "~Fe I");
+    $ret[] = awl_notImportant(6027.0, 61, "Fe I");
+    $ret[] = awl_notImportant(6042.104, 51, "Fe I");
+    $ret[] = awl_notImportant(6056.013, 73, "Fe I");
+    $ret[] = awl_notImportant(6065.494, 115, "Fe I");    
+
+    $ret[] = awl_notImportant(6078.499, 91, "Fe I");
+    $ret[] = awl_notImportant(6079.016, 55, "Fe I");
+    $ret[] = awl_notImportant(6096.671, 36, "Fe I");
+    $ret[] = awl_notImportant(6102.183, 84,  'Fe I');
+    $ret[] = awl_notImportant(6102.727, 135, 'Ca I');
+    $ret[] = awl_notImportant(6103.190, 89,  '~Fe I');
+    $ret[] = awl_notImportant(6108.125, 60, 'Ni I');
+    $ret[] = awl_notImportant(6111.078, 36, 'Ni I');
+    $ret[] = awl_notImportant(6113.329, 17, 'Fe II');
+    $ret[] = awl_notImportant(6116.22, 65, '~Ni I, Fe I');
+
     $ret[] = awl_notImportant(6136.624, 1637, "Fe I");
+    $ret[] = awl_notImportant(6137.702, 129, 'Fe I');
     $ret[] = awl_notImportant(6141.727, 113, "Ba II, Fe I");
+    $ret[] = awl_notImportant(6147.79, 76, 'Fe II, Fe I');
+    $ret[] = awl_notImportant(6151.623, 41, 'Fe I');
+    $ret[] = awl_notImportant(6155.17, 72, '~Si I, Fe II');
+    $ret[] = awl_notImportant(6163.754, 49, 'Ca I');
+    $ret[] = awl_notImportant(6165.363, 33, 'Fe I');
+    $ret[] = awl_notImportant(6166.440, 54, 'Ca I');
+    $ret[] = awl_notImportant(6169.044, 85, 'Ca I');
+    $ret[] = awl_notImportant(6169.564, 98, 'Ca I');
+    $ret[] = awl_notImportant(6170.516, 66, 'Fe I (Ni I)');
+    $ret[] = awl_notImportant(6173.341, 50, 'Fe I');
+    $ret[] = awl_notImportant(6175.370, 36, 'Ni I');
+    $ret[] = awl_notImportant(6176.816, 50, 'Ni I');
+    $ret[] = awl_notImportant(6180.209, 40, 'Fe I');
+    $ret[] = awl_notImportant(6191.186, 56, 'Ni I');
+    $ret[] = awl_notImportant(6191.571, 110, 'Fe I');
+    $ret[] = awl_notImportant(6200.321, 55, 'Fe I');
+    $ret[] = awl_notImportant(6213.437, 61, "Fe I");
+    
     $ret[] = awl_notImportant(6219.287, 82, "Fe I");
+    $ret[] = awl_notImportant(6232.648, 76, 'Fe I');
+    $ret[] = awl_notImportant(6237.328, 60, 'Si I');
+    $ret[] = awl_notImportant(6240.653, 40, 'Fe I');
+    $ret[] = awl_notImportant(6243.823, 43, 'Si I');
+    $ret[] = awl_notImportant(6245.620, 30, 'Sc II');
+    $ret[] = awl_notImportant(6246.327, 112, 'Fe I');
+
+
+
     $ret[] = awl_notImportant(6247.562, 49, "Fe II");
     $ret[] = awl_notImportant(6252.565, 109, "Fe I");
+    $ret[] = awl_notImportant(6254.21, 115, '~Si I, Fe I');
+    $ret[] = awl_notImportant(6256.367, 81, 'Fe I, Ni I');
+    $ret[] = awl_notImportant(6258.110, 42, 'Ti I');
     $ret[] = awl_notImportant(6229.232, 33, "Fe I");
     $ret[] = awl_notImportant(6230.736, 151, "Fe I, V I");
     $ret[] = awl_notImportant(6238.390, 41, "Fe II (Si I)");
+    $ret[] = awl_notImportant(6258.713, 43, 'Ti I');
+    $ret[] = awl_notImportant(6261.106, 40, 'Ti I');
+    $ret[] = awl_notImportant(6265.141, 72, 'Fe I');
+    $ret[] = awl_notImportant(6270.231, 46, 'Fe I');
+    $ret[] = awl_notImportant(6290.974, 66, 'Fe I');
+    $ret[] = awl_notImportant(6297.799, 65, 'Fe I');
+    $ret[] = awl_notImportant(6301.508, 127, 'Fe I');
+    $ret[] = awl_notImportant(6302.499, 83, 'Fe I');
+    $ret[] = awl_notImportant(6314.668, 67, 'Ni I');
+    $ret[] = awl_notImportant(6315.314, 52, 'Fe I');
+    $ret[] = awl_notImportant(6318.027, 96, 'Fe I');
+    $ret[] = awl_notImportant(6318.61, 49, 'Ca I');
+    $ret[] = awl_notImportant(6318.708, 37, 'Mg I');
+    $ret[] = awl_notImportant(6322.694, 75, 'Fe I');
+    $ret[] = awl_notImportant(6327.604, 36, 'Ni I');
+    $ret[] = awl_notImportant(6335.337, 103, 'Fe I');
+    $ret[] = awl_notImportant(6336.830, 121, 'Fe I');
+    $ret[] = awl_notImportant(6338.880, 42, 'Fe I');
+    $ret[] = awl_notImportant(6339.118, 44, 'Ni I');
+    $ret[] = awl_notImportant(6343.71, 70, 'Ca I');
+    $ret[] = awl_notImportant(6344.155, 56, 'Fe I');
+    $ret[] = awl_notImportant(6355.035, 62, 'Fe I');
+    $ret[] = awl_notImportant(6358.687, 82, 'Fe I');
+    $ret[] = awl_notImportant(6361.94, 89, 'Ca I');
+    $ret[] = awl_notImportant(6362.350, 23, 'Zn I'); 
     $ret[] = awl_notImportant(6380.750, 40, "Fe I");    
     $ret[] = awl_notImportant(6393.612, 117, "Fe I");
     $ret[] = awl_notImportant(6400.009, 181, "Fe I");
+    $ret[] = awl_notImportant(6408.026, 80, 'Fe I');
     $ret[] = awl_notImportant(6411.658, 129, "Fe I");
+    $ret[] = awl_notImportant(6414.987, 45, 'Si I');
     $ret[] = awl_notImportant(6416.928, 47.5, "Fe II");
+    $ret[] = awl_notImportant(6419.956, 80, 'Fe I');
+    $ret[] = awl_notImportant(6421.360, 87, 'Fe I');
+    $ret[] = awl_notImportant(6432.683, 38, 'Fe II');
+
     $ret[] = awl_notImportant(6439.083, 156, "Ca I");
+    $ret[] = awl_notImportant(6499.654, 81, "Ca I");
+    $ret[] = awl_notImportant(6496.472, 69, "Fe I");
+    $ret[] = awl_notImportant(6494.994, 165, "Fe I");
+    $ret[] = awl_notImportant(6449.820, 98, "Ca I");
+    $ret[] = awl_notImportant(6455.605, 48, 'Ca I');
+    $ret[] = awl_notImportant(6456.391, 57, 'Fe II');
     $ret[] = awl_notImportant(6462.6, 216, "~ Ca I, Fe I");
+    
     $ret[] = awl_notImportant(6493.788, 133, "Ca I");
+    $ret[] = awl_notImportant(6516.083, 61, 'Fe II');
     $ret[] = awl_notImportant(6546.252, 103, "Fe I, Ti I");
     $ret[] = awl_notImportant(6592.926, 123, "Fe I");
 
+    $ret[] = awl_notImportant(6491.6, 45, '~Ti II, Mn I');
+
+    $ret[] = awl_notImportant(6469.192, 52, 'Fe I');
+    $ret[] = awl_notImportant(6471.668, 83, 'Ca I');
+    $ret[] = awl_notImportant(6475.632, 57, 'Fe I');
+    $ret[] = awl_notImportant(6481.878, 63, 'Fe I');
+    $ret[] = awl_notImportant(6482.809, 38, 'Ni I');
+
+
+    $ret[] = awl_notImportant(4783.424, 157, "Mn I");
+    $ret[] = awl_notImportant(4786.542, 110, "Ni I, V I");
+    $ret[] = awl_notImportant(4786.814, 95, "Fe I");
+    $ret[] = awl_notImportant(4789.658, 96, "Fe I");
+    $ret[] = awl_notImportant(4806.994, 70, "Ni I");
+
+    $ret[] = awl_notImportant(4762.375, 105, "Mn I (C I)");
+    $ret[] = awl_notImportant(4754.039, 130, "Mn I (V I)");
+
+    $ret[] = awl_notImportant(4118.555, 154, "Fe I");
+    $ret[] = awl_notImportant(4118.782, 148, "Co I");
+    $ret[] = awl_notImportant(4132.067, 404, "Fe I");
+    $ret[] = awl_notImportant(4132.908, 123, "Fe I (Sc I)");
+    $ret[] = awl_notImportant(4134.6, 300, "~Fe I");
+    $ret[] = awl_notImportant(4057.515, 197, "Mg I");
+    $ret[] = awl_notImportant(4055.551, 114, "Mn I");
+    $ret[] = awl_notImportant(4054.83, 135, "~Fe I");
+
+    $ret[] = awl_notImportant(4018.104, 139, "Mn I");
+
+    $ret[] = awl_notImportant(5780.388, 22, 'Si I');
+    $ret[] = awl_notImportant(5780.608, 29, 'Fe I');
+    $ret[] = awl_notImportant(5780.812, 29, 'Ti I, Fe I');
 
     $ret[] =  awl_notImportant(5781.759, 16, "Cr I (magnetic)"); 
     $ret[] =  awl_notImportant(5782.136, 62, "Cu I");
     $ret[] =  awl_notImportant(5781.759, 16, "Cr I (magnetic)"); 
     $ret[] =  awl_notImportant(6302.499, 83, "Fe I (magnetic)");
+    
+    
 
-    $ret[] =  awl_notImportant(5534.848, 63, "Fe II (spot)");
+    $ret[] =  awl_notImportant(4800.653, 72, "Fe I");
+
+    $ret[] =  awl_notImportant(5534.848, 63, "Fe II");
     $ret[] =  awl_notImportant(5588.764, 141, "Ca I");
     $ret[] =  awl_notImportant(5200.415, 37, "Y II");
     $ret[] =  awl_notImportant(6456.391, 57, "Fe II");
@@ -580,16 +853,148 @@ function getMagneticWavelengths(){
     $ret[] =  awl_notImportant(6169.564, 98, "Ca I");
     $ret[] =  awl_notImportant(5763.002, 101, "Fe I");
 
+    $ret[] =  awl_notImportant(5302.307, 157, 'Fe I');
     $ret[] =  awl_notImportant(5206.1, 216, "~Cr I");
     $ret[] =  awl_notImportant(5862.368, 87, "Fe I");
     $ret[] =  awl_notImportant(5852.228, 36, "Fe I");
     $ret[] =  awl_notImportant(5324.15, 334, "Fe I, Cr I (?)");
+
+    $ret[] =  awl_notImportant(5328.051, 375, 'Fe I');
+    $ret[] =  awl_notImportant(5328.332,  74, 'Cr I');
+    $ret[] =  awl_notImportant(5328.542, 210, 'Fe I');
+    $ret[] =  awl_notImportant(5329.147, 78, 'Cr I');
+    $ret[] =  awl_notImportant(5332.665, 45, 'V II');
+    $ret[] =  awl_notImportant(5332.908, 96, 'Fe I');
+    $ret[] =  awl_notImportant(5334.870, 32, 'Cr II');
+    $ret[] =  awl_notImportant(5337.735, 35, '~Fe II, Cr II');
+    $ret[] =  awl_notImportant(5336.794, 71, 'Ti II');
+    $ret[] =  awl_notImportant(5339.937, 161, 'Fe I');
+    
+
 
     $ret[] =  awl_notImportant(5020.031, 86, "Ti I (Ca II)");
     $ret[] =  awl_notImportant(5017.584, 90, "Ni I");
     $ret[] =  awl_notImportant(5022.241, 114, "Fe I");
     $ret[] =  awl_notImportant(5027.130, 105, "Fe I");
     $ret[] =  awl_notImportant(5013.74, 55, "~ Ti II, C2");
+
+    $ret[] =  awl_notImportant(6643.638, 83, "Ni I");
+    $ret[] =  awl_notImportant(6663.448, 76, "Fe I");
+    $ret[] =  awl_notImportant(6677.997, 122, "Fe I");
+    $ret[] =  awl_notImportant(6717.687, 120, 'Ca I');
+    $ret[] =  awl_notImportant(6750.164, 75, 'Fe I');
+    $ret[] =  awl_notImportant(6767.784, 83, 'Ni I');
+    $ret[] =  awl_notImportant(6855.166, 85, 'Fe I');
+    $ret[] =  awl_notImportant(6914.564, 83, 'Ni I');
+    $ret[] =  awl_notImportant(6999.885, 71, 'Fe I');
+    $ret[] =  awl_notImportant(7003.574, 81, 'Si I');
+    $ret[] =  awl_notImportant(7005.900, 89, 'Si I');
+    $ret[] =  awl_notImportant(7016.442, 146, 'Fe I');
+    $ret[] =  awl_notImportant(7022.957, 72, 'Fe I');
+    $ret[] =  awl_notImportant(7034.910, 80, 'Si I');
+    $ret[] =  awl_notImportant(7068.423, 64, 'Fe I');
+    $ret[] =  awl_notImportant(7090.390, 73, 'Fe I');
+    $ret[] =  awl_notImportant(7122.206, 107, 'Ni I');
+    $ret[] =  awl_notImportant(7130.925, 105, 'Fe I');
+    $ret[] =  awl_notImportant(7148.150, 157, 'Ca I');
+    $ret[] =  awl_notImportant(7164.432, 153, 'Fe I');
+    $ret[] =  awl_notImportant(7165.578, 93, 'Si I');
+    $ret[] =  awl_notImportant(7187.388, 240, 'Fe I (atm H2O)');
+    $ret[] =  awl_notImportant(7202.208, 124, 'Ca I');
+    $ret[] =  awl_notImportant(7207.396, 150, 'Fe I');
+    $ret[] =  awl_notImportant(7289.188, 116, 'Si I');
+    $ret[] =  awl_notImportant(7326.160, 136, 'Ca I');
+    $ret[] =  awl_notImportant(7386.336, 94, 'Fe I');
+    $ret[] =  awl_notImportant(7387.700, 118, 'Mg I');
+    $ret[] =  awl_notImportant(7389.391, 144, 'Fe I');
+    $ret[] =  awl_notImportant(7393.609, 112, 'Ni I');
+    $ret[] =  awl_notImportant(7400.188, 89, 'Cr I');
+    $ret[] =  awl_notImportant(7405.790, 108, 'Si I');
+    $ret[] =  awl_notImportant(7409.100, 72, 'Si I');
+    $ret[] =  awl_notImportant(7409.352, 98, 'Ni I');
+    $ret[] =  awl_notImportant(7411.162, 140, 'Fe I');
+    $ret[] =  awl_notImportant(7415.958, 118, 'Si I');
+
+    $ret[] =  awl_notImportant(7422.286, 106,  'Ni I');
+    $ret[] =  awl_notImportant(7423.509, 120,  'Si I (N I)');
+    $ret[] =  awl_notImportant(7445.758, 178,  'Fe I');
+    $ret[] =  awl_notImportant(7462.342, 119,  'Cr I (Fe II)');
+    $ret[] =  awl_notImportant(7495.077, 174,  'Fe I');
+    $ret[] =  awl_notImportant(7511.031, 221,  'Fe I');
+    $ret[] =  awl_notImportant(7531.153, 101,  'Fe I');
+    $ret[] =  awl_notImportant(7555.607, 98,   'Ni I');
+    $ret[] =  awl_notImportant(7568.906, 90,   'Fe I');
+    $ret[] =  awl_notImportant(7586.027, 132,  'Fe I');
+    $ret[] =  awl_notImportant(7657.606, 142,  'Mg I');
+    $ret[] =  awl_notImportant(7661.198, 79,   'Fe I');
+    $ret[] =  awl_notImportant(7664.872, 521,  'K I, atm O2');
+    $ret[] =  awl_notImportant(7691.52, 172,   '~atm O2, Mg I');    
+    $ret[] =  awl_notImportant(7680.267, 106,  'Si I (Mn I)');
+    $ret[] =  awl_notImportant(7698.977, 154,  'K I');
+    $ret[] =  awl_notImportant(7714.310, 103,  'Ni I');
+    $ret[] =  awl_notImportant(7742.722, 126,  'Fe I');
+    $ret[] =  awl_notImportant(7748.284, 103,  'Fe I');
+    $ret[] =  awl_notImportant(7771.954, 75,   'O I');
+    $ret[] =  awl_notImportant(7727.616, 94,   'Ni I');
+    $ret[] =  awl_notImportant(7780.568, 102,  'Fe I');
+    $ret[] =  awl_notImportant(7832.208, 150,  'Fe I');
+    $ret[] =  awl_notImportant(7937.150, 166,  'Fe I');
+    $ret[] =  awl_notImportant(7918.383, 100,  'Si I');
+    $ret[] =  awl_notImportant(7944.001, 147,  'Si I (Ti I)');
+    $ret[] =  awl_notImportant(7945.858, 185,  'Fe I');
+    $ret[] =  awl_notImportant(7932.351, 90,   'Si I');
+    $ret[] =  awl_notImportant(7998.953, 172,  'Fe I');
+    $ret[] =  awl_notImportant(8046.058, 146,  'Fe I'); 
+    $ret[] =  awl_notImportant(8085.175, 150,  'Fe I');
+    $ret[] =  awl_notImportant(8098.746, 114,  '~Mg I, atm H2O');
+    $ret[] =  awl_notImportant(8183.25, 180,   'Na I');
+    $ret[] =  awl_notImportant(8207.749, 64,   'Fe I');
+    $ret[] =  awl_notImportant(8194.836, 304,  'Na I');
+    $ret[] =  awl_notImportant(8220.388, 221,  'Fe I');
+    $ret[] =  awl_notImportant(8248.137, 81,   'Fe I');
+    $ret[] =  awl_notImportant(8248.802, 98,   'Ca II');
+    $ret[] =  awl_notImportant(8232.319, 91,   'Fe I');
+    $ret[] =  awl_notImportant(8327.061, 193,  'Fe I');
+    $ret[] =  awl_notImportant(8331.926, 130,  'Fe I');
+    $ret[] =  awl_notImportant(8335.150, 114,  'C I');
+    $ret[] =  awl_notImportant(8339.413, 109,  'Fe I');
+    $ret[] =  awl_notImportant(8346.131, 146,  'Mg I');
+    $ret[] =  awl_notImportant(8387.782, 170,  'Fe I');
+    $ret[] =  awl_notImportant(8439.581, 79,   'Fe I');
+    $ret[] =  awl_notImportant(8468.418, 128,  'Fe I');
+    $ret[] =  awl_notImportant(8498.062, 1470, 'Ca II');
+    $ret[] =  awl_notImportant(8514.082, 108,  'Fe I');
+    $ret[] =  awl_notImportant(8515.122, 79,   'Fe I');
+    $ret[] =  awl_notImportant(8542.144, 3670, 'Ca II');
+    $ret[] =  awl_notImportant(8556.797, 134,  'Si I');
+    $ret[] =  awl_notImportant(8582.271, 86,   'Fe I');
+    $ret[] =  awl_notImportant(8611.812, 99,   'Fe I');
+    $ret[] =  awl_notImportant(8648.472, 161,  'Si I');
+    $ret[] =  awl_notImportant(8662.170, 2600, 'Ca II');
+    $ret[] =  awl_notImportant(8674.756, 113,  'Fe I');
+    $ret[] =  awl_notImportant(8717.833, 105,  'Mg I');
+    $ret[] =  awl_notImportant(8688.642, 268,  'Fe I');
+    $ret[] =  awl_notImportant(8717.833, 105,  'Mg I');
+    $ret[] =  awl_notImportant(8728.024, 107,  'Si I');
+    $ret[] =  awl_notImportant(8736.040, 289,  'Mg I');
+    $ret[] =  awl_notImportant(8742.466, 97,   'Si I');
+    $ret[] =  awl_notImportant(8752.025, 94,   'Si I');
+    $ret[] =  awl_notImportant(8757.199, 91,   'Fe I');
+    $ret[] =  awl_notImportant(8763.978, 99,   'Fe I');
+
+
+    $ret[] =  awl_notImportant(6498.945, 43, 'Fe I');
+    $ret[] =  awl_notImportant(6499.654, 81, 'Ca I');
+    $ret[] =  awl_notImportant(6516.083, 61, 'Fe II');
+    $ret[] =  awl_notImportant(6518.373, 61, 'Fe I');
+    $ret[] =  awl_notImportant(6527.215, 53, 'Si I');
+
+    $ret[] =  awl_notImportant(5899.304, 26, 'Ti I');
+    $ret[] =  awl_notImportant(5905.680, 58, 'Fe I');
+    $ret[] =  awl_notImportant(5892.883, 66, 'Ni I');
+    $ret[] =  awl_notImportant(5909.983, 30, 'Fe I');
+
+    $ret = array_merge($ret, getHeliumLines());
 
 
     $ret = array_merge($ret, getMagneticWavelengths());

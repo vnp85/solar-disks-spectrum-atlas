@@ -60,7 +60,17 @@ require_once("main_scripts.php");
 </div>
 
 <div class="section-item">
-    <div class="section-title">Sources, Acknowledgements etc.<span class="help-q-mark" data-help-for="data-sources-ack">[ view ]</span></div>
+    <div class="section-title">Citing</div>
+    <div class="section-body">
+       If you have used this Atlas in your research, 
+       then we would appreciate it if you could cite 
+       the following reference to acknowledge the work done 
+       https://iopscience.iop.org/article/10.3847/2515-5172/adef50
+    </div>
+</div>    
+
+<div class="section-item">
+    <div class="section-title">Sources, Acknowledgements, Licence etc.<span class="help-q-mark" data-help-for="data-sources-ack">[ view ]</span></div>
     <div class="section-body">
         <?php require_once("section_sources_ack.php"); ?>
     </div>    

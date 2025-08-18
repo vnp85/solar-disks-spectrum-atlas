@@ -1,5 +1,5 @@
 <?php
-
+    
 
     $parsedCubes = array();
     foreach (glob('cubes-info/cube_*.json') as $cube){
@@ -19,13 +19,33 @@
     foreach (getFurtherWavelengthWorthyToLabelOnScreenButNotWithDedicatedButtons() as $woi){         
         echo '        woi.push('.json_encode($woi).');'."\r\n";
     };    
+
+    $gotten_nist_wavelengths = array();
+    // $gotten_nist_wavelengths = get_nist_wavelengths();
+
     echo '
         return woi;
     } 
+    function Spectrum_getNistWavelengthList(){
+        var woi = '; echo json_encode($gotten_nist_wavelengths); echo ';        
+        return woi.filter(function (e){ return e.intensity > 200; }).map(function (e){
+           e.caption = e.caption + "_"+e.intensity;
+           return e;
+        });
+    }    
     function Spectrum_getWavelengthClosestEnoughTo(lambda_A){
         // also find by: closeenough closetoenough
+        var woi;
+        if (window.memoizedWoiForClosestWavelength){
+            // carry on
+        }else{
+            var woi1 = Spectrum_getWavelengthList();
+            var woi2 = Spectrum_getNistWavelengthList();
+            window.memoizedWoiForClosestWavelength = woi1.concat(woi2);
+        };    
+        woi = window.memoizedWoiForClosestWavelength;
 
-        var woi = Spectrum_getWavelengthList();
+
         woi.sort(function (a, b){
            return Math.abs(a.lambda_A - lambda_A) - Math.abs(b.lambda_A - lambda_A);
         });
@@ -96,9 +116,10 @@
         $dispi[] = $woi["displayImportance"].' '.$woi["caption"].'<br>';
     };    
 
+    $woi_table_template = file_get_contents('template_woi_table.html');    
     $woicK = 0;
     $woicButtons_html = '&nbsp;&nbsp;';
-    $woicButtons_html .= '<button onclick="Spectrum_toggleWoiTableVisibility(\'woi_table_wrapper\')">##</button><span id="woi_table_wrapper"></span> ';
+    $woicButtons_html .= '<button onclick="Spectrum_toggleWoiTableVisibility(\'woi_table_wrapper\')">##</button>'.$woi_table_template.' ';
     $woicButtons_html .= ' &#128065; ';
     foreach ($woiClustered as $woic){                
         $woicK++;
@@ -112,6 +133,8 @@
     //$woicButtons_html .= ' <button class="wavelength-class-selector-button" data-should-be-ionized="true">II...</button>';
 
     $woicButtons_html = str_replace('"', '"+String.fromCharCode(34)+"', $woicButtons_html);
+    $woicButtons_html = str_replace("\n", '"+String.fromCharCode(13)+"', $woicButtons_html);
+    $woicButtons_html = str_replace("\r", '"+String.fromCharCode(10)+"', $woicButtons_html);
     echo '<script>document.getElementById("wavelength-selector-wrapper").innerHTML = "'.$woicButtons_html.'";</script>';
     echo '<script>wavelengthButtons_showUpTillClass(1);</script>'."\r\n";
 

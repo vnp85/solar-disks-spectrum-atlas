@@ -18,14 +18,15 @@
         }        
         if (url.indexOf(":") > -1){
             isLocalFile = true;
-        };
+        };        
         var magic = 'rtekhjhrtioyhrtuoihuirteguihertouiherto';
         url = url.split('://').join(magic).split('//').join('/').split(magic).join('://');
         if (document.URL.indexOf("localhost") > -1){
             isLocalFile = true;
         }
-        
+        console.log("doing this: "+url);
         if (isLocalFile){
+            url = url.replace('?hash=', '&hash=');
             return "?imgproxy="+encodeURIComponent(url);
         }else{
             console.log("keeping"+url);

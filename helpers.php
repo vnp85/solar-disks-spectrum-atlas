@@ -18,6 +18,7 @@ function echo_template($filename, $varbag){
     }
     if (empty($varbag["img_src"])){
         $varbag["img_src"] = $varbag["id"].'.jpg';
+        $varbag["img_hash_postfix"] = '?hash='.md5_file($varbag["img_src"]);
     }
     if (empty($varbag["title"])){
         $varbag["title"] = '';
@@ -26,12 +27,16 @@ function echo_template($filename, $varbag){
     if ($varbag["img_src"] == '?'){
         $varbag["img_src"] = '';
     }else{
-        $varbag["img_src"] = 'index.php?imgproxy='.$varbag["img_src"];
+        $varbag["img_src"] = 'index.php?imgproxy='.str_replace('?', '&', $varbag["img_src"]);
     }
 
     if (!empty($varbag["img_src_diagram_twin"])){
         $varbag["img_src_diagram_twin"] = 'index.php?imgproxy='.$varbag["img_src_diagram_twin"];
     } 
+
+    if (empty($varbag["img_hash_postfix"])){
+        $varbag["img_hash_postfix"] = '';
+    }
 
     if ($varbag["mapfile"] == '?'){
         $varbag["mapfile"] = '';
@@ -147,6 +152,9 @@ function wavelength_nm_to_webColor($wavelength_nm, $blue_extreme = 380, $red_ext
 
 function sanitize_file_path($p){
     $p = $p.'';
+    $sanipid = $p;
+    $sanipid = str_replace('?hash=', '', $sanipid);
+    $sanipid = str_replace('&hash=', '', $sanipid);
     foreach (array(
         '?',
         '*',
@@ -157,7 +165,7 @@ function sanitize_file_path($p){
         './',
         '.\\'
     ) as $blacklisted){
-        if (strpos($p, $blacklisted)!==false){
+        if (strpos($sanipid, $blacklisted)!==false){
             die("illegal proxy path ".$blacklisted.' '.$p);
         }    
     }

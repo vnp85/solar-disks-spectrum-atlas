@@ -8,6 +8,8 @@ require_once("helpers.php");
 
 if (!empty($_GET['imgproxy'])){
     $p = sanitize_file_path($_GET['imgproxy']);
+    $p = explode('?hash=', $p);
+    $p = $p[0];
     header('Content-Type: image/jpeg');     
     echo file_get_contents($p); 
     die();
