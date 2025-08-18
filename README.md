@@ -65,6 +65,7 @@ observation data and viewer: [Pal VARADI NAGY](https://csillagtura.ro)
 
 ## Version History
 
+    * Version 2.00 (new data, bugfixes in the code) UT 2025-08-18 12:02
     * Initial Release UT 2025-07-11 11:32
 
 ## License
