@@ -1,22 +1,23 @@
 {
-    "cubeLocation": "cubes/2025-06-07-1006_7-Sun-4549/",
-    "averageFilename": "20250607_average.jpg",
+    "cubeLocation": "cubes/2025-08-02-0902_1-Sun-5710/",
+    "averageFilename": "20250802_average.jpg",
     "datetime": "from-path",
-    "cwl_A": 4549.6,
+    "cwl_A": 5709.46,
     "putMarkerToCwl": false,
     "lambda-precision": 2,
     "pixelWavelengthPairs": [
         {
-            "px": 202,
-            "lambda_A": 4549.6
+            "px": 333,
+            "lambda_A": 5709.46
         },
         {
             "px": 640,
-            "lambda_A": 4577.24
+            "lambda_A": 5740.56
         }
     ],
     "_wavelengths-of-interest": "pixelWavelengthPairs",
     "title": "not used atm",
+    "instrument-id": 2,
     "trim_M": 0,
     "trim_P": 0
 }
