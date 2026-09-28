@@ -1,0 +1,39 @@
+{
+    "cubeLocation": "cubes/2026-05-26-0901_5-Sun-10750/",
+    "averageFilename": "20260526_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 10786.874,
+    "cwl_A_forSorting": false,
+    "putMarkerToCwl": false,
+    "putMarkerToPixelOffset": false,
+    "putMarkerToWavelength": false,
+    "putCursorToWavelength": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        {
+            "px": 9,
+            "lambda_A": 10707.355
+        },
+        {
+            "px": 358,
+            "lambda_A": 10749.401
+        },                
+        {
+            "px": 669,
+            "lambda_A": 10786.874
+        }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm",
+    "display-notes-1": "The spectrum is washed out at the red end.",
+    "display-notes-2": "The steep slope of the CMOS, rapidly losing sensitivity towards the band gap, means that scattered more energetic photons",
+    "display-notes-3": "are also likely to be taken in, against the weaker signal of the wavelength the grating directs to the pixels in question,", 
+    "display-notes-4": "in spite of the 1075/50 filter.",
+    "display-notes-5": "In cubes towards longer wavelengths, at around 1100nm, a different bandpass filter of 1100/50 does the preselection.",
+    "trim_M": 0,
+    "trim_P": 0,
+    "instrument-id": 3,
+    "instrument-hint": "Modified JamesR SolEx with 1200 grating and custom lenses",
+    "averageFileImageSX": 800,
+    "averageFileImageSY": 100
+}

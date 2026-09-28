@@ -1,0 +1,42 @@
+{
+    "cubeLocation": "cubes/2026-05-06-0832_3-Sun-8940/",
+    "averageFilename": "20260506_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 8962.475,
+    "cwl_A_forSorting": false,
+    "putMarkerToCwl": false,
+    "putMarkerToPixelOffset": false,
+    "putMarkerToWavelength": false,
+    "putCursorToWavelength": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        {
+            "px": 36,
+            "lambda_A": 8923.574
+        },
+        {
+            "px": 282,
+            "lambda_A": 8940.198
+        },
+        {
+            "px": 768,
+            "lambda_A": 8972.890
+        },
+        {
+            "px": 551,
+            "lambda_A": 8958.399
+        },
+        {
+            "px": 611,
+            "lambda_A": 8962.475
+        }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm",
+    "trim_M": 0,
+    "trim_P": 0,
+    "instrument-id": 4,
+    "instrument-hint": "SolEx with 1800 grating",
+    "averageFileImageSX": 800,
+    "averageFileImageSY": 100
+}

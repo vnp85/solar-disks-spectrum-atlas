@@ -3,13 +3,23 @@
     "averageFilename": "20250501_average.jpg",
     "datetime": "from-path",
     "cwl_A": 3933.66,
+    "cwl_A_forSorting": 3950,
     "putMarkerToCwl": false,
     "lambda-precision": 2,
     "pixelWavelengthPairs": [
-        { "px": 111, "lambda_A": 3933.66, "caption": "CaK" },
-        { "px": 650, "lambda_A": 3968.47, "caption": "CaH" }
+        {
+            "px": 111,
+            "lambda_A": 3933.66,
+            "caption": "CaK"
+        },
+        {
+            "px": 650,
+            "lambda_A": 3968.47,
+            "caption": "CaH"
+        }
     ],
     "_wavelengths-of-interest": "pixelWavelengthPairs",
-    "title": "not used atm"
+    "title": "not used atm",
+    "averageFileImageSX": 717,
+    "averageFileImageSY": 192
 }
-

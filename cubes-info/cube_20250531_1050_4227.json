@@ -7,18 +7,20 @@
     "lambda-precision": 2,
     "pixelWavelengthPairs": [
         {
-            "px": 445,
+            "px": 60,
+            "lambda_A": 4201.98
+        },
+        {
+            "px": 444,
             "lambda_A": 4226.7
         },
         {
             "px": 734,
             "lambda_A": 4245.31
-        },
-        {
-            "px": 60,
-            "lambda_A": 4201.98
         }
     ],
     "_wavelengths-of-interest": "pixelWavelengthPairs",
-    "title": "not used atm"
+    "title": "not used atm",
+    "averageFileImageSX": 800,
+    "averageFileImageSY": 78
 }

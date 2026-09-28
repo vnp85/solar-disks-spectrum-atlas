@@ -1,0 +1,29 @@
+{
+    "cubeLocation": "cubes/2025-12-29-0751_0-Sun-10830/",
+    "averageFilename": "20251229_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 10832.7,
+    "putMarkerToCwl": false,
+    "putCursorToWavelength": 10830.5,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        {
+            "px": 75,
+            "lambda_A": 10827.088
+        },
+        {
+            "px": 132,
+            "lambda_A": 10834.87
+        }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm",
+    "trim_M": 0,
+    "trim_P": 0,
+    "instrument-id": 3,
+    "averageFileImageSX": 212,
+    "averageFileImageSY": 113,
+    "recommended-svg-gamma-exponent-x100": 200,
+    "recommended-brightness": 100,
+    "browse-prev-next-preference": "avoid"
+}

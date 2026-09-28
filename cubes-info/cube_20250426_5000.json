@@ -6,11 +6,23 @@
     "putMarkerToCwl": false,
     "lambda-precision": 2,
     "pixelWavelengthPairs": [
-        { "px": 697, "lambda_A": 5041.66 },
-        { "px": 320, "lambda_A": 5018.46 }
+        {
+            "px": 320,
+            "lambda_A": 5018.46
+        },
+        {
+            "px": 697,
+            "lambda_A": 5041.66
+        }
     ],
-    "wavelengths-of-interest": [
-        { "lambda_A": 5018.45, "caption": "Fe II %wavelength%"}
+    "wavelengths-of-interest": [],
+    "_wavelengths-of-interest": [
+        {
+            "lambda_A": 5018.45,
+            "caption": "Fe II %wavelength%"
+        }
     ],
-    "title": "not used atm"
+    "title": "not used atm",
+    "averageFileImageSX": 800,
+    "averageFileImageSY": 218
 }

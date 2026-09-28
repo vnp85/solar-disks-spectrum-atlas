@@ -1,0 +1,42 @@
+{
+    "cubeLocation": "cubes/2026-05-25-0743_6-Sun-10020/",
+    "averageFilename": "20260525_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 10016.847,
+    "cwl_A_forSorting": false,
+    "putMarkerToCwl": false,
+    "putMarkerToPixelOffset": false,
+    "putMarkerToWavelength": false,
+    "putCursorToWavelength": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        {
+            "px": 27,
+            "lambda_A": 10011.602
+        },
+        {
+            "px": 104,
+            "lambda_A": 10016.847
+        },
+        {
+            "px": 483,
+            "lambda_A": 10041.712
+        },
+        {
+            "px": 662,
+            "lambda_A": 10053.332
+        },
+        {
+            "px": 729,
+            "lambda_A": 10057.676
+        }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm",
+    "trim_M": 0,
+    "trim_P": 0,
+    "instrument-id": 5,
+    "instrument-hint": "Modified ML Astro SHG 700 for IR",
+    "averageFileImageSX": 800,
+    "averageFileImageSY": 100
+}

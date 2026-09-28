@@ -19,5 +19,7 @@
     "title": "not used atm",
     "trim_M": 0,
     "trim_P": 0,
-    "instrument-id": 2
+    "instrument-id": 2,
+    "averageFileImageSX": 800,
+    "averageFileImageSY": 82
 }

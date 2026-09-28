@@ -6,9 +6,17 @@
     "putMarkerToCwl": false,
     "lambda-precision": 2,
     "pixelWavelengthPairs": [
-        { "px": 337, "lambda_A": 4005.29 },
-        { "px": 537, "lambda_A": 4018.21 }
+        {
+            "px": 337,
+            "lambda_A": 4005.29
+        },
+        {
+            "px": 537,
+            "lambda_A": 4018.21
+        }
     ],
     "_wavelengths-of-interest": "pixelWavelengthPairs",
-    "title": "not used atm"
+    "title": "not used atm",
+    "averageFileImageSX": 722,
+    "averageFileImageSY": 215
 }

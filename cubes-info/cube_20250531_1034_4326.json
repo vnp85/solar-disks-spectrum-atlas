@@ -13,8 +13,14 @@
         {
             "px": 450,
             "lambda_A": 4340.47
+        },
+        {
+            "px": 641,
+            "lambda_A": 4352.742
         }
     ],
     "_wavelengths-of-interest": "pixelWavelengthPairs",
-    "title": "not used atm"
+    "title": "not used atm",
+    "averageFileImageSX": 800,
+    "averageFileImageSY": 61
 }

@@ -15,8 +15,11 @@
             "lambda_A": 3625.36
         }
     ],
+    "disk-resize-factor": 1,
     "_wavelengths-of-interest": "pixelWavelengthPairs",
     "title": "not used atm",
     "trim_M": 0,
-    "trim_P": 0
+    "trim_P": 0,
+    "averageFileImageSX": 731,
+    "averageFileImageSY": 118
 }

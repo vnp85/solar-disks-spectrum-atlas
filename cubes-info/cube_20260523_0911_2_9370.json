@@ -1,0 +1,30 @@
+{
+    "cubeLocation": "cubes/2026-05-23-0911_2-Sun-9370/",
+    "averageFilename": "20260523_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 9427.860,
+    "cwl_A_forSorting": 9400,
+    "putMarkerToCwl": false,
+    "putMarkerToPixelOffset": false,
+    "putMarkerToWavelength": false,
+    "putCursorToWavelength": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        {
+            "px": 81,
+            "lambda_A": 9383.588
+        },
+        {
+            "px": 646,
+            "lambda_A": 9427.860
+        }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm",
+    "trim_M": 0,
+    "trim_P": 0,
+    "instrument-id": 5,
+    "instrument-hint": "Modified ML Astro SHG 700 for IR",
+    "averageFileImageSX": 800,
+    "averageFileImageSY": 100
+}

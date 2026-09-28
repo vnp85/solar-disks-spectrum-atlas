@@ -1,0 +1,35 @@
+{
+    "cubeLocation": "cubes/2026-05-31-0908_0-Sun-3540/",
+    "averageFilename": "20260531_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 3524.57,
+    "cwl_A_forSorting": false,
+    "putMarkerToCwl": false,
+    "putMarkerToPixelOffset": false,
+    "putMarkerToWavelength": false,
+    "putCursorToWavelength": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        {
+            "px": 104,
+            "lambda_A": 3517.28
+        },
+        {
+            "px": 286,
+            "lambda_A": 3524.57
+        },
+        {
+            "px": 677,
+            "lambda_A": 3540.12
+        }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm",
+    "trim_M": 0,
+    "trim_P": 0,
+    "instrument-id": 6,
+    "instrument-hint": "Modified SolEx with 3600 ln/mm grating",
+    "display-notes": "",
+    "averageFileImageSX": 800,
+    "averageFileImageSY": 100
+}

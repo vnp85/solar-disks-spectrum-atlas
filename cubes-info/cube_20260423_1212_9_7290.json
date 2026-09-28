@@ -1,0 +1,29 @@
+{
+    "cubeLocation": "cubes/2026-04-23-1212_9-Sun-7290/",
+    "averageFilename": "20260423_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 7290.408,
+    "putMarkerToCwl": false,
+    "putMarkerToPixelOffset": false,
+    "putMarkerToWavelength": false,
+    "putCursorToWavelength": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        {
+            "px": 127,
+            "lambda_A": 7290.408
+        },
+        {
+            "px": 640,
+            "lambda_A": 7331.174
+        }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm",
+    "trim_M": 0,
+    "trim_P": 0,
+    "instrument-id": 4,
+    "instrument-hint": "SolEx with 1800 grating",
+    "averageFileImageSX": 800,
+    "averageFileImageSY": 79
+}

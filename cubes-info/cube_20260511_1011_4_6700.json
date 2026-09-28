@@ -1,0 +1,30 @@
+{
+    "cubeLocation": "cubes/2026-05-11-1011_4-Sun-6700/",
+    "averageFilename": "20260511_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 6717.692,
+    "cwl_A_forSorting": 6740,
+    "putMarkerToCwl": false,
+    "putMarkerToPixelOffset": false,
+    "putMarkerToWavelength": false,
+    "putCursorToWavelength": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        {
+            "px": 97,
+            "lambda_A": 6717.692
+        },
+        {
+            "px": 640,
+            "lambda_A": 6765.193
+        }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm",
+    "trim_M": 0,
+    "trim_P": 0,
+    "instrument-id": 2,
+    "instrument-hint": "ML Astro SHG 700",
+    "averageFileImageSX": 800,
+    "averageFileImageSY": 100
+}

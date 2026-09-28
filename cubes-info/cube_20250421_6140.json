@@ -6,11 +6,22 @@
     "putMarkerToCwl": false,
     "lambda-precision": 2,
     "pixelWavelengthPairs": [
-        { "px": 54, "lambda_A": 6136.61 },
-        { "px": 208, "lambda_A": 6145.04 }
+        {
+            "px": 54,
+            "lambda_A": 6136.61
+        },
+        {
+            "px": 208,
+            "lambda_A": 6145.04
+        }
     ],
     "wavelengths-of-interest": [
-        { "lambda_A": 6141.7278, "caption": "Ba II %wavelength%"}
+        {
+            "lambda_A": 6141.7278,
+            "caption": "Ba II %wavelength%"
+        }
     ],
-    "title": "not used atm"
+    "title": "not used atm",
+    "averageFileImageSX": 256,
+    "averageFileImageSY": 100
 }

@@ -1,0 +1,38 @@
+{
+    "cubeLocation": "cubes/2026-05-27-0659_7-Sun-10960/",
+    "averageFilename": "20260527_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 10993.886,
+    "cwl_A_forSorting": false,
+    "putMarkerToCwl": false,
+    "putMarkerToPixelOffset": false,
+    "putMarkerToWavelength": false,
+    "putCursorToWavelength": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        {
+            "px": 55,
+            "lambda_A": 10922.939
+        },
+        {
+            "px": 411,
+            "lambda_A": 10965.463
+        },
+        {
+            "px": 648,
+            "lambda_A": 10993.886
+        },
+        {
+            "px": 776,
+            "lambda_A": 11009.104
+        }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm",
+    "trim_M": 0,
+    "trim_P": 0,
+    "instrument-id": 3,
+    "instrument-hint": "Modified JamesR SolEx with 1200 grating and custom lenses",
+    "averageFileImageSX": 800,
+    "averageFileImageSY": 100
+}

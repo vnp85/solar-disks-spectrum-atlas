@@ -6,10 +6,17 @@
     "putMarkerToCwl": false,
     "lambda-precision": 2,
     "pixelWavelengthPairs": [
-        { "px": 129, "lambda_A": 4045.74 },
-        { "px": 624, "lambda_A": 4077.67 }
+        {
+            "px": 129,
+            "lambda_A": 4045.74
+        },
+        {
+            "px": 624,
+            "lambda_A": 4077.67
+        }
     ],
-    "wavelengths-of-interest": [
-    ],
-    "title": "tbd"
+    "wavelengths-of-interest": [],
+    "title": "tbd",
+    "averageFileImageSX": 800,
+    "averageFileImageSY": 98
 }

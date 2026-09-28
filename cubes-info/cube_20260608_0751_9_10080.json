@@ -1,0 +1,35 @@
+{
+    "cubeLocation": "cubes/2026-06-08-0751_9-Sun-10080/",
+    "averageFilename": "20260608_average.jpg",
+    "datetime": "from-path",
+    "cwl_A": 10123.875,
+    "cwl_A_forSorting": 10100,
+    "putMarkerToCwl": false,
+    "putMarkerToPixelOffset": false,
+    "putMarkerToWavelength": false,
+    "putCursorToWavelength": false,
+    "lambda-precision": 2,
+    "pixelWavelengthPairs": [
+        {
+            "px": 138,
+            "lambda_A": 10053.332
+        },
+        {
+            "px": 710,
+            "lambda_A": 10123.875
+        }
+    ],
+    "_wavelengths-of-interest": "pixelWavelengthPairs",
+    "title": "not used atm",
+    "trim_M": 0,
+    "trim_P": 0,
+    "instrument-id": 3,
+    "instrument-hint": "Modified JamesR SolEx with 1200 grating and custom lenses",
+    "display-notes":   "Strong artefacts, banding, stripes and gradients etc. have been present; gotten somewhat mitigated. ",
+    "display-notes-1": "Their origin: probably the lack of a narrow band filter for this spectral region. A SLOAN/SDSS ugriz z filter was used as an ERF.",
+    "display-notes-2": "Resulting in strong stray light, inner reflections, combined with the unfavorably steep gradients of", 
+    "display-notes-3": "both that of the Sun over the ~100nm bandpass, and the quickly decreasing CMOS response, ",
+    "display-notes-4": "favoring the more energetic photons from the stray light.",
+    "averageFileImageSX": 800,
+    "averageFileImageSY": 100
+}
