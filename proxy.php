@@ -10,10 +10,29 @@ if (!empty($_GET['imgproxy'])){
     $p = sanitize_file_path($_GET['imgproxy']);
     $p = explode('?hash=', $p);
     $p = $p[0];
-    header('Content-Type: image/jpeg');     
-    echo file_get_contents($p); 
+    $img_proxy_bag = array();
+    $img_proxy_bag['filename'] = $p;
+    $img_proxy_bag['exists'] = file_exists($p);    
+    $img_proxy_bag['hypercube_filename'] = dirname($p).'/hyper.cube';
+    $img_proxy_bag['hypercube_exists'] = file_exists($img_proxy_bag['hypercube_filename']);
+    header('Content-Type: image/jpeg');    
+    if (!$img_proxy_bag['exists']){      
+      //is it a hyper cube?
+      require_once('hypercube.php');
+      $hc = new HyperCube();      
+      echo $hc->openPack($img_proxy_bag['hypercube_filename'])->getBlob($p);
+    }else{
+      echo file_get_contents($p); 
+    }
     die();
 }
+
+if (!empty($_GET['phpproxy'])){
+   if ($_GET['phpproxy'] == 'section_gallery.php'){
+      require_once("section_gallery.php");      
+   }
+   die();
+};
 
 if (!empty($_GET['mapproxy'])){    
     $s = file_get_contents(sanitize_file_path($_GET['mapproxy']));
@@ -30,7 +49,7 @@ if (!empty($_GET['mapproxy'])){
     }
     echo '(function (){ 
       var a = '.$s.'; 
-      var timeoutLen = 100;
+      var timeoutLen = 200;
       var t = document.getElementById("'.$_GET['target'].'");
       t.setAttribute("data-mapping", JSON.stringify(a));
       if (!t.getAttribute("src")){
@@ -73,11 +92,26 @@ if (!empty($_GET['mapproxy'])){
         t.addEventListener("click", SpectrumMouseClickListener);
         OnImage_getFirstParentWithTagname(t, "a").addEventListener("keydown", SpectrumKeydownListener);
         if (a.putMarkerToCwl){
+           console.log("put marker to CWL has been requested");
            OnImage_setMarkerToWavelength(t, a.cwl_A);
-        }   
+        }
+        if (a.putMarkerToPixelOffset){
+           console.log("put marker to PIXEL_OFFSET has been requested");
+           OnImage_setMarkerToWavelength(t, OnImage_pixelToWavelength_A(t, a.putMarkerToPixelOffset));
+        }      
+        if (a.putMarkerToWavelength){
+           console.log("put marker to WAVELENGTH has been requested");
+           OnImage_setMarkerToWavelength(t, a.putMarkerToWavelength);
+        }
+        if (a.putCursorToWavelength){
+           console.log("put cursor to WAVELENGTH has been requested");
+           setTimeout(function (){
+               OnImage_placeClickOntoRealWavelength(t, a.putCursorToWavelength);           
+           }, 100);           
+        }         
         var cwl_shower = OnImage_getFirstParentWithTagname(t, "table").getElementsByClassName("cwl_angstrom")[0];
         cwl_shower.innerHTML = a.cwl_A;
-        ['.implode(',', $_GET['marked-wavelengths-a']).'].forEach(function (lambda_A){ OnImage_setMarkerToWavelength(t, lambda_A, WavelengthToColor(lambda_A)); });
+        [/* marked-wavelengths-a */'.implode(',', $_GET['marked-wavelengths-a']).'].forEach(function (lambda_A){ OnImage_setMarkerToWavelength(t, lambda_A, WavelengthToColor(lambda_A)); });
         if (a.markersRelativeToCwl){
            a.markersRelativeToCwl = a.markersRelativeToCwl.map(function (m){
               var weKnowThePixelShift = false;
@@ -140,7 +174,7 @@ if (!empty($_GET['mapproxy'])){
         });
 
         OnImage_enqueueAddExtremeBlurs(t, a);
-      }, 200); 
+      }, timeoutLen); 
     })();
     '; 
     die();

@@ -6,15 +6,16 @@ A database of spectroheliograms and a web-based viewer for the recorded data.
 
 This project consists of two parts:
 
-* a database of spectroheliograms: Using a combination of off-the-shelf and custom made, mainly amateur instruments, refractors and spectroheliographs (one stock Sol'Ex, and one ML Astro SHG 700), scans were obtained of the Sun during the solar cycle's approximate peak, in 2025. The observations continuously cover a significant part of the near UV and visible spectrum, with patches outside the continuously covered interval. The raw data collected and processed was on the order of terabytes. It got selected and downsampled into about 5GB of jpeg files.
+* a database of spectroheliograms: Using a combination of off-the-shelf and custom made, mainly amateur instruments, refractors and spectroheliographs (one stock Sol'Ex, and one ML Astro SHG 700 and others), scans were obtained of the Sun during the solar cycle's approximate peak, in 2025 and then in 2026. The 2025 data covers most of the UV and visible, and the 2026 data extends from the deep red till beyond the infrared helium. The observations continuously cover most of what a CMOS sensor can register, albeit with degraded quality in the UV extreme, and in the IR half. The raw data collected and processed was on the order of a petabyte. The raws were selected and downsampled into about 13 GB of jpeg files.
 * a web-browser based viewer implementation, to allow for an interactive vieweing of the data.
 
 ## Getting Started
 
 ### Dependencies
 
-* **disk space**: at this moment, about `5 GB of free disk space` is needed, as there are 55k files in the database
+* **disk space**: at this moment, about `15 GB of free disk space` is needed, as there are 154k files in the database
 * **a webserver** like `xampp`, of which the php part is used, mysql for example is not
+* **inodes**: web servers and/or virtual machines may impose limits on the number of files on the file system (thus "hypercube" files)
 * in **php, GD** (graphics, images) must be enabled
 
 ### Installing, Executing
@@ -65,8 +66,12 @@ observation data and viewer: [Pal VARADI NAGY](https://csillagtura.ro)
 
 ## Version History
 
-    * Version 2.00 (new data, bugfixes in the code) UT 2025-08-18 12:02
-    * Initial Release UT 2025-07-11 11:32
+* Version 3.00 (UT 2026-09-28)
+  * new data, continuous coverage ~ 355-1100 nm
+  * the Gallery Chapter, to showcase disks with enhanced signal (with some artistic license)
+  * the playback feature to shift blue-red around given sections
+* Version 2.00 (new data, bugfixes in the code) UT 2025-08-18 12:02
+* Initial Release UT 2025-07-11 11:32
 
 ## License
 

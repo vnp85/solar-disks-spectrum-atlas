@@ -25,11 +25,11 @@ echo '}'.
 <script>
   setTimeout(function (){
     var img = document.getElementById("main_spectrum");
-    for (var lambda_A = 3000; lambda_A < 10000; lambda_A += 5){      
+    for (var lambda_A = 3000; lambda_A < 12000; lambda_A += 5){      
       if (isWavelengthCoveredByCubes(lambda_A)){
         // carry on
       }else{
-        OnImage_setPartialMarkerToWavelength(img, lambda_A, 'grey', "25%");
+        var i = OnImage_setPartialMarkerToWavelength(img, lambda_A, 'grey', "5%", "0px");
       }
     }
   }, 500);  

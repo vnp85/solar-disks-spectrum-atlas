@@ -1,4 +1,4 @@
-<div id="help-texts" style="display:none">
+<div id="help-texts" style="display:none">    
     <div id="help-of-interesting_wavelengths">
         <div class="help-paragraph">
             The Sun's spectrum is not a continuous rainbow, but contains dark stripes: spectral lines. 
@@ -71,14 +71,26 @@
             <div>Hence all kinds of artefacts and inaccuracies are possible, including but not limited to:</div>
             <ul>
                 <li>"polar caps" ie brightening perpendicular to the scan axis</li>
+                <li>birds are easily seen, and the scan dropped. But pollen and small bugs introduce little cuts and scars into the scan. Any kind of flying puff, like dandelion, oh, the dandelions.</li>
                 <li>"wobbly light" ie limb darkening / on-bandness that appears to wobble along the scan axis</li>
                 <li>banding parallel the scan axis, due to slit issues and sunspots offsetting the reconstruction</li>
                 <li>banding perpendicular to the scan axis, due to camera sensor readout artefacts and spectral line bending through the camera sensors's banding</li>
-                <li>a slope on the average spectrum could be camera respons and/or the transmission profile of the bandpass filter, used as ERF, especially away from its CWL</li>
+                <li>a slope on the average spectrum could be camera response and/or the transmission profile of the bandpass filter, used as ERF, especially away from its CWL</li>
+                <li>at the red end of the CMOS sensor's sensitivity, the response gradient is extreme, 
+                    as it drops to zero (TPA aside) as we reach the band gap of silicon. 
+                    He I 10830 is imaged through stacked filters, 1075/50 and 1100/50, to keep out most stray light.
+                    Tuning towards the blue means removing the 1100/50 filter, which floods the instrument 
+                    with photons of wavelengths the sensor is much more likely to pick up than those being imaged. 
+                    Hence even the spectrum is washed out, for a few nanometers at 1078nm.</li>
             </ul>    
+            <div>
+                In the infrared, especially when the disk is bland, and even more so with the low SNR dark telluric lines, like the O<sub>2</sub> 
+                at around 755 nm, some extra de-banding steps were taken, which might have introduced their own, but milder artefacts, halos around the spots, minor limb-edge issues.
+            </div>
         </div>
         <div class="help-paragraph">
-          <div>The cost of a cube</div>  
+          <div>The cost of a cube</div>
+          <div>&nbsp;</div>  
           <div>Recording the raw light for such a cube, per se, if all else is configured, takes only a minute, one scan, which translates to about 15 GiB of raw data. However, several scans are needed, per wavelength area, to get lucky:</div>
             <ul>
                 <li>seeing, turbulence: it only takes one or two seconds to completely ruin an otherwise perfect scan</li>
@@ -112,19 +124,21 @@
             <div class="help-sub-paragraph">
             The mount - an old SkyWatcher EQ3, for example retains only its mechanical components 
             and motors from its factory state. The controlling hardware and software control of it 
-            has been implemented from the ground up, and thus it features a dedicated 
+            have been implemented from the ground up, and thus it features a dedicated 
             spectroheliograph scanning mode too.
             </div>  
 
         </div>         
         <div class="help-paragraph">
-            <div><strong>Instrument #1: stock Sol'Ex</strong></div>
+            <a name="help-anchor-instrument-id-1"></a>
+            <div><strong>Instrument #1: stock Sol'Ex</strong></div>            
             <div class="help-sub-paragraph">
             This setup is the main instrument of the Atlas. A stock Sol'Ex, mounted onto 
             a 62/400 refractor stopped down to ~42/400 by the 2" full aperture filters, 
             put in place to act as energy rejection filters, to protect the slit. 
             The camera is a ZWO ASI 678MM. To reduce mechanical issues,
             the setup features additional support structure.
+            </div>
 
             <div class="help-sub-paragraph">
                 Thank you, Christian Buil, for making spectroheliography so accessible!
@@ -134,6 +148,7 @@
                 &nbsp;
             </div>            
         <div class="help-paragraph">
+            <a name="help-anchor-instrument-id-2"></a>
             <div><strong>Instrument #2: ML Astro SHG 700</strong></div>
             <div class="help-sub-paragraph">
             This setup is the stock ML Astro SHG 700, "third batch", mounted onto 
@@ -141,6 +156,51 @@
             2" narrow band filters, to act as energy rejection filters, protecting the slit. 
             The camera is a ZWO ASI 678MM. To reduce mechanical issues,
             the setup features additional support structure.
+            </div>
+        </div>
+        <div class="help-paragraph">
+            <a name="help-anchor-instrument-id-3"></a>
+            <div><strong>Instrument #3: a modified Sol'Ex</strong></div>
+            <div class="help-sub-paragraph">
+            Similar to #1, with the JamesR-body, 3D printed and adapted to the task. It has custom lenses
+            for NIR, a grating with 1200 ln/mm, and in-cone narrow band filters, 
+            with light traps to adapt for the surprises of NIR - visually black materials become light 
+            or even chromium-like reflective at 1100nm. At He I 10830, 
+            the sensitivity of CMOS is pushed to its very limits, nominally the usage is out of spec.
+            </div>
+        </div>
+        <div class="help-paragraph">
+            <a name="help-anchor-instrument-id-4"></a>
+            <div><strong>Instrument #4: a modified Sol'Ex</strong></div>
+            <div class="help-sub-paragraph">
+            Similar to #1, with the stock lenses but with an ML Astro 7 micron slit, 
+            and a grating with 1800 ln/mm, to go for the NIR. It has in-cone filter drawers for 
+            band pass and narrow band filters. This is the main instrument looking 
+            into the oxygen triplet at &lambda;7772, among others. 
+            </div>
+        </div>
+        <div class="help-paragraph">
+            <a name="help-anchor-instrument-id-5"></a>
+            <div><strong>Instrument #5: a modified ML Astro SHG 700</strong></div>
+            <div class="help-sub-paragraph" data-find-me="instrument-id instrumentId">
+            Similar to #2, but with a replaced grating of 1800 ln/mm. With in-cone narrow band filters.
+            Because when all things compared with the Sol'Ex, the ML Astro SHG 700's optics focus 
+            on spatial rather than spectral resolution, a camera was chosen with a special tradeoff. 
+            The IMX 715 sensor is color, but according to its datasheet, the Bayer matrix becomes transparent,
+            and thus the sensor largely mono at around 850 nm. 
+            The color camera was chosen as a compromise, because it features the small pixels, 1.45um, 
+            in contrast with the IMX 678 mono, that's at 2um. This tradeoff was accepted 
+            to compensate for the much needed spectral resolution, lost at the grating and optics, when compared to the visual Sol'Ex.
+            </div>
+        </div>
+        <div class="help-paragraph">
+            <a name="help-anchor-instrument-id-6"></a>
+            <div><strong>Instrument #6: a modified Sol'Ex</strong></div>
+            <div class="help-sub-paragraph">
+            Similar to #1, with the stock lenses and slit, but with a 3600 ln/mm grating, 
+            to go for the NUV. It has in-cone filter drawers for 
+            band pass and narrow band filters. This is the main instrument looking 
+            into the CaK and CaH region.
             </div>
         </div>
         <div class="help-paragraph">
@@ -203,13 +263,23 @@
                     <a href="https://nvlpubs.nist.gov/nistpubs/Legacy/MONO/nbsmonograph61.pdf">https://nvlpubs.nist.gov/nistpubs/Legacy/MONO/nbsmonograph61.pdf</a>
                 </li>
                 <li>
+                    HAROLD D. BABCOCK, Charlotte E. Moore: <em>THE SOLAR SPECTRUM THE SOLAR SPECTRUM , 6600A to 13495A...</em>
+                    <a href="https://babel.hathitrust.org/cgi/pt?id=uc1.32106002409180&seq=5">https://babel.hathitrust.org/cgi/pt?id=uc1.32106002409180&seq=5</a>
+                </li>
+                <li>
                     Resources on the Bass2000 website: <a href="https://bass2000.obspm.fr/home.php">https://bass2000.obspm.fr/home.php</a>                    
+                </li>    
+                <li>
+                    Recommended resource: <br />Alex Pietrow: HELIOSPECTROTRON 5000, an interactive multi-resolution 
+                    solar spectral atlas, described in <a href="https://arxiv.org/pdf/2602.20101v1" >this article</a> and 
+                    available at this link <a href="https://hs5000.vo.aip.de/">https://hs5000.vo.aip.de</a>                    
                 </li>    
             </ul>
         </div>  
         <div class="help-paragraph">
             <div class="help-sub-paragraph">
                 <center>
+                    <hr>
                 P&aacute;l V&Aacute;RADI NAGY, 2025
                 </center>
             </div>
@@ -250,19 +320,25 @@
 				elem = elem.parentNode;
 			} 
 		},
-		showHelpFor: function (elem){
+        openHelpFor: function (elem, toggle){
 			var divid = elem.getAttribute("data-help-wrapper-id");
             var div = document.getElementById(divid);			
-			if (div.style.display != "none"){
-				// already open
-				this.close(div);
-				return ;
-			}
+            if (toggle){
+                if (div.style.display != "none"){
+                    // already open
+                    this.close(div);
+                    return ;
+                }
+            }
 			var textid = elem.getAttribute("data-help-for");
 			var s = this.getHelpTextFromTextId(textid);
 			var ih = '<div align="center"><div style="width:800px;border:1px solid silver; border-radius: 15px; padding:12px;" align="left"><div align="right"><button onclick="Help.close(this)" >X</button></div><hr><div>%text%</div></div></div>';
 			div.innerHTML = ih.replace("%text%", s);
 			div.style.display = "";			
+        },
+		showHelpFor: function (elem){
+            var doToggle = true;
+            this.openHelpFor(elem, doToggle);
 		},
 		getHelpTextFromTextId: function (textid, defaultText = "help under construction"){
 			var id = 'help-of-'+textid;
@@ -271,7 +347,57 @@
 				return e.innerHTML;
 			}
 			return defaultText;
-		}
+		},
+        getParentOfChildItem: function (e){
+            var p = e;
+            while (p){
+                if ((p.className+'').indexOf('help-for-wrapper') > -1){
+                    return p;
+                }
+                p = p.parentNode;
+            }
+            return p;
+        },
+        locateOpenerOfHelpId: function (uid){
+            var s = document.querySelectorAll('[data-help-wrapper-id="'+uid+'"]');
+            if (s.length > 0){
+                return s[0];
+            }
+            return false;
+        },
+        scrollTo: function (elemOrAnchor){  
+            // TODO          
+            if (typeof elemOrAnchor === 'string'){
+                var a = document.getElementsByName(elemOrAnchor);
+                if (a.length > 0){
+                    var parent = this.getParentOfChildItem(a[0]);
+                    if (parent){
+                        var opener = this.locateOpenerOfHelpId(parent.id);
+                        var anchorParent;
+                        this.openHelpFor(opener);                                                
+                        setTimeout(function (){
+                            var a = document.getElementsByName(elemOrAnchor);
+                            anchorParent = a[0].parentNode;
+                            anchorParent.style.backgroundColor = "orange";
+                            a[0].scrollIntoView();
+                            console.log(anchorParent);
+                        }, 100);                    
+                        setTimeout(function (){
+                            anchorParent.style.backgroundColor = '';                            
+                        }, 1000);  
+                    }                    
+                }                                
+            }            
+        },
+        openHelpByHelpForLabel: function (s){
+            var s = document.querySelectorAll('[data-help-for="'+s+'"]');
+            var toggleKind = false;
+            if (s.length > 0){
+                this.openHelpFor(s[0], toggleKind);
+            }
+            return this;
+        },
+        
     };
 	Help.init();
 </script>    

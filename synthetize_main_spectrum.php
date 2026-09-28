@@ -2,15 +2,15 @@
 
 require_once("helpers.php");
 
-
 function generate_spectrum_jpeg(){
     // with spectrum lines of interest    
-    $target = "main_spectrum";
+    $target = dirname( __FILE__)."/main_spectrum";
     $margin = 400;
     $lambda_blue = 3450-$margin;
-    $lambda_red = 9000;    
-    $h = 600;
+    $lambda_red = 11200+$margin;    
+    $h = 960;
     $grad = $h/5;
+    $label_zoom_faktor = 7;
     $dark_lines = array(
         array("cwl" => 3820, "width" => 12), // iron
         array("cwl" => 3934, "width" => 22), // CaK
@@ -24,13 +24,24 @@ function generate_spectrum_jpeg(){
         array("cwl" => 5889.95, "width" => 5),// sodium dublet
         array("cwl" => 5895.92, "width" => 5),// sodium dublet
         array("cwl" => 6563, "width" => 15),// hydrogen alpha
-        array("cwl" => 8540, "width" => 15),// calcium
-        array("cwl" => 6867, "width" => 15),// telluric O2
-        array("cwl" => 7300, "width" => 15),// telluric H2O
-        array("cwl" => 7594, "width" => 35),// telluric O2
-        array("cwl" => 7000, "width" => -10),// telluric O2
-        array("cwl" => 4000, "width" => -10),// telluric O2
+        array("cwl" => 8542, "width" => 15),// calcium
+        array("cwl" => 6867, "width" => 15, "intensity" => 0.4),// telluric O2
+        array("cwl" => 7300, "width" => 15, "intensity" => 0.4),// telluric H2O
+        array("cwl" => 7594, "width" => 35, "intensity" => 0.6),// telluric O2
+        array("cwl" => 7000, "width" => -10),
+        array("cwl" => 4000, "width" => -10),
+        array("cwl" => 9400, "width" => 2000, "intensity" => 0.4),// telluric 
+        array("cwl" => 9800, "width" => 3000, "intensity" => 0.6),// telluric 
+        array("cwl" => 11200, "width" => 1000, "intensity" => 0.6),// telluric 
+        array("cwl" => 8200, "width" => 200, "intensity" => 0.8),// telluric 
+        array("cwl" => 10830, "width" => 8),// helium
     );
+    for ($d=0; $d<count($dark_lines); $d++){
+        if (!isset($dark_lines[$d]["intensity"])){
+                $dark_lines[$d]["intensity"] = 1;
+        }
+        //$dark_lines[$d]["intensity"] = 1;
+    }
     $i = imagecreatetruecolor($lambda_red - $lambda_blue, $h);
     imagefilledrectangle($i, 0, 0, imagesx($i), imagesy($i), 0xFFFFFF);
     for ($lambda_a = $lambda_blue; $lambda_a < $lambda_red; $lambda_a++){
@@ -44,7 +55,11 @@ function generate_spectrum_jpeg(){
                 $special_color = 0xFFFFFF;
             }
             if ($delta < abs($width)){
-                $color = $special_color;
+                if ($dark_line["intensity"] != 1){
+                    $color = rgbScale($color, $dark_line["intensity"]);
+                }else{
+                    $color = $special_color;
+                }
             }
         }        
         imageline($i, $x, 0, $x, imagesy($i)-$grad, $color); 
@@ -61,8 +76,8 @@ function generate_spectrum_jpeg(){
         if ($i_lambda_a % 1000 <$mod*2){
             $yh *= 2;       
             if ($i_lambda_a % 1000 == 0){                
-                $i2 = imagecreatetruecolor(200, 20);
-                $faktor = 3.5;
+                $i2 = imagecreatetruecolor(200, 50);
+                $faktor = $label_zoom_faktor;
                 imagefilledrectangle($i2, 0, 0, imagesx($i2), imagesy($i2), 0xFFFFFF);
                 imagestring($i2, 4, 0, 0, $i_lambda_a, 0x00);   
                 $dest_y = imagesy($i) - $grad + $yh;

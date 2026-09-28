@@ -1,10 +1,18 @@
 <?php
 
-
+require_once("debug_time.php");
 require_once("cube_utils.php");
 require_once("cube_mirror_server.php");
 
+/* 
 
+git hint, when copying files and line endings get messed up
+
+EOL windows/linux style new-line enter \r\n
+
+ git add --renormalize .     
+
+*/
 
 function echo_template($filename, $varbag){
     if (empty($varbag["extremePixelShifts"])){
@@ -28,11 +36,24 @@ function echo_template($filename, $varbag){
         $varbag["img_src"] = '';
     }else{
         $varbag["img_src"] = 'index.php?imgproxy='.str_replace('?', '&', $varbag["img_src"]);
-    }
+    }    
 
     if (!empty($varbag["img_src_diagram_twin"])){
-        $varbag["img_src_diagram_twin"] = 'index.php?imgproxy='.$varbag["img_src_diagram_twin"];
-    } 
+        $varbag["img_src_diagram_twin"] = 'index.php?imgproxy='.$varbag["img_src_diagram_twin"].'&ra='.md5(mt_rand());
+    };
+
+    if (!empty($varbag["img_src_spectrum_twin"])){
+        $varbag["img_src_spectrum_twin"] = 'index.php?imgproxy='.$varbag["img_src_spectrum_twin"].'&ra='.md5(mt_rand());
+        if (!isset($varbag["img_src_spectrum_twin_display"])){
+            $varbag["img_src_spectrum_twin_display"] = '';
+        }
+    }
+    if (!isset($varbag["img_src_spectrum_twin_display"])){
+        $varbag["img_src_spectrum_twin_display"] = 'none';
+    }
+    if (empty($varbag["img_src_spectrum_twin"])){
+        $varbag["img_src_spectrum_twin"] = '';
+    }
 
     if (empty($varbag["img_hash_postfix"])){
         $varbag["img_hash_postfix"] = '';
@@ -181,3 +202,55 @@ function getRequireStack(){
     }
     return $ret;
 }
+
+
+function rgbScale($rgb, $f){
+    $b = $rgb & 0xFF;
+    $rgb = $rgb >> 8;
+    $g = $rgb & 0xFF;
+    $rgb = $rgb >> 8;
+    $r = $rgb & 0xFF;
+
+    $b = max(0, min(255, round($f*$b)));
+    $g = max(0, min(255, round($f*$g)));
+    $r = max(0, min(255, round($f*$r)));
+
+    return $r*256*256 + $g*256 + $b;
+}
+
+function get_svg_gamma_items(){
+    $html = '<svg height="0">';
+    $mini = 40;
+    $maxi = 400;
+    $step = 10;
+    for ($gamma = $mini; $gamma <= $maxi; $gamma+=$step){
+        $expo = $gamma/100;
+        $html .= '
+    <filter id="gamma-'.$gamma.'">
+        <feComponentTransfer>
+        <feFuncR type="gamma" exponent="'.$expo.'" amplitude="1.0" offset="0" />
+        <feFuncG type="gamma" exponent="'.$expo.'" amplitude="1.0" offset="0" />
+        <feFuncB type="gamma" exponent="'.$expo.'" amplitude="1.0" offset="0" />
+        </feComponentTransfer>
+    </filter>
+    ';
+    }
+    $html .= '</svg>';
+    $html .= '<script>
+    function getSvgGammaClosestToPercent(p, with_id = false){    
+       p = parseFloat(p) || 100;       
+       p = Math.max(p, '.$mini.');
+       p = Math.min(p, '.$maxi.');
+       p = Math.floor(p / '.$step.')*'.$step.';
+       if (with_id){
+         p = "gamma-"+p;
+       }
+       return p; 
+    }
+    </script>';
+    return $html;
+}
+
+
+
+

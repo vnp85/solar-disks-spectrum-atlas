@@ -1,5 +1,41 @@
 <?php
 
+// cube folder to json
+
+require_once("cube_utils.php");
+require_once("debug_time.php");
+
+$argos_of_instrumentId = array('instrument-id', 'iid', 'i');
+
+$argo = array(
+);
+
+foreach ($argos_of_instrumentId as $aid){
+    $argo[$aid] = 'X';
+}
+
+$prev = '';
+foreach ($argv as $a){
+    echo $a."\r\n";
+    foreach (array_keys($argo) as $k){
+        if (($prev == '--'.$k) || ($prev == '-'.$k)){
+            $argo[$k] = $a;
+        }
+    }
+    $prev = $a;
+}
+
+foreach ($argos_of_instrumentId as $aid){
+    if ('X' != $argo[$aid]){
+        $argo['instrument-id'] = $argo[$aid];
+    };
+}
+
+$argo['instrument-id'] = getCanonizedInstrumentIdFromHint($argo['instrument-id'], 3);
+
+
+
+
 $homedir = str_replace('\\', '/', dirname(__FILE__));
 
 $cubeFolders = glob($homedir.'/cubes/*', GLOB_ONLYDIR);
@@ -49,22 +85,30 @@ foreach ($cubeFolders  as $cubeFolder){
             // find the cwl
             $y = floor(imagesy($i) / 2);
             $cwl = -1;
-            for ($x = 0; $x < imagesx($i); $x++){
-                $rgb = imagecolorat($i, $x, $y);
-                $r = ($rgb >> 16) & 0xFF;
-                $g = ($rgb >> 8) & 0xFF;
-                $b = $rgb & 0xFF;
-                $ti = 80; // target intensity
-                $tid = 1.2;//target intensity diff
+            $iter = 10;
+            $ti = 80; // target intensity
+            $tid = 1.2;//target intensity diff
+            while (($cwl == -1)&&($iter > 0)){
+                $iter--;
+                for ($x = 0; $x < imagesx($i); $x++){
+                    $rgb = imagecolorat($i, $x, $y);
+                    $r = ($rgb >> 16) & 0xFF;
+                    $g = ($rgb >> 8) & 0xFF;
+                    $b = $rgb & 0xFF;
 
-                //echo $r.' '.$g.' '.$b.''."\r\n";
+                    //echo $r.' '.$g.' '.$b.''."\r\n";
 
-                if ((($g > $ti) && ($g > $r*$tid)) 
-                   || 
-                   (($r > $ti) && ($r > $b*$tid))){
-                       // highlighted color
-                       $cwl = $x;
-                   }                
+                    if ((($g > $ti) && ($g > $r*$tid)) 
+                    || 
+                    (($r > $ti) && ($r > $b*$tid))){
+                        // highlighted color
+                        $cwl = $x;
+                    }                
+                }
+                $ti -= 8;
+            }
+            if ($cwl < 0){
+                die("CWL == -1 of ".$average);
             }
             if ($cwl > -1){
                 echo 'has CWL '.$cwl;
@@ -171,14 +215,19 @@ foreach ($cubeFolders  as $cubeFolder){
     $k["averageFilename"] =  basename($avg[0]);
     $k["datetime"] = "from-path";
     $k["cwl_A"] = $marked_avg["cwl_A"];
+    $k["cwl_A_forSorting"] = false;
     $k["putMarkerToCwl"] = false;
+    $k["putMarkerToPixelOffset"] = false;
+    $k["putMarkerToWavelength"] = false;
+    $k["putCursorToWavelength"] = false;
     $k["lambda-precision"] = 2;
     $k["pixelWavelengthPairs"] = $marked_avg["pixelWavelengthPairs"];
     $k["_wavelengths-of-interest"] = "pixelWavelengthPairs";
     $k["title"] = "not used atm";
     $k["trim_M"] = 0;
     $k["trim_P"] = 0;
-    $k["instrument-id"] = 2;
+    decorateWithInstrumentId($k, $argo['instrument-id']);
+    
     var_dump($k);
     $candidate_filename = explode('/', $k["cubeLocation"]);
     $n = array_pop($candidate_filename);
@@ -195,6 +244,16 @@ foreach ($cubeFolders  as $cubeFolder){
         file_put_contents($candidate_filename, $j);
     }
 };
+
+echo "Checking...";
+
+//try {
+    getSimpleParsedCubeFiles();
+//} catch(Exception $e){
+
+//}
+
+
 
 
 

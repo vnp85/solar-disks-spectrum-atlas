@@ -20,6 +20,7 @@ function awl_helper($lambda, $caption, $width_mA = "", $photogenyClass = "", $ba
             $ret[$key] = $value;
         }
     }
+    polyfill_item_with_chromosphere_info($ret);    
     return $ret;
 }
 
@@ -87,9 +88,11 @@ function wavelengthInfo_getPolyfilledItem($i, $bag = false){
         // yes, some of these are equivalent, as far as the strpos is concerned
         $roman_numbers_from_two = array('II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII', 'XIII', 'XIV', 'XV', 'XX');
         foreach ($roman_numbers_from_two as $rom){
-            if (strpos($i["caption"], ' '.$rom) !== false){
-                $i["ionized"] = true;
-            }    
+            if (isset($i["caption"])){
+                if (strpos($i["caption"], ' '.$rom) !== false){
+                    $i["ionized"] = true;
+                }    
+            }
         }
     }
 

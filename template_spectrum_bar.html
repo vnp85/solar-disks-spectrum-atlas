@@ -4,26 +4,43 @@
     <div style="font-size: 80%">
 <table>
     <tr> 
-        <td>
-            <div>
-                <button style="display:none" 
+        <td valign="top">
+            <table>
+                <tr><td>
+                    <div class="cube-wavelength-extreme" align="right">%wavelength-extremes-blue%&Aring;</div>
+                </td></tr>    
+                <tr>
+                    <td align="right">
+                                        <button style="display:none" 
+                  class="previous-or-next-cube" 
+                  title="load sibling cube"
+                  onclick="Cubes_loadSibling('blue')"> &#60;&#60; </button>
+                    </td>    
+                </tr>    
+                <tr><td>
+                    <button style="display:none" 
                   class="spectrum-or-diagram-opacity" 
-                  onclick="OnAllImages_adjustSpectrumOpacities(1)">spectrum ++</button>
-            </div>
-            <div>&nbsp;</div>
-                <div align="right">%wavelength-extremes-blue%&Aring;</div>
-            <div>&nbsp;</div>
-            <div>
-                <button style="display:none" 
-                  class="spectrum-or-diagram-opacity" 
-                  onclick="OnAllImages_adjustSpectrumOpacities(-1)">diagram ++</button>
-            </div>
+                  onclick="OnAllImages_adjustSpectrumOpacities(1)">spectrum ++</button></td></tr>    
+                <tr><td>
+                    <button style="display:none" 
+                    class="spectrum-or-diagram-opacity" 
+                    onclick="OnAllImages_adjustSpectrumOpacities(-1)">diagram ++</button>
+                </td></tr>    
+            </table>
+
             </td>
         <td style="vertical-align: bottom;" draggable="false">
             
             <a class="tile" href="#view-anchor-%id%" tabindex="0" draggable="false" style="outline: none;  cursor: crosshair; border: 0px">
 
-                <div id="wrapper-%id%" style="width:%rainbow-width%px; height: 120px; position:relative; overflow:hidden">                    
+                <div id="wrapper-%id%" style="
+                     position:relative; 
+                     width:%rainbow-width%px; 
+                     height: 120px; 
+                     overflow-x:clip; 
+                     
+                     
+                     ">                    
           <img draggable="false" id="diagram-twin-of-%id%" src="%img_src_diagram_twin%" 
              style="position: absolute; left:0; top: 0; user-select: none; width:%rainbow-width%px;min-height:60px; max-height:90px;">
           <img draggable="false" id="%id%" src="%img_src%%img_hash_postfix%" 
@@ -34,12 +51,40 @@
              data-parent-id="%parent-id%"
              data-operates-on-the-cube-slices="%data-operates-on-the-cube-slices%"
              style="opacity: 0.5; position: absolute; left:0; top: 0; user-select: none; width:%rainbow-width%px;min-height:60px; max-height:90px;">
+          <img draggable="false" id="spectrum-twin-of-%id%" src="%img_src_spectrum_twin%" 
+             style="
+               pointer-events: none;
+               position: absolute; left:0; top: 0; 
+               user-select: none; width:%rainbow-width%px;min-height:60px; max-height:90px;
+               display:%img_src_spectrum_twin_display%;opacity: 0.5">             
           <div id="cube-slice-list-%id%" class="cube-slices-list-enumeration" style="display:none">%cube-slices-list%</div>
         <script src="%mapfile%"></script>
         </div>    
         </a>
     </td>   
-    <td>%wavelength-extremes-red%&Aring;</td>
+    <td valign="top">
+            <table>
+                <tr><td>                    
+                    <div class="cube-wavelength-extreme" align="left">%wavelength-extremes-red%&Aring;</div>
+                </td></tr>    
+                <tr>
+                    <td align="left">
+                                        <button style="display:none" 
+                  class="previous-or-next-cube" 
+                  title="load sibling cube"
+                  onclick="Cubes_loadSibling('red')"> &#62;&#62; </button>
+                    </td>    
+                </tr>    
+                <tr><td>
+                    &nbsp;
+                </td></tr>    
+                <tr><td>
+                    &nbsp;
+                </td></tr>    
+            </table>
+
+
+    </td>
     <td style="vertical-align: bottom;" align="left">
         <div style="margin-left: 15px; font-size: 150%">
             <div>
@@ -48,7 +93,8 @@
                 <button data-img-id="%id%" id="lambda-input-button-of-%id%" onclick="SpectrumLambdaInputClick(this)">&#8629;</button>    
             </div>
             <div>
-                <input id="identified-chemical-of-%id%" class="identified-chemical-wrapper" type="text" readonly style="width:140px;border:0px;">
+                <input id="identified-chemical-of-%id%" class="identified-chemical-wrapper" type="text" 
+                  readonly style="margin-left:-15px; width:155px;border:0px;">
             </div>
         </div>    
         <div style="height:30px">&nbsp;</div>

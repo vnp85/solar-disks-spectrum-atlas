@@ -1,40 +1,11 @@
 <?php
+    echo '<script>';
+    require_once("section_interesting_lambdas_common.php");
     
-
-    $parsedCubes = array();
-    foreach (glob('cubes-info/cube_*.json') as $cube){
-        $parsedCubes[] = cube_parseJsonFile($cube);
-    };  
-    usort($parsedCubes, "cube_sortParsedCubesByWavelength");
-
-    $wavelengthsOfInteres = getTheWavelengthsOfInterest($parsedCubes);
-
-    echo '<script>
-    function Spectrum_getWavelengthList(){
-        var woi = [];
-    ';   
-    foreach ($wavelengthsOfInteres as $woi){         
-        echo '        woi.push('.json_encode($woi).');'."\r\n";
-    }; 
-    foreach (getFurtherWavelengthWorthyToLabelOnScreenButNotWithDedicatedButtons() as $woi){         
-        echo '        woi.push('.json_encode($woi).');'."\r\n";
-    };    
-
-    $gotten_nist_wavelengths = array();
-    // $gotten_nist_wavelengths = get_nist_wavelengths();
-
+    Debug_logMoment('nist list generated');    
     echo '
-        return woi;
-    } 
-    function Spectrum_getNistWavelengthList(){
-        var woi = '; echo json_encode($gotten_nist_wavelengths); echo ';        
-        return woi.filter(function (e){ return e.intensity > 200; }).map(function (e){
-           e.caption = e.caption + "_"+e.intensity;
-           return e;
-        });
-    }    
     function Spectrum_getWavelengthClosestEnoughTo(lambda_A){
-        // also find by: closeenough closetoenough
+        // also find by: closeenough closetoenough        
         var woi;
         if (window.memoizedWoiForClosestWavelength){
             // carry on
@@ -49,7 +20,7 @@
         woi.sort(function (a, b){
            return Math.abs(a.lambda_A - lambda_A) - Math.abs(b.lambda_A - lambda_A);
         });
-        var width_A = (woi[0].width_mA || 50) / 1000;
+        var width_A = (parseFloat(woi[0].width_mA) || 50) / 1000;
         width_A = Math.max(0.3, width_A);
 
         if (Math.abs(woi[0].lambda_A - lambda_A) < width_A*0.8){
@@ -75,6 +46,14 @@
     </script>';
     
     foreach ($wavelengthsOfInteres as $woi){        
+        $shortened_caption = $woi["caption"];
+        $shortened_caption = explode(' ', $shortened_caption);
+        $last_item = array_pop($shortened_caption);
+        if (strpos($last_item, '&Aring;')!==false){
+            $last_item = round(floatval($last_item)).'';
+        }
+        $shortened_caption[] = $last_item;
+        $shortened_caption = implode(' ', $shortened_caption);
         echo '<button class="wavelength-button" '.
           ' data-display-importance="'.$woi["displayImportance"].'" '.
           ' data-is-ionized="'.($woi["ionized"] ? "true" : "false").'" '.
@@ -82,7 +61,7 @@
           ' style="display:none; cursor:pointer" data-wavelength-angstrom="'.$woi["lambda_A"].'"'.
           ' onclick="WavelengthOfInterestClicked(this)"'.
           '>'.
-          $woi["caption"].
+          $shortened_caption.
           '</button>'."\r\n";
     }
 
@@ -119,7 +98,7 @@
     $woi_table_template = file_get_contents('template_woi_table.html');    
     $woicK = 0;
     $woicButtons_html = '&nbsp;&nbsp;';
-    $woicButtons_html .= '<button onclick="Spectrum_toggleWoiTableVisibility(\'woi_table_wrapper\')">##</button>'.$woi_table_template.' ';
+    $woicButtons_html .= '<button class="extend-more-button" onclick="Spectrum_toggleWoiTableVisibility(\'woi_table_wrapper\')">[...]</button>'.$woi_table_template.' ';
     $woicButtons_html .= ' &#128065; ';
     foreach ($woiClustered as $woic){                
         $woicK++;
@@ -135,8 +114,42 @@
     $woicButtons_html = str_replace('"', '"+String.fromCharCode(34)+"', $woicButtons_html);
     $woicButtons_html = str_replace("\n", '"+String.fromCharCode(13)+"', $woicButtons_html);
     $woicButtons_html = str_replace("\r", '"+String.fromCharCode(10)+"', $woicButtons_html);
+    $woicButtons_html .= '&nbsp;<small><button onclick=\"toggleGalleryView()\">gallery</button></small>';
     echo '<script>document.getElementById("wavelength-selector-wrapper").innerHTML = "'.$woicButtons_html.'";</script>';
     echo '<script>wavelengthButtons_showUpTillClass(1);</script>'."\r\n";
+    echo '<script>
+    function isGalleryViewOpen(){
+      var t = document.getElementById("artistic-gist-gallery-wrapper"); 
+      var v = t.style.display; 
+      if (v == "none"){
+        return false;
+      };
+      return true;
+    }  
+    function toggleGalleryView(){ 
+      var t = document.getElementById("artistic-gist-gallery-wrapper"); 
+      var v = t.style.display; 
+      if (v == "none"){
+        t.style.display = "";
+      }else{
+        t.style.display = "none";
+      }
+      URLmanager.pushPartialState({ "open-gallery-view": isGalleryViewOpen() ? "1" : "0" });
+    }
+    function openGalleryView(){
+      if (isGalleryViewOpen()){
+        // carry on
+      }else{
+        toggleGalleryView();
+        document.location.hash = "gallery-view-top";
+      }
+    }
+      '."\r\n";
+    echo '</script>'."\r\n";
 
-
+    echo '<div style="display:none; width: 100%; margin: 0px; background-color:black; color: silver" id="artistic-gist-gallery-wrapper">';
+    echo '<div>&nbsp;</div>';
+    require_once("section_gallery.php");
+    echo '<div>&nbsp;</div>';
+    echo '</div>';
     

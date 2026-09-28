@@ -1,6 +1,7 @@
 <?php
 require_once("cube_mirror_server.php");
 require_once("wavelengths_info.php");
+require_once("hypercube.php");
 function getPixelShiftFromCubeFilename($f){
     $f = basename($f);
     $f = str_ireplace('.png', '', $f);
@@ -26,19 +27,39 @@ function cube_getAngstromPerPixel($parsedCube){
     return  $angstrom_per_pixel;   
 }
 
-function cube_basicParseJsonFile($filename){
-    $parsed = array();
-    try {
-        $parsed = json_decode(file_get_contents($filename), true);
+function json_decode_with_custom_fields($s){
+        $parsed = json_decode(trim($s), true);
+        if (!isset($parsed['display-notes'])){
+            $parsed['display-notes'] = '';            
+        }
+        for ($q =0; $q<15; $q++){
+            $k = 'display-notes-'.$q;
+            if (!empty($parsed[$k])){
+                $parsed['display-notes'] .= ' '.$parsed[$k];
+            }            
+        }
+        $parsed['display-notes'] = trim($parsed['display-notes']);        
+
         if (empty($parsed["trim_M"])){
             $parsed["trim_M"] = 0;
         };
         if (empty($parsed["trim_P"])){
             $parsed["trim_P"] = 0;
         };
-        if (empty($parsed["instrument-index"])){
-            $parsed["instrument-index"] = 1;
+        if (empty($parsed["instrument-id"])){
+            $parsed["instrument-id"] = 1;
         }
+        return $parsed;
+}
+
+function cube_basicParseJsonFile($filename){    
+    $parsed = array();
+    try {
+        $parsed = json_decode_with_custom_fields(file_get_contents($filename));
+        if (empty($parsed["disk-resize-factor"])){
+            $parsed["disk-resize-factor"] = 1;
+        }
+
         if (!empty($parsed["wavelengths-of-interest"])){
             if(is_string($parsed["wavelengths-of-interest"])){
                 if ("pixelWavelengthPairs" == $parsed["wavelengths-of-interest"]){
@@ -75,10 +96,87 @@ function cube_basicParseJsonFile($filename){
     return $parsed;
 }
 
-function cube_getFileListOnLocation($parsed){
-    $local_files = array_merge(glob($parsed["cubeLocation"]."/*.png"), glob($parsed["cubeLocation"]."/*.jpg"));
+function getOptimizedLocalCubeFiles($parsed){
+    $foldername = $parsed;
+    if (!is_string($parsed)){
+        $foldername = $parsed["cubeLocation"];
+    }
+    $proxify_cubeslices = false;
+    if (is_array($parsed)){
+        if (isset($parsed["proxify_if_hypercube"])){
+            if ($parsed["proxify_if_hypercube"]){
+                $proxify_cubeslices = true;
+            }
+        }
+    }
+    
+
+    $foldername = str_replace("\\", '/', $foldername);
+    $cacheFile = str_replace('cubes/', 'cached-cube-folders/', $foldername);
+    $cacheFile .= '.txt';
+    $cacheFile = str_replace('/.txt', '.txt', $cacheFile);
+    $cacheFolder = dirname($cacheFile);
+    
+    try{ 
+       @mkdir($cacheFolder);
+    }catch (Exception $e){
+       //die("gyurma");
+    }
+    $ret = false;
+
+    if (false === $ret){
+        if (file_exists($cacheFile)){
+            $ret = false;
+            try{ 
+                $ret = unserialize(file_get_contents($cacheFile));
+            }catch (Exception $e){
+                $ret = false;
+            }        
+        }
+    }
+
+
+    if (false === $ret){
+        $hc_file = $foldername.'/hyper.cube';
+        if (file_exists($hc_file)){
+            $hc = new HyperCube();
+            $hc_files = $hc->openPack($hc_file)->listContents();
+            $ret = array();
+            foreach ($hc_files as $hi){
+                $ret[] = $foldername.'/'.$hi["basename"];
+            }
+
+            if ($proxify_cubeslices){
+                foreach ($ret as &$reti){
+                    $reti = 'index.php?imgproxy='.$reti;
+                }
+            }            
+
+            try{ 
+              @file_put_contents($cacheFile, serialize($ret));
+            }catch (Exception $e){
+              //die("gyurma");
+            }
+        }
+    }
+
+    if (false === $ret){
+        $ret = array_merge(glob($foldername."/*.png"), glob($foldername."/*.jpg"));
+        try{ 
+          @file_put_contents($cacheFile, serialize($ret));
+        }catch (Exception $e){
+          //die("gyurma");
+        }
+        
+    }
+    return $ret; 
+}
+
+function cube_getFileListOnLocation($parsed){    
+    $local_files = getOptimizedLocalCubeFiles($parsed);
     $x = array();
     if (count($local_files) < 10){
+        Debug_logMoment('few local files');    
         // probably a placeholder folder,
         //    the bulk of the data may be on a mirror server
         $mirror_files = cube_mirrorServer_getCubeFolderContents($parsed["cubeLocation"]);
@@ -121,16 +219,32 @@ function cube_parseJsonFile($filename){
         "trim_P" => 0,
         "trim_M" => 0,
         "instrument-id" => 1,
+        "display-notes" => '',
+        "disk-resize-factor" => 1
     );
 
     try {
         $parsed = cube_basicParseJsonFile($filename);
+        if (isset($parsed['display-notes'])){
+            $ret['display-notes'] = $parsed['display-notes'];
+        }
+        if (isset($parsed["disk-resize-factor"])){
+            $ret["disk-resize-factor"] = $parsed["disk-resize-factor"];
+        }
         $ret["trim_M"] = $parsed["trim_M"];
         $ret["trim_P"] = $parsed["trim_P"];
         
         //var_dump($parsed);die();
         if (!empty($parsed["cubeLocation"])){
+            $started_at = microtime(true);
+            $parsed["proxify_if_hypercube"] = true;
             $found_files = cube_getFileListOnLocation($parsed);
+            $done_at = microtime(true);
+
+            $duration_millis = ($done_at - $started_at)*1000;
+
+            Debug_logMoment('globbed in '.$duration_millis);    
+
             foreach ($found_files as $filename){
                 if (strpos($filename, 'img_C')!==false){
                    $ret['cube_slices'][] = $filename;
@@ -252,8 +366,44 @@ function cube_parseJsonFile($filename){
     return $ret;
 }
 
+function normalizeWavelengthForSorting($w){
+    return round(floatval($w)*1000);
+};
+
+function guessWavelengthForSorting($a){
+    $ret = array();
+    $ret[] = 0;
+    if (isset($a["cwl_A"])){
+        $ret[] = $a["cwl_A"];
+    }
+
+    if (isset($a["cwl_A_declared"])){
+        $ret[] = $a["cwl_A_declared"];
+    };
+    if (isset($a["wavelength-extremes-blue-rounded"])){
+        if (isset($a["wavelength-extremes-red-rounded"])){
+            $r = floatval($a["wavelength-extremes-red-rounded"]);
+            $b = floatval($a["wavelength-extremes-blue-rounded"]);
+            $ret[] = $b + ($r - $b)/2;
+        }
+    }
+    if (isset($a["cwl_A_forSorting"])){
+        $ret[] = $a["cwl_A_forSorting"];
+    }
+    foreach ($ret as &$reti){
+        $reti = normalizeWavelengthForSorting($reti);
+    }
+    //var_dump("domingo");
+    //var_dump($a);    die();
+    //var_dump($ret);
+    $ret = array_pop($ret);
+    return $ret;
+}
+
 function cube_sortParsedCubesByWavelength($a, $b){
-    return floatval($a["cwl_A_declared"])*100 - floatval($b["cwl_A_declared"])*100;
+    $a = guessWavelengthForSorting($a);
+    $b = guessWavelengthForSorting($b);
+    return $a - $b;
 }
 
 function cube_generateDiagramTwin($item){
@@ -348,6 +498,7 @@ function cube_generateDiagramTwin($item){
 
 function getTheWavelengthsOfInterest($parsedCubes = false){
     $wavelengths_of_interest = get_basic_and_additional_wavelengths();
+    Debug_logMoment('basic and additional wavelengths loaded');    
     if (is_array($parsedCubes)){
         foreach ($parsedCubes as $pc){
             if (isset($pc["wavelengths-of-interest"])){
@@ -361,6 +512,7 @@ function getTheWavelengthsOfInterest($parsedCubes = false){
             }
         }    
     }
+    Debug_logMoment('parsed cube wavelengths loaded');    
     
     
     foreach ($wavelengths_of_interest as &$woi){
@@ -432,4 +584,167 @@ function coveredWavelengthIntervals_isWavelengthCovered($ci, $lambda_A){
     return false;
 }
 
+function getListOfCubeJsonFiles(){
+    $json_files = glob(dirname(__FILE__).'/cubes-info/cube_*.json');
+    return $json_files;
+}
 
+function getParsedCubeFiles(){
+    $parsedCubes = array();
+    foreach (getListOfCubeJsonFiles() as $cubeJson){
+        $parsedCubes[] = cube_parseJsonFile($cubeJson);
+    };
+    return $parsedCubes;
+}
+
+function getSimpleParsedCubeFiles(){
+    $parsedCubes = array();
+    $homedir = dirname(__FILE__);
+    $errors = array();
+    foreach (getListOfCubeJsonFiles() as $cubeJson){
+        $j = json_decode_with_custom_fields(file_get_contents($cubeJson));        
+        if (is_array($j)){
+            $avg_realpath = realpath($homedir.'/'.$j["cubeLocation"].'/'.$j["averageFilename"]);            
+            usort($j["pixelWavelengthPairs"], function ($a, $b){
+                return $a["px"] - $b["px"];
+            });
+            $should_cache_size = false;
+            $should_overwrite = false;
+            if ((!isset($j["averageFileImageSX"])) || (!isset($j["averageFileImageSY"]))){
+                $j["averageFileImageSX"] = 0;
+                $j["averageFileImageSY"] = 0;
+                $should_cache_size = true;
+            };    
+            if (($j["averageFileImageSX"] < 10) || ($j["averageFileImageSY"] < 10)){
+                $should_cache_size = true;
+            }
+            if ($should_cache_size){
+                $img = imagecreatefromstring(file_get_contents($avg_realpath));
+                if (!$img){
+                    echo "ISSUE AT FILE: ".$avg_realpath."\r\n";
+                }
+                $j["averageFileImageSX"] = imagesx($img);
+                $j["averageFileImageSY"] = imagesy($img);
+                // but rearrange the keys, maybe...
+                $should_overwrite = true;                
+            }            
+            if ($should_overwrite){
+                $s = json_encode($j, JSON_PRETTY_PRINT);
+                $s = str_replace('\\/', '/', $s);
+                file_put_contents($cubeJson, $s);
+            }
+
+            $j["realpath_of_average_file"] = $avg_realpath;
+            $j["lambda_A_at_pixel"] = array();
+            for ($px = 0; $px < $j["averageFileImageSX"]; $px++){                                
+                // find the two closest pixel-lambda pairs
+                $pp = $j["pixelWavelengthPairs"];
+                // this should be copy by value
+                usort($pp, function ($a, $b) use ($px){
+                    $da = abs($a["px"] - $px);
+                    $db = abs($b["px"] - $px);
+                    return $da-$db;
+                });
+                $scale = ($pp[0]["lambda_A"] - $pp[1]["lambda_A"]) / ($pp[0]["px"] - $pp[1]["px"]);
+                $lambda = $pp[0]["lambda_A"] - ($pp[0]["px"] - $px) * $scale; 
+                $j["lambda_A_at_pixel"][] = $lambda;
+                if ($pp[0]["px"] == $px){
+                    $bag = $pp[0];
+                    $bag["calculated_lambda"] = $lambda;
+                    $delta = abs($lambda - $pp[0]["lambda_A"]);
+                    if ($delta > 0.001){
+                        var_dump($j);
+                        var_dump($bag);
+                        die("oh boy");
+                    }
+                }
+            }
+            $parsedCubes[] = $j;    
+        }else{
+            $errors[] = $cubeJson;
+        }
+    };
+    return $parsedCubes;
+};    
+
+function getSpectroheliographDescriptions(){
+    $ret = array();
+    $ret[] = array(
+        "id" => 1,
+        "hint"=> "Stock SolEx"
+    );
+    $ret[] = array(
+        "id" => 2,
+        "hint"=> "ML Astro SHG 700"
+    );
+    $ret[] = array(
+        "id" => 3,
+        "hint" => "Modified JamesR SolEx with 1200 grating and custom lenses"
+    );
+    $ret[] = array(
+        "id" => 4,
+        "hint" => "SolEx with 1800 grating"
+    );
+    $ret[] = array(
+        "id" => 5,
+        "hint" => "Modified ML Astro SHG 700 for IR"
+    );
+    $ret[] = array(
+        "id" => 6,
+        "hint" => "Modified SolEx with 3600 ln/mm grating"
+    );
+    return $ret;
+}
+
+function decorateWithInstrumentId(&$k, $id){
+    $k["instrument-id"] = $id;
+    $k["instrument-hint"] = '';
+    foreach (getSpectroheliographDescriptions() as $device){
+        if ($device["id"] == $id){
+            $k["instrument-hint"] = $device["hint"];
+        }
+    }
+    return $k;
+};    
+
+function getCanonizedInstrumentIdFromHint($hint, $defaultTo = 1){
+    foreach (getSpectroheliographDescriptions() as $dev){
+        if ($hint.'' === $dev["id"].''){
+            return $dev["id"];
+        }
+    }
+    $hint = ' '.trim(strtolower($hint)).' ';
+    foreach (getSpectroheliographDescriptions() as $dev){
+        $hinti = strtolower(' '.$dev["hint"].' ');        
+        if (strpos($hinti, $hint)!==false){
+            return $dev["id"];
+        }
+    }
+    
+    return $defaultTo;
+}
+
+
+function getObservedDispersions(){
+    $ret = array();
+    $ret[] = array(
+        "instrument" => "solex 2400",
+        "hint" => "helium-iron",
+        "px" => 142.8,
+        "lambda_A" => abs(5875.6 - 5883.8)
+    );
+    $ret[] = array(
+        "instrument" => "ml astro shg 700",
+        "hint" => "helium-sodium",
+        "px" => 142.8,
+        "lambda_A" => abs(5875.6 - 5889.98)
+    );
+    $ret[] = array(
+        "instrument" => "solex 1800",
+        "hint" => "iron-oxygen",
+        "px" => 112,
+        "lambda_A" => abs(7771.963 - 7780.574)
+    );
+
+    return $ret;
+}

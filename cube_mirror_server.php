@@ -6,7 +6,7 @@
 
 function cube_mirrorServer_getProxyRoot(){
     // leave the URL empty to disable the feature
-    $cube_mirrorServer_baseUrl = '';  
+    $cube_mirrorServer_baseUrl = 'http://narnia.go.ro/solar-disks-spectrum-atlas/';  
     return $cube_mirrorServer_baseUrl;
 }
 

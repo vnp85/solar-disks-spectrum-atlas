@@ -6,6 +6,12 @@
 <style>
     body {
         font-family: Helvetica, Arial, Sans-Serif;
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+    .display-notes-of-active-cube {
+        max-width: 800px;
     }
 
     .greek {
@@ -32,7 +38,7 @@
         background-color: red !important;
     }
     .section-title {
-        margin-top: 30px;
+        margin-top: 20px;
         margin-bottom: 5px;
         font-size: 150%;
     }
@@ -43,7 +49,38 @@
     .spectrum-or-diagram-opacity {
         width: 80px;
         font-size: 75%;  
-    }   
+    }      
+    
+    .woi-column-visibility-wrapper {
+        font-size: 50%;
+        text-align: left;
+    }
+    
+    #current-slice-subtitle {
+        font-size: 75%;
+    }
+
+    .brightness-and-gamma-display-wrapper {
+        background-color: #eee; 
+        display: inline-block; 
+        border-radius: 10px; 
+        padding: 2px;
+    }
+    .add-to-playlist-wrapper {
+        display: inline-block; 
+    }
+    .hamburger-component {
+        width: 20px;
+        height: 2px;
+        background-color: black;
+        margin: 4px 0;
+    }
+    .hamburger-list {
+        display: inline-block;
+        zoom: 0.5;
+    }
+
+
 </style>
 <script rationale="if we have jquery at this location, we are in a known context, so lets send usage reports" type='text/javascript' src='../jquery/jquery-1.9.1.min.js' charset='utf-8'></script>
 <script>  
@@ -99,10 +136,27 @@
     const URLmanager = {
         _timerId: false,
         _accumulator: [],
+        pushPartialState: function (s){
+            console.log('partial', s);
+            var that = this;
+            try {
+                if (this._lastPushedState){
+                    var lp = JSON.parse(JSON.stringify(this._lastPushedState));
+                    Object.keys(s).forEach(function (key){
+                        lp[key] = s[key];
+                    });                                        
+                    that.pushState(lp);
+                }
+            }catch(err){
+                console.err(err);
+            }
+        },
         pushState: function (s){
             console.log("PUSH STATE ", s);
             console.trace();
             s = JSON.parse(JSON.stringify(s));
+            s['open-gallery-view'] = isGalleryViewOpen() ? '1' : '0';
+            getDisplayFiltersIntoPartialState(s);
             if (parseFloat(s.wavelength_A) === parseFloat(s.wavelength_A)){
                 s.wavelength_A = parseFloat(s.wavelength_A).toFixed(2);
             }
@@ -110,6 +164,7 @@
             if (this._timerId){
                 clearTimeout(this._timerId);
             };
+            this._lastPushedState = s;
             this._accumulator.push(s);
             var that = this;
             this._timerId = setTimeout(function (){
@@ -203,9 +258,20 @@
             u = u.split('?');
             u.push('');
             u = u[1];
-            var that = this;
+            var that = this;            
+            var triggerKeys = [
+                'open-gallery-view',
+                'wavelength_A',
+            ];
+            var hasTriggerKey = false;
+            triggerKeys.forEach(function (tk){
+                if (u.indexOf(tk) > -1){
+                    hasTriggerKey = true;
+                };    
+            });
 
-            if (u.indexOf('wavelength_A') > -1){
+
+            if (hasTriggerKey){
                 ret = true;
                 var acc = {};
                 u.split('&').forEach(function (e){
@@ -225,7 +291,11 @@
                         acc['cubeId'] = acc['preferCube'];
                     }
                 }
+                if (1 == acc['open-gallery-view']){
+                    openGalleryView();
+                }
                 Spectrum_showWavelengthA(acc["wavelength_A"], acc['cubeId']);
+                applyDisplayFiltersFromPartialState(acc);
             };    
             return ret;
         }
@@ -234,54 +304,7 @@
 
 </script>
 <script>
-    function wlNanoMetersToRGB(w){     
-        // based on https://405nm.com/wavelength-to-color/   
-        var extremes = [380, 720];
-        if (w < 0){
-            var cwl = (extremes[0] + extremes[1]) / 2;
-            w = Math.abs(w);
-            var delta = w-cwl;
-            w = cwl - delta; 
-            return wlNanoMetersToRGB(w)
-        }
-        var red = 127;
-        var green = 127;
-        var blue = 127;
-        var factor = 1;
-        if ((w < extremes[0])||(w > extremes[1])){
-            return "rgba("+Math.round(red)+", "+Math.round(green)+", "+Math.round(blue)+")";            
-        }        
-
-        if(w>=380&&w<440){red=-(w-440)/(440-380);green=0.0;blue=1.0;}else if(w>=440&&w<490){red=0.0;green=(w-440)/(490-440);blue=1.0;}
-        else if(w>=490&&w<510)
-        {red=0.0;green=1.0;blue=-(w-510)/(510-490);}
-        else if(w>=510&&w<580)
-        {red=(w-510)/(580-510);green=1.0;blue=0.0;}
-        else if(w>=580&&w<645)
-        {red=1.0;green=-(w-645)/(645-580);blue=0.0;}
-        else if(w>=645&&w<809)
-        {red=1.0;green=0.0;blue=0.0;}
-        else
-        {red=1.0;green=1.0;blue=1.0;}
-        if(w>=380&&w<420)
-        factor=0.3+0.7*(w-380)/(420-380);else if(w>=420&&w<645)
-        factor=1.0;else if(w>=645&&w<809)
-        factor=0.3+0.7*(809-w)/(809-644);else
-        factor=0.0;
-        var gamma=0.80;
-        var R=(red>0?255*Math.pow(red*factor,gamma):0);
-        var G=(green>0?255*Math.pow(green*factor,gamma):0);
-        var B=(blue>0?255*Math.pow(blue*factor,gamma):0);
-        var col="rgba("+Math.round(R)+", "+Math.round(G)+", "+Math.round(B)+")";
-        var rgb=Math.round(R)+", "+Math.round(G)+", "+Math.round(B);        
-        return col;
-    };
-
-
-
-    function WavelengthToColor(lambda_A){
-        return wlNanoMetersToRGB(lambda_A / 10);
-    }
+    <?php require_once("wavelengths_to_colors.js"); ?>
 </script>    
 <script>
     function OnImage_domify(img){
@@ -292,7 +315,20 @@
     }
     function OnImage_getMappedData(img){
         img = OnImage_domify(img);
-        return JSON.parse(img.getAttribute("data-mapping"));
+        var mapData = JSON.parse(img.getAttribute("data-mapping"));        
+        if (mapData.hasOwnProperty('instrument-id')){
+            // there is something declared, 
+            // use that
+        }else{
+            // it is probably the solex, instrument #1
+            mapData['instrument-id'] = 1;
+        }
+        return mapData;
+    }
+
+    function OnImage_pixelShiftToWavelength_A(img, shift_px){        
+        var cwl_is_at_pix = OnImage_getCwl_px(img);
+        return OnImage_pixelToWavelength_A(img, cwl_is_at_pix + shift_px);
     }
 
     function OnImage_pixelToWavelength_A(img, real_px){
@@ -394,9 +430,60 @@
         OnImage_setPartialMarkerToPixel(img, px, color, height);
     };
 
+    function OnImage_getNatural(img, what){
+        if ('width' == what){
+            what = 'w';
+        }
+        if ('height' == what){
+            what = 'h';
+        }
+        if ('x' == what){
+            what = 'w';
+        }
+        if ('y' == what){
+            what = 'h';
+        }
+        var ret = 0;
+        try {
+            if ("w" == what){
+                ret = img.naturalWidth;
+            };
+            if ("h" == what){
+                ret = img.naturalHeight;
+            };
+            if ((!ret) || (ret < 10)){
+                // not set yet? maybe we have artificial metadata
+                var am = img.getAttribute('data-naturals');
+                if (am){
+                    am = am.split(',');
+                    if ('h' == what){
+                        ret = parseFloat(am[1]);
+                    }
+                    if ('w' == what){
+                        ret = parseFloat(am[0]);
+                    }
+                }else{
+                    var md = OnImage_getMappedData(img);
+                    if (md.averageFileImageSY && md.averageFileImageSX){
+                        img.setAttribute('data-naturals', [md.averageFileImageSX, md.averageFileImageSY].join(','));
+                    }
+                    if ("h" == what){
+                        ret = md.averageFileImageSY || 0;
+                    };    
+                    if ("w" == what){
+                        ret = md.averageFileImageSX || 0;
+                    };    
+                }
+            }
+        }catch(err){
+            console.log(err);
+        }
+        return ret;
+    }
+
     function OnImage_displayPixToRealPix(img, px){
         img = OnImage_domify(img);
-        var factor = img.naturalWidth / img.clientWidth;
+        var factor = OnImage_getNatural(img, 'x') / img.clientWidth;
         var b = img.getBoundingClientRect();
         var display_px = px - b.x;
         var real_px = display_px * factor;
@@ -405,7 +492,7 @@
     function OnImage_realPixToDisplayPix(img, px){
         var offset = 0;
         img = OnImage_domify(img);
-        var factor = img.naturalWidth / img.clientWidth;                
+        var factor = OnImage_getNatural(img, 'x') / img.clientWidth;                
         var b = img.getBoundingClientRect();
         // b is implicit here, not needed to add math
         var display_px = px/factor + offset;
@@ -414,10 +501,48 @@
     function OnImage_wavelengthAToDisplayPix(img, lambda_A){
         img = OnImage_domify(img);
         var real_px = OnImage_wavelengthAToPixel(img, lambda_A);
-        return OnImage_realPixToDisplayPix(img, real_px);
+        var displayPix = OnImage_realPixToDisplayPix(img, real_px);
+        //console.log("OnImage_wavelengthAToDisplayPix", img, lambda_A, real_px, displayPix);
+        return displayPix;
     }    
 
-    function OnImage_setPartialMarkerToPixel(img, px, color = false, height = -1){
+    function appendArrowDownToTopBorder(parent, color){
+        var size = 5;
+
+        parent.overflow = "visible";
+        var lefti = 0.5;
+
+        var wrapper = document.createElement("div");
+        wrapper.className = "cursor-triangle-wrapper";
+        wrapper.style.height = "100%";
+        wrapper.style.position = "relative";
+        parent.appendChild(wrapper);
+
+        var div = document.createElement("div");
+        div.style.width = 0;
+        div.style.height = 0;
+        div.style.borderLeft = size+"px solid transparent";
+        div.style.borderRight = size+"px solid transparent";
+        div.style.borderTop = size*2+"px solid "+color;
+        div.style.left = "-"+(size+lefti)+"px";
+        div.style.position = "absolute";
+        div.style.top = "0";
+        wrapper.appendChild(div);
+        
+
+        var div = document.createElement("div");
+        div.style.width = 0;
+        div.style.height = 0;
+        div.style.borderLeft = size+"px solid transparent";
+        div.style.borderRight = size+"px solid transparent";
+        div.style.borderBottom = size*2+"px solid "+color;
+        div.style.left = "-"+(size+lefti)+"px";
+        div.style.bottom = "0";
+        div.style.position = "absolute";
+        wrapper.appendChild(div);        
+    }
+
+    function OnImage_setPartialMarkerToPixel(img, px, color = false, height = -1, top = null){
         img = OnImage_domify(img);
         var left = (OnImage_realPixToDisplayPix(img, px));
         if ((left < 230) || (left > 20000)){
@@ -429,26 +554,32 @@
         var randid = 'marker-'+Date.now()+Math.random()+Math.random()+Math.random();
         randid = randid.split('.').join('-');
         div.id = randid;
+        color = color || 'orange';
         if (height < 0){
             div.style.height = "100%";
+            appendArrowDownToTopBorder(div, color);            
         }else{
             div.style.height = height;
         }
         div.style.position = "absolute";
-        div.style.top = "-20%";
+        if (null === top){
+            div.style.top = "-10%";
+        }else{
+            div.style.top = top;
+        }
         div.style.width = "0px";
-        color = color || 'orange';
         div.style.borderLeft = "1px solid "+color;
         div.style.left = left+'px';
         div.style.pointerEvents = "none";
+
         img.parentNode.appendChild(div);
         return div.id;
     };
 
-    function OnImage_setPartialMarkerToWavelength(img, lambda_A, color = false, height = -1){
+    function OnImage_setPartialMarkerToWavelength(img, lambda_A, color = false, height = -1, top = null){
         img = OnImage_domify(img);
         var px = OnImage_wavelengthAToPixel(img, lambda_A);
-        OnImage_setPartialMarkerToPixel(img, px, color, height);
+        return OnImage_setPartialMarkerToPixel(img, px, color, height, top);
     };
 
 
@@ -517,7 +648,8 @@
                     list2[j].style.display = adjusterButtonsStyleDisplayValue;
                 }
             }
-        }        
+        }
+        Cubes_onSetSpectrumOpacities(adjusterButtonsStyleDisplayValue);        
     }
         
     function ImageFilename_doesItHaveThePixelshift(filename, pixelShift){
@@ -608,12 +740,20 @@
 </script>    
 <script>
 
-function OnImage_addExtremeBlurs(t, a){
+function OnImage_addExtremeBlurs(t, a){        
         var opacityPercent = 70;
         // add bluring divs
         var wb = OnImage_wavelengthAToDisplayPix(t, a.extremeWavelengths_A[0])-2;
         var blurBlue = document.createElement("div");
         var leftMargin = 15;
+        var zi = 9988;
+
+        var colorWavelengthsOfExtremes = {
+            blue: a.extremeWavelengths_A[0],
+            red: a.extremeWavelengths_A[1]
+        };
+        Wavelengths_A_rangeToRemainColored(colorWavelengthsOfExtremes);
+
         blurBlue.style.position = "absolute";
         blurBlue.style.top = "-10px";
         blurBlue.style.left = "-"+leftMargin+"px";
@@ -621,9 +761,11 @@ function OnImage_addExtremeBlurs(t, a){
         blurBlue.style.height = "100%";
         blurBlue.style.opacity = opacityPercent+"%";
         blurBlue.style.filter = "blur(4px)";
-        blurBlue.style.backgroundColor = WavelengthToColor(a.extremeWavelengths_A[0]);
+        blurBlue.style.backgroundColor = WavelengthToColor(colorWavelengthsOfExtremes.blue);
         blurBlue.style.overflow = "hidden";
         blurBlue.style.cursor = "not-allowed";
+        blurBlue.style.zIndex = zi;
+        blurBlue.className = "spectrum-extreme-blur spectrum-extreme-blur-blue-half";
         //blurBlue.innerHTML = "<div class=\"stripes\">&nbsp</div>";
         t.parentNode.appendChild(blurBlue);
         
@@ -636,9 +778,14 @@ function OnImage_addExtremeBlurs(t, a){
         blurRed.style.height = "100%";
         blurRed.style.opacity = opacityPercent+"%";
         blurRed.style.filter = "blur(4px)";
-        blurRed.style.backgroundColor = WavelengthToColor(a.extremeWavelengths_A[1]);
+        blurRed.style.backgroundColor = WavelengthToColor(colorWavelengthsOfExtremes.red);
         blurRed.style.overflow = "hidden";
         blurRed.style.cursor = "not-allowed";
+        blurRed.className = "spectrum-extreme-blur spectrum-extreme-blur-red-half";
+        blurRed.style.zIndex = zi;
+
+
+        console.log("Adding blurs to extremities", a, wb, wr);
         //blurRed.innerHTML = "<div class=\"stripes\">&nbsp</div>";
         t.parentNode.appendChild(blurRed);
     }
@@ -646,8 +793,12 @@ function OnImage_addExtremeBlurs(t, a){
     function OnImage_enqueueAddExtremeBlurs(t, a){
         function isItReady(){
             if (t.clientHeight > 50){
-                if (t.clientWidth > 100){
-                    return true;
+                if (t.clientWidth > 100){                    
+                    if (t.naturalWidth > 10){
+                        console.log("add extreme blurs, thought to be prepared", a.extremeWavelengths_A, t);
+                        //OnImage_addExtremeBlurs
+                        return true;
+                    }
                 }
             }
             return false;        
@@ -688,7 +839,109 @@ function OnImage_addExtremeBlurs(t, a){
         OnImage_setCursorToPixel(img, OnImage_getCwl_px(img) + pxShift);
     }
 
+    function Cubes_onSetSpectrumOpacities(v){
+        var l = document.getElementsByClassName("previous-or-next-cube");
+        for (var i=0; i<l.length; i++){
+            l[i].style.display = v;
+        }        
+    };
 
+    function Cubes_getCurrentWavelength(){
+        var sliceView = document.getElementById("current-slice");        
+        var lambda_A = sliceView.getAttribute("data-current-wavelength-a");
+        if (!lambda_A){
+            lambda_A = 'TODO';
+        }
+        if ('TODO' === lambda_A){
+            // fallback, this UI I cobbled together is a spaghetti :(
+            lambda_A = document.getElementById("lambda-main_spectrum").value;
+        }
+        lambda_A = parseFloat(lambda_A);
+        if (lambda_A === lambda_A){
+            // it is a number
+        }else{
+            lambda_A = -1;
+        }
+        return lambda_A;
+    }
+
+    function Cubes_setTimeoutToLoadSibling(elem){
+        var to_ms = 100;
+        var sliceView = document.getElementById("current-slice");        
+        var currentCubeId = sliceView.getAttribute("data-current-cube-id");        
+        console.log("proposing to load sibling", elem);
+        var desiredCubeId = elem.getAttribute("data-cube-id");
+        var hints = {
+            x: OnImage_getSpectrumExtremes(desiredCubeId),
+            preferCube: desiredCubeId,
+            lambda_A: Cubes_getCurrentWavelength(),
+            avoidCube: currentCubeId,
+        };
+        hints.inRange = (hints.lambda_A >= hints.x.lambdas_A[0]) && (hints.lambda_A <= hints.x.lambdas_A[1]);
+        if (hints.inRange){
+            // in range, load the wavelength as a preferred cube
+            setTimeout(function (){
+                Spectrum_showWavelengthA(hints.lambda_A, hints.preferCube, hints.avoidCube);
+            }, to_ms);
+        }else{
+            // not in range, just load the subling cube
+            setTimeout(function (){
+                CubeListItem_divClick(elem);
+            }, to_ms);                        
+        }        
+    }
+
+    function Cubes_isItABrowsePrevNextCandidate(cubeId){
+        try {
+            var currentCubeId = cubeId.getAttribute("data-cube-id");
+            cubeId = currentCubeId;
+        }catch(err){
+
+        }
+        var img = OnImage_domify(cubeId);
+        var mapData = JSON.parse(img.getAttribute("data-mapping")); 
+        if (mapData["browse-prev-next-preference"]){
+            if ("avoid" == mapData["browse-prev-next-preference"]){
+                return false;
+            }
+        }                
+        return true;
+    }
+
+    function Cubes_loadSibling(direction){
+        if ("blue" === direction){
+            direction = -1;
+        }
+        if ("red" === direction){
+            direction = 1;
+        }
+        var sliceView = document.getElementById("current-slice");        
+        var cubeId = sliceView.getAttribute("data-current-cube-id");        
+        
+        var l = document.getElementsByClassName("cube-list-item");   
+        console.log(l);  
+        
+        var li = [];
+
+        for (var i=0; i<l.length; i++){
+            var currentCubeId = l[i].getAttribute("data-cube-id");
+            if (Cubes_isItABrowsePrevNextCandidate(l[i]) || (currentCubeId === cubeId)){
+                li.push(l[i]);
+            }
+        };
+        for (var i=0; i<li.length; i++){
+            var currentCubeId = li[i].getAttribute("data-cube-id");
+            var proposedIndex = i + direction;
+            if (proposedIndex >= 0){
+                if (proposedIndex < li.length){
+                    if (currentCubeId === cubeId){
+                            Cubes_setTimeoutToLoadSibling(li[proposedIndex]);
+                            return ;
+                    }
+                }
+            }            
+        }
+    }
 </script>
 </head>
 <body>
@@ -696,6 +949,6 @@ function OnImage_addExtremeBlurs(t, a){
         <div style="font-size:200%">Solar Disks Spectrum Atlas</div>
         <div style="font-size:150%">"a Sun for each wavelength"</div>
         <div>to be viewed on a large desktop screen</div>
-        <div>&nbsp;</div>
+        <div style="font-size:30%">&nbsp;</div>
         <div>by P&aacute;l V&Aacute;RADI NAGY</div>
     </div>    

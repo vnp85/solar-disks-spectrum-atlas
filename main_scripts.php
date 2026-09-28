@@ -1,5 +1,38 @@
 
 <script>
+    var AtlasEvents = [];
+
+    function Atlas_addEventListener(e, f){
+        AtlasEvents.push({
+            name: e,
+            callback: f
+        });
+    }
+
+    function Atlas_triggerEvent(e){
+        AtlasEvents.forEach(function (i){
+            try {
+                if (i.name == e){
+                    i.callback();
+                }
+            }catch(err){
+                console.log(err);
+            }
+        })
+    }
+
+    function URL_getProxyFingerprint(){
+        return '?imgproxy=';
+    }
+
+    function Url_deproxify(url){
+        var fp = URL_getProxyFingerprint();
+        if (url.indexOf(fp) > -1){
+            url = url.split(fp).pop().split('&').shift();
+            url = decodeURIComponent(url);        
+        }
+        return url;
+    };    
 
     function Url_proxifyIfNeeded(url){
         var isLocalFile = false;
@@ -24,13 +57,18 @@
         if (document.URL.indexOf("localhost") > -1){
             isLocalFile = true;
         }
-        console.log("doing this: "+url);
-        if (isLocalFile){
-            url = url.replace('?hash=', '&hash=');
-            return "?imgproxy="+encodeURIComponent(url);
+        console.log("(proxify?) doing this URL: "+url);
+        var fingerprint = URL_getProxyFingerprint();
+        if (url.indexOf(fingerprint) > -1){            
+            console.log("keeping, already proxified "+url);
         }else{
-            console.log("keeping"+url);
-        }        
+            if (isLocalFile){
+                url = url.replace('?hash=', '&hash=');
+                return fingerprint+encodeURIComponent(url);
+            }else{
+                console.log("keeping "+url);
+            }        
+        }
         return url;
     }
 
@@ -38,6 +76,30 @@
         img = OnImage_domify(img);
         var o = { requestedAt: Date.now(), pixelShift: px};
         img.setAttribute("data-explicit-pixel-shift", JSON.stringify(o));
+    }
+
+    function OnImage_getDisplayNotes(img){
+        var ret = '';
+        try {
+            var mapData = OnImage_getMappedData(img);
+            OnImage_decorateExtractedMapData(mapData);            
+            if (mapData["display-notes"]){
+                ret += ' '+mapData["display-notes"]+'';
+            }
+            for (var i=0; i<20; i++){
+                var k = "display-notes-"+i;
+                if (mapData[k]){
+                    ret += ' '+mapData[k]+'';
+                }
+            }
+            ret = ret.trim();
+        }catch(err){
+            console.log("mapdata error", err);
+        }
+        if (ret!=''){
+            ret = 'Notes: '+ret;
+        }
+        return ret;
     }
 
     function OnImage_getExplicitPixelshiftRequest_falseOtherwise(img){
@@ -95,22 +157,74 @@
             if (CubeViewer_isItOpen(img.id)){
                 var list = OnImage_getImageList(img, shift_px);
                 var sliceView = document.getElementById("current-slice");
+                var displayNotes = document.getElementById("current-slice-display-notes");
+                sliceView.setAttribute("data-current-cube-id", img.id);
+                sliceView.setAttribute("data-current-wavelength-a", "TODO");
                 var subtitle = document.getElementById("current-slice-subtitle");
                 if (list.length > 0){
                     var basename = list[0].split('/').pop();
                     console.log("slice showing "+list[0]);                    
                     sliceView.src = Url_proxifyIfNeeded(list[0]);
                     sliceView.style.display = "";
-                    subtitle.innerHTML = basename;
+                    subtitle.innerHTML = CubeSliceBasenameToSubtitle(img.id, basename);
+                    displayNotes.innerHTML = OnImage_getDisplayNotes(img);
                 }else{
                     console.log("slice hiding");
                     sliceView.src = "";
                     sliceView.style.display = "none";
                     subtitle.innerHTML = "";
+                    displayNotes.innerHTML = '';
                 }
+                subtitle.setAttribute("data-cube-slice-caption", subtitle.innerHTML);
+                Atlas_triggerEvent("sliceViewLoaded");
             }
         }
     };    
+
+    function CubeSliceBasenameToSubtitle(cubeId, basename){
+        basename = basename+'';
+        basename = basename.split('_C').pop();
+        basename = basename.split('_');
+        basename.shift();
+        basename = basename.join('_');
+        basename = basename.split('.').shift();        
+        var pre = cubeId+'';
+        var post = '';
+        var err = '';
+        try {
+            var mapData = OnImage_getMappedData(cubeId);
+            OnImage_decorateExtractedMapData(mapData);            
+            pre = mapData.datetime;
+
+            if (mapData['instrument-id']){                
+                var i = mapData['instrument-id'];
+                var span = '<span title="instrument id" style="font-style: italic; cursor:pointer" onclick="MainPage_goToShgInstrumentById('+i+')">';
+                post += ' '+span+'(SHG #'+mapData['instrument-id']+')</span>';
+            }
+        }catch(err){
+            //
+        }
+
+
+        return pre+'::'+basename+post;
+    }
+
+
+    function OnImage_decorateExtractedMapData(mapData){
+        if ('from-path' == mapData.datetime){
+            mapData.cubeLocation.split('\\').join('/').split('/').forEach(function (word){
+                console.log("dargo", word);
+                if (word.split('_')[0].split('-').length>=4){
+                    if (word.split('_')[0].split('-')[0].length === 4){
+                        word = word.split('_')[0];
+                        word = word.split('-Sun')[0];
+                        mapData.datetime = word;
+                    }
+                    
+                }
+            })
+        }
+    };
 
 
 
@@ -238,7 +352,49 @@
         
     }
 
+    function OnImageGeneric_wavelengthToChemicalLabel(lambda_A, emptyValue = ''){
+        var destString = emptyValue;        
+        var ci = Spectrum_getWavelengthClosestEnoughTo(lambda_A);
+        var offo_mA = 0.1;
+        var ci_blue = Spectrum_getWavelengthClosestEnoughTo(lambda_A - offo_mA/1000);
+        var ci_red  = Spectrum_getWavelengthClosestEnoughTo(lambda_A + offo_mA/1000);
+        if (ci){
+            console.log(ci);
+            destString = ci.caption;            
+            [ci_blue, ci_red].forEach(function (ci_neighbor){
+                if (ci_neighbor){
+                    if (ci_neighbor.widthForCalculations > offo_mA){
+                        if (ci_neighbor.widthForCalculations > 2*ci.widthForCalculations){
+                            if (ci.caption != ci_neighbor.caption){
+                                destString += ' , '+ci_neighbor.caption;
+                            }
+                        }
+                    } 
+                }
+            });
+            destString = destString.split('%wavelength%').join('');
+        }
+        destString = destString.split(' ').filter(function (e){                    
+            var fc = e.substring(0,1);
+            if (parseInt(fc) === parseInt(fc)){
+                // it is a number
+            }else{
+                // not a number
+                return true;
+            }
+            if (e.indexOf('&Aring;') > -1){
+                // it has angstrom in it
+            }else{
+                // not angstrom, not wavelength
+                return true;
+            }
+            return false;
+        }).join(' ').trim().split(' ,').join(',');
+        return destString;
+    }
+
     function OnImage_processReceivedLambdaEditorValue(img){
+        var startedAt = Date.now();
         var e = OnImage_getTheLambdaEditor(img);
         var fieldname = 'lastIdentifiedWavelengthCaptionWasAtLambda';
         if (typeof window[fieldname] === "undefined"){
@@ -251,27 +407,7 @@
         //if (window[fieldname] != currentS){
             try {
                 wavelength_A = parseFloat(e.value);
-                var ci = Spectrum_getWavelengthClosestEnoughTo(wavelength_A);
-                if (ci){
-                    destString = ci.caption;
-                    destString = destString.replace('%wavelength%', '');
-                }
-                destString = destString.split(' ').filter(function (e){                    
-                    var fc = e.substring(0,1);
-                    if (parseInt(fc) === parseInt(fc)){
-                        // it is a number
-                    }else{
-                        // not a number
-                        return true;
-                    }
-                    if (e.indexOf('&Aring;') > -1){
-                        // it has angstrom in it
-                    }else{
-                        // not angstrom, not wavelength
-                        return true;
-                    }
-                    return false;
-                }).join(' ').trim();
+                destString = OnImageGeneric_wavelengthToChemicalLabel(wavelength_A, emptyValue);                
                 window[fieldname] = currentS;
             }catch(err){
                 console.log("dorka", err);
@@ -301,6 +437,8 @@
             // not even a number
         }
         d.style.color = dColor;      
+        var endedAt = Date.now();
+        console.log("wavelength info duration", endedAt - startedAt);
 
         d.value = destString;  
     }
@@ -374,6 +512,7 @@
         }else{
             CubeViewer_clickOnCwlByCubeId(cubeId);
         }
+        CubeViewer_setLastLoadedCube(cubeId);
         setTimeout(function (){
             console.log("SERVATIUS "+cubeId);
             OnImage_processReceivedLambdaEditorValue(cubeId);
@@ -381,7 +520,12 @@
         insideCubeListItem_click = false;
     }
 
-    function MainSpectrum_setCursorToWavelengthA(lambda_A, favoringCubeId = false){
+    function CubeViewer_setLastLoadedCube(cubeId){
+        var i = OnImage_domify(cubeId);
+        window.CubeViewer_lastLoadedCubeId = i.id;        
+    }
+
+    function MainSpectrum_setCursorToWavelengthA(lambda_A, favoringCubeId = false, avoidCube=false){
         console.log("main wavelength requested: "+lambda_A+", favoringCubeId="+favoringCubeId);
         var img = document.getElementById("main_spectrum");
         OnImage_placeClickOntoRealWavelength(img, lambda_A);
@@ -484,15 +628,16 @@
         img.setAttribute(magic, "0");    
     }
 
-    function Spectrum_showWavelengthA(lambda_A, preferCube = false){
+    function Spectrum_showWavelengthA(lambda_A, preferCube = false, avoidCube = false){
         lambda_A = Spectrum_interpretInCaseItIsAString(lambda_A);
         URLmanager.pushState({
             wavelength_A: lambda_A,
             preferCube: preferCube,
             pixelShift: "n/a",
         });
-        MainSpectrum_setCursorToWavelengthA(lambda_A, preferCube);
+        MainSpectrum_setCursorToWavelengthA(lambda_A, preferCube, avoidCube);
         UI_updateButtonColors();
+        cubeSlice_everythingSetIfCheckedDelayed();
 
         var l = document.getElementsByClassName("cube-list-item");
         console.log("cube-list-item-count");
@@ -511,8 +656,12 @@
             };
 
             if ((ranging.inRangeByWavelength) || (ranging.inRangeByPixelShift)){
-                candidates.push([currentCubeId, l[i]]);
-                ranging.found = true;
+                if (avoidCube === currentCubeId){
+                    // avoid this cube, see sibling-opener
+                }else{
+                    candidates.push([currentCubeId, l[i]]);
+                    ranging.found = true;
+                }
             }            
         }  
         if (preferCube){
@@ -520,7 +669,7 @@
                 preferCube = preferCube.id;
             }
             var sortingFor = {
-                preferCube: preferCube,
+                preferCube: preferCube,                
                 candidates: candidates,
                 wavelength_A: lambda_A
             };
@@ -694,26 +843,244 @@
         SpectrumIntervals.stop();
     }
 
+    function cubeSlice_getFilterNames(){
+        return cubeSlice_getFilterNamesAndRecommendedDefaults().map(function (e){
+            return e.filterName;
+        })
+    }
+    function cubeSlice_getFilterNamesAndRecommendedDefaults(){
+        var items = [
+            {
+                filterName: "contrast",                
+            },
+            {
+                filterName: "brightness",
+            },
+            {
+                filterName: "svg-gamma-exponent-x100",
+                recommendedValues: [
+                    {
+                        range: [7000, 999999],
+                        value: 200
+                    },
+                    {
+                        range: [8600, 10000],
+                        value: 300
+                    },
+                ]
+            },
+        ];
 
-    function cubeSlice_gammaSet(sender, baseValue, adjustBy){
+        return items;
+    }
+
+    function cubeSlice_getRecommendedBaseValue(filterName, wavelength_A){
+        console.clear();
+        console.log("wavelength to recommended gamma etc", arguments);
+        var ret = 100;
+        cubeSlice_getFilterNamesAndRecommendedDefaults().forEach(function (i){
+            console.log(i);
+            var lastRangeSize = 999999999999;
+            if (i.filterName == filterName){
+                if (i.recommendedValues){
+                    i.recommendedValues.forEach(function (e){
+                        var currentRangeSize = Math.abs(e.range[0] - e.range[1]);
+                        var isInRange = (wavelength_A >= e.range[0])&&(wavelength_A <= e.range[1]);
+                        if (isInRange){
+                            if (lastRangeSize > currentRangeSize){
+                                lastRangeSize = currentRangeSize;
+                                ret = e.value;
+                            }else{
+                                console.log("range rejection");
+                            }
+                        }
+                    });
+                }
+            }
+        });
+        console.log(filterName, wavelength_A, ret);
+        return ret;
+    }
+
+    function cubeSlice_setAutoApplyRecommended(b){
+        b = b ? true : false;
+        var elem = document.getElementById("auto-apply-recommended-lumina");
+        elem.checked = b;
+        cubeSlice_autoApplyCheckboxClick();
+        URLmanager.pushPartialState({ "auto-apply-lums": elem.checked ? 1 : 0});
+    }
+
+    function cubeSlice_autoApplyCheckboxClick(){
+        var elem = document.getElementById("auto-apply-recommended-lumina");
+        if (elem.checked){
+            cubeSlice_everythingSet(null, 'recommended', 0);
+        }
+        URLmanager.pushPartialState({ "auto-apply-lums": elem.checked ? 1 : 0 });        
+    }
+    function cubeSlice_everythingSetIfCheckedDelayed(){
+        setTimeout(function (){
+            cubeSlice_everythingSetIfChecked();
+        }, 100);
+    }
+    function cubeSlice_everythingSetIfChecked(){
+        var elem = document.getElementById("auto-apply-recommended-lumina");
+        if (elem.checked){
+            cubeSlice_everythingSet(null, 'recommended', 0);
+        }
+    };
+
+
+    function cubeSlice_filterFunc(sender, filterName, baseValue, adjustBy){        
         var i = document.getElementById("current-slice");
-        var k = "data-brightness";
+        var k = "data-"+filterName;
         if (!i.getAttribute(k)){
             i.setAttribute(k, 100);
+        }
+        if ("recommended" === baseValue){
+            baseValue = 100;
+            var cubeId = i.getAttribute("data-current-cube-id");
+            if (cubeId){
+                var mapData = OnImage_getMappedData(cubeId);
+                var seekingRecommendation = 'recommended-'+filterName;
+                if (mapData[seekingRecommendation]){
+                    baseValue = mapData[seekingRecommendation];
+                }else{
+                    console.log(mapData);
+                    baseValue = cubeSlice_getRecommendedBaseValue(filterName, mapData["cwl_A"]);
+                }
+            }
+        }
+        if ('default' === baseValue){
+            baseValue = true;
         }
         if (false === baseValue){
             baseValue = parseInt(i.getAttribute(k));
         }
         if (true === baseValue){
             baseValue = 100;
+            cubeSlice_setAutoApplyRecommended(false);            
         }
         adjustBy *= 10;
+        var newValue;
+        
 
-        var newValue = baseValue*1 + adjustBy;
-
-        newValue = Math.min(200, Math.max(newValue, 30));
+        if ("svg-gamma-exponent-x100" == filterName){
+            adjustBy *= -1;
+            newValue = baseValue*1 + adjustBy;            
+            newValue = getSvgGammaClosestToPercent(newValue, false);
+        }else{
+            var newValue = baseValue*1 + adjustBy;
+            newValue = Math.min(200, Math.max(newValue, 30));
+        }
         i.setAttribute(k, newValue);
+        cubeSlice_applyDisplayFilterAttributes();
 
-        i.style.filter = 'brightness('+newValue+'%)';
+    }
+
+    function ImageGeneric_applyDisplayFiltersFromPartialState(i, partialState){
+        partialState = partialState || {};
+        var filterString = '';
+        var hasNo100 = false;
+        cubeSlice_getFilterNames().forEach(function (filterName){            
+            var k = "data-"+filterName;
+            if ((typeof partialState[filterName] === "number") || (typeof partialState[filterName] === "string")){
+                i.setAttribute(k, partialState[filterName]);
+            }
+            if (!i.getAttribute(k)){
+                i.setAttribute(k, 100);
+            }
+            var v = i.getAttribute(k);
+            partialState[filterName] = v;
+            if (100 != v){
+                hasNo100 = true;
+            }
+            if ("svg-gamma-exponent-x100" == filterName){
+                var gammaFilterString = getSvgGammaClosestToPercent(v, true);
+                filterString+= ' '+"url('#"+gammaFilterString+"')";
+            }else{
+                filterString+= ' '+filterName+'('+v+'%)';
+            }
+            
+        });        
+        if (hasNo100){
+            // justified to keep
+        }else{
+            // no need to add a number of filters that do nothing
+            filterString = '';
+        }
+
+        i.style.filter = filterString;
+    }
+
+
+    function cubeSlice_applyDisplayFilterAttributes(){
+        var partialState = {
+        };
+        var elem = document.getElementById("auto-apply-recommended-lumina");
+        partialState["auto-apply-lums"] = elem.checked ? 1 : 0;
+
+        var i = document.getElementById("current-slice");
+        ImageGeneric_applyDisplayFiltersFromPartialState(i, partialState);
+        URLmanager.pushPartialState(partialState);
+    };
+    
+
+
+    function cubeSlice_brightnessSet(sender, baseValue, adjustBy){
+        cubeSlice_filterFunc(sender, "brightness", baseValue, adjustBy);
+    }
+    function cubeSlice_contrastSet(sender, baseValue, adjustBy){
+        cubeSlice_filterFunc(sender, "contrast", baseValue, adjustBy);
+    }
+    function cubeSlice_svgGammaSet(sender, baseValue, adjustBy){
+        cubeSlice_filterFunc(sender, "svg-gamma-exponent-x100", baseValue, adjustBy);
+    }
+    function cubeSlice_everythingSet(sender, baseValue, adjustBy){
+        cubeSlice_filterFunc(sender, "brightness", baseValue, adjustBy);
+        cubeSlice_filterFunc(sender, "contrast", baseValue, adjustBy);
+        cubeSlice_filterFunc(sender, "svg-gamma-exponent-x100", baseValue, adjustBy);
+    }
+        
+
+    function getDisplayFiltersIntoPartialState(partialState){
+        var i = document.getElementById("current-slice");
+        cubeSlice_getFilterNames().forEach(function (filterName){
+            var k = "data-"+filterName;
+            if (!i.getAttribute(k)){
+                i.setAttribute(k, 100);
+            }
+            var v = i.getAttribute(k);
+            if (parseFloat(v) !== parseFloat(v)){
+                v = 100;
+            }
+            partialState[filterName] = v;
+        });
+    }
+
+    function createPartialStateWithDisplayFilters(){
+        var partialState = {};
+        getDisplayFiltersIntoPartialState(partialState);
+        return partialState;
+    }
+
+    function applyDisplayFiltersFromPartialState(partialState){
+        partialState["auto-apply-lums"] = partialState["auto-apply-lums"] || 0;
+        if (0 == partialState["auto-apply-lums"]){
+            cubeSlice_setAutoApplyRecommended(false);
+        }
+        if (1 == partialState["auto-apply-lums"]){
+            cubeSlice_setAutoApplyRecommended(true);
+        }
+        var i = document.getElementById("current-slice");        
+        cubeSlice_getFilterNames().forEach(function (filterName){
+            var k = "data-"+filterName;            
+            i.setAttribute(k, partialState[filterName] || 100);
+        });        
+        cubeSlice_applyDisplayFilterAttributes();
+    }
+
+    function MainPage_goToShgInstrumentById(instrumentId){
+        var probableName = 'help-anchor-instrument-id-'+instrumentId;
+        Help.openHelpByHelpForLabel('data-sources-ack').scrollTo(probableName);
     }
 </script>
