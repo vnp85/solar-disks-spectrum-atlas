@@ -1,0 +1,14 @@
+{
+    "lambda_A": 4340.55,
+    "caption": "Hydrogen Gamma",
+    "instrumentId": "2",
+    "processing-steps": "stack of reconstructed disks at wavelength, minor contrast adjustments, approximate true color",
+    "filename-color": "04340-2025-09-02-0705_4-Sun-Hgamma_20250902_disk_0_00_pipp_lapl2_ap3087_reg1_ps6_color.jpg",
+    "filename-mono": "04340-2025-09-02-0705_4-Sun-Hgamma_20250902_disk_0_00_pipp_lapl2_ap3087_reg1_ps6_mono.jpg",
+    "chemicals": "H",
+    "datetime": ""
+}
+****
+Hydrogen beta looks much like the wing of hydrogen alpha, bright plages are mottled dark, filaments are less obvious. 
+Hydrogen gamma and then delta are progressively more anemic versions of the beta disk. 
+Prominences are less bright, but flares are still flares, and sunspots come through as the obvious dark features they are.

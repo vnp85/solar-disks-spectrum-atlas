@@ -1,0 +1,18 @@
+{
+    "lambda_A": 4860,
+    "datetime": "",
+    "chemicals": "n&#47;a, black body continuum",
+    "caption": "The Black Body Sun - a continuum image",
+    "instrumentId": "refractor, direct imaging, not a spectroheliograph",
+    "processing-steps": "lucky imaging, stack of full disk images, restricted to a shade of blue",
+    "filename-color": "00000-2024-08-02-0956_2-Sun-continuum-around-Hbeta_color.jpg",
+    "filename-mono": "00000-2024-08-02-0956_2-Sun-continuum-around-Hbeta_mono.jpg"
+}
+****
+
+A continuum image of the Sun, for reference. It shows the Sun as it appears visually, sunspots with umbra and penumbra, active regions, granulae.
+It was obtained through direct imaging. A band pass filter was used to limit chromatic issues, dispersion and aberation,
+and a bluer wavelength was chosen, to maximize the angular resolution/aperture ratio (Rayleigh criterion) given the decent seeing conditions. 
+
+Coincidentally, the filter is centered onto hydrogen beta, and indeed, prominences may show up, when overexposing, 
+but FWHM 3nm is wide enough for the spectral line to be overwhelmed by the continuum of the photosphere.

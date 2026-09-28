@@ -1,0 +1,14 @@
+{
+    "lambda_A": 5883.85,
+    "caption": "Yellow Iron Sun",
+    "instrumentId": "",
+    "processing-steps": "",
+    "filename-color": "05884-2025-08-26-0817_9-Sun-NaHe_20250826_disk_-62_00_pipp_lapl2_ap3269_reg1_ps1_color.jpg",
+    "filename-mono": "05884-2025-08-26-0817_9-Sun-NaHe_20250826_disk_-62_00_pipp_lapl2_ap3269_reg1_ps1_mono.jpg",
+    "chemicals": "Fe I",
+    "datetime": ""
+}
+****
+This line got onto the list mainly because often time it is this line 
+that aids the reconstruction of the D3 helium line, at only a few pixels distance from this line. 
+It is a typical, neutral metal line, with bright plages and dark spots, nothing spectacular.

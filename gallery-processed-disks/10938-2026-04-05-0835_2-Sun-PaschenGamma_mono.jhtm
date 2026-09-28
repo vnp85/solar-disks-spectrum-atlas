@@ -1,0 +1,27 @@
+{
+    "lambda_A": 10938.1,
+    "caption": "Paschen Gamma",
+    "instrumentId": "3",
+    "processing-steps": "stack of disks reconstructed from the wavelength, with continuum subtraction and heavy processing, false color",
+    "filename-color": "10938-2026-04-05-0835_2-Sun-PaschenGamma_color.jpg",
+    "filename-mono": "10938-2026-04-05-0835_2-Sun-PaschenGamma_mono.jpg",
+    "chemicals": "H",
+    "datetime": "",
+    "prefer-cube": "cube_20260527_0659_7_10960",
+    "prefer-gamma-x100": 400
+}
+****
+Hydrogen has multiple series. The Balmer series is what most amateur observers know, "Hydrogen alpha" is its main line, the Balmer-alpha. 
+In the ultraviolet, above the Balmer, there is the Lyman series. Lyman-alpha is of special interest for astronomers of all kinds.
+Right below the Balmer, there is the Paschen series, and this wavelength is its gamma transition. 
+
+Paschen beta, at wavelength 1281 nm, is out of reach for the CMOS sensor. Paschen alpha at 1875 nm, even further in the infrared, is heavily masked by telluric water vapor.
+
+Compared to the nearby He I 10830, the Pa&gamma; hydrogen line is rather anemic, comparable to the He I D3 in disk aspect. 
+It is a wide, shallow dip in the spectrum, though obvious on the disk, when scrolling through it (mimiking a blink comparator), 
+with contrast/gamma adjusted very high. On the disk, plages, active regions darken, and become mottled. When enhanced, the details resemble a Balmer gamma-delta. 
+I have spotted no filaments so far. The chromospheric glow is dwarfed by the helium's mark, prominences barely show, if at all. 
+
+
+Affectionately, I call this region the Challenger Deep, the coincidence of the numbers on the one hand, 
+and the several challenges of building and operating a spectroheliograph at this wavelength on the other. For more on this, see the He I 10830 image.

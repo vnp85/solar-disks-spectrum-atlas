@@ -1,0 +1,22 @@
+{
+    "lambda_A": 4549.5,
+    "caption": "Ionized Metals",
+    "instrumentId": "1",
+    "processing-steps": "stack of disks enhanced via continuum subtraction, approximate true color",
+    "filename-color": "04550-2025-05-02-0946_5-Sun-4554_20250502_line2withDelta_pipp_lapl2_ap1811_psC_color.jpg",
+    "filename-mono": "04550-2025-05-02-0946_5-Sun-4554_20250502_line2withDelta_pipp_lapl2_ap1811_psC_mono.jpg",
+    "chemicals": "Fe II, Ti II",
+    "datetime": ""
+}
+****
+While neutral metal lines show plages as somewhat brighter, ionized metals darken them. 
+Flares aside, everything is shades of darker on the disk. 
+
+With continuum subtraction, prominences are revealed as fainter instances of what is visible in hydrogen alpha. 
+
+When compared to nearby neutral lines, also showing prominences, like in the case of the Mg b triplet, with Fe II,
+pay attention to the prominences' Doppler shifts.
+
+The above images have had their contrast enhanced via continuum subtraction. 
+In the Atlas, scrolling through the cubes and tuning into these wavelengths, one can see that the signal is there,
+and its strength varies from line to line, being particularly strong in Fe II 5018 for example.

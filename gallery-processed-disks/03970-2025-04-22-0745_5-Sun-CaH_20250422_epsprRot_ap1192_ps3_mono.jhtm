@@ -1,0 +1,25 @@
+{
+    "lambda_A": 3970.04,
+    "caption": "Hydrogen Epsilon (Concept)",
+    "instrumentId": "1",
+    "processing-steps": "stack of disks, signal enhanced via continuum subtraction, approximate true color",
+    "filename-color": "03970-2025-04-22-0745_5-Sun-CaH_20250422_epsprRot_ap1192_ps3_color.jpg",
+    "filename-mono": "03970-2025-04-22-0745_5-Sun-CaH_20250422_epsprRot_ap1192_ps3_mono.jpg",
+    "chemicals": "H (enhanced, to reduce the contamination)",
+    "datetime": ""
+}
+****
+Hydrogen Epsilon, in its full glory, is revealed when continuum subtraction is applied. 
+
+The image presented here was obtained by subtracting a continuum, very much like it is done, 
+traditionally, with the He I D3 and sometimes to the He I 10830 lines. 
+The continuum was chosen from a few pixels away from the epsilon wavelength. 
+
+Processing went further than continuum subtraction. The delta alone yields a grey-ish image, valueable for inspection, 
+but far from the gist of a solar disk. It shows a grey background, a bright chromosphere and surface features. 
+The delta was added-multiplied back onto the disk-at-wavelength, to produce this image. 
+
+Filaments come alive, plages are dark-mottled, the chromospheric features are obvious, and flares light up.
+
+This concept reveals that the signal is a perhaps more anemic version of the hydrogen delta image, 
+which is a mottled-anemic version of beta, which in turn resembles the wing of hydrogen alpha.

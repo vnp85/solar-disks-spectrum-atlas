@@ -1,0 +1,27 @@
+{
+    "lambda_A": 4308,
+    "caption": "Inside the G-band",
+    "instrumentId": "2",
+    "processing-steps": "stack of reconstructed disks, minor contrast, approximate true color",
+    "filename-color": "04308-2025-07-02-0907_7-Sun-G-band_20250702_disk_0_00_pipp_lapl2_ap3256_reg1_ps2_color.jpg",
+    "filename-mono": "04308-2025-07-02-0907_7-Sun-G-band_20250702_disk_0_00_pipp_lapl2_ap3256_reg1_ps2_mono.jpg",
+    "chemicals": "Fe I and Ca I",
+    "datetime": ""
+}
+****
+Of the Fraunhofer-lines, the G-band is perhaps the only "wide line" (at around 2nm, around 430nm) that is 
+a dense barcode of several subtle lines, each from their own chemical, instead of being one single element, like H alpha. 
+It is far enough away from the otherwise obvious but not outstanding H gamma (at around 434nm), to not be confused/contaminated by it.
+
+The G-band is dominated by iron and calcium, with several lines of the molecule CH present in the Sun's atmosphere. 
+The general aspect of the Sun at this wavelength (observed through a 2nm FWHM etalon, centered to the G-band) 
+is close to the wing of the Calcium K and H lines. A generic blue-Sun image, neutral-metal-Sun, with higher-contrast plages and darker spots.
+
+Recent studies indicate that one can see prominences and flares in this spectral region, 
+tied primarily to the subtle lines of ionized titanium and neutral calcium present around here, while ruling out the contribution of the molecular lines. 
+Nothing spectacular, when it comes to the entirity of the G-band. In theory, there are enough lines here, and the continuum is attenuated enough, 
+that brighter prominences should show up in an etalon image, especially if a coronagraph or other tricky instruments are deployed. 
+Way more tricky than just a simple full disk observing etalon, like with H alpha, but perhaps easier than trying a continuum-surrounded wavelength.
+
+Thus, while the flares and prominences do show up in the spectral region historically called G-band, 
+instead of "G-band prominence" it is perhaps better to go with the lines in question, like Ca I 4308 or Sc II 4306.

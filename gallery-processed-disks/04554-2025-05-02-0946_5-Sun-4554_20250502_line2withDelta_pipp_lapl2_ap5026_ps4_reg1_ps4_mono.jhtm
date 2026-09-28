@@ -1,0 +1,13 @@
+{
+    "lambda_A": 4554.11,
+    "caption": "Blue Barium Sun",
+    "instrumentId": "1",
+    "processing-steps": "stack of disks enhanced by continuum subtraction, approximate true color",
+    "filename-color": "04554-2025-05-02-0946_5-Sun-4554_20250502_line2withDelta_pipp_lapl2_ap5026_ps4_reg1_ps4_color.jpg",
+    "filename-mono": "04554-2025-05-02-0946_5-Sun-4554_20250502_line2withDelta_pipp_lapl2_ap5026_ps4_reg1_ps4_mono.jpg",
+    "chemicals": "Ba II",
+    "datetime": ""
+}
+****
+This line of ionized Barium is interesting for astronomers, for its own reasons. Overall, 
+this line shows the plages as darker regions, typical of ionized metal lines of this kind, and prominences are also visible, though faint.

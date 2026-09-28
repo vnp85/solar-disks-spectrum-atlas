@@ -1,0 +1,15 @@
+{
+    "lambda_A": 4957.51,
+    "caption": "Neutral Iron Sun",
+    "instrumentId": "2",
+    "processing-steps": "stack of reconstructed disks, minor contrast, approximate true color",
+    "filename-color": "04958-2025-09-05-1045_7-Sun-FeC_20250905_disk_0_00_pipp_lapl2_ap3318_reg1_ps7_color.jpg",
+    "filename-mono": "04958-2025-09-05-1045_7-Sun-FeC_20250905_disk_0_00_pipp_lapl2_ap3318_reg1_ps7_mono.jpg",
+    "chemicals": "Fe I",
+    "datetime": ""
+}
+****
+There is a less obvious Fraunhofer line, designated lower case C, a neutral iron line. 
+
+It is a comparatively boring, typical neutral metal Sun, showing a higher contrast with the spots and plages, a generic blue-Sun image. 
+It got onto this list due to legacy reasons, its distinct designation as line Fe (c).

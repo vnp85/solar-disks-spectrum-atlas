@@ -1,0 +1,19 @@
+{
+    "lambda_A": 3970.04,
+    "caption": "Hydrogen Epsilon",
+    "instrumentId": "1",
+    "processing-steps": "stack of reconstructed disks at wavelength, minor contrast adjustments, approximate true color",
+    "filename-color": "03970-2025-04-22-0745_5-Sun-CaH_20250422_disk_25_00_pipp_lapl2_ap975_ps1_reg1_ps3_color.jpg",
+    "filename-mono": "03970-2025-04-22-0745_5-Sun-CaH_20250422_disk_25_00_pipp_lapl2_ap975_ps1_reg1_ps3_mono.jpg",
+    "chemicals": "H (heavily contaminated by Ca II)",
+    "datetime": ""
+}
+****
+Hydrogen alpha at 6563&Aring; is the strongest of the Balmer series, but beta, gamma and delta are also obvious lines in the spectrum. 
+It is epsilon where hydrogen is no longer obvious, metal lines overwhelm the increasingly weak signal, and maybe the chromosphere 
+pokes out at the disk edge to indicate that there is more there than meets the eye. 
+
+In case of the epsilon line, it is a mere bump in the Calcium H valley. In comparison with the surrounding "continuum", 
+it shows decreased contrast for the plages, prominences, and the darkest and densest of filaments show up, and of course flares.
+
+The full hydrogen signal is still there though, as we'll see in the next image, it is just overwhelmed by the metal signal providing its baseline.

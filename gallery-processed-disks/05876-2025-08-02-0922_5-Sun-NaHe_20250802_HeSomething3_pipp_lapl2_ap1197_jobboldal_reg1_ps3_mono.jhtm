@@ -1,0 +1,28 @@
+{
+    "lambda_A": 5875.62,
+    "caption": "He I D3 (concept)",
+    "instrumentId": "2",
+    "processing-steps": "stack of heavily processed disks, the subtle helium signal was obtained by continuum subtraction, approximately true color",
+    "filename-color": "05876-2025-08-02-0922_5-Sun-NaHe_20250802_HeSomething3_pipp_lapl2_ap1197_jobboldal_reg1_ps3_color.jpg",
+    "filename-mono": "05876-2025-08-02-0922_5-Sun-NaHe_20250802_HeSomething3_pipp_lapl2_ap1197_jobboldal_reg1_ps3_mono.jpg",
+    "chemicals": "He I",
+    "datetime": ""
+}
+****
+
+The subtle helium signal barely shows up on the disk, when inspecting the raw reconstruction. 
+True, it is very obvious in the flash spectrum, but on the disk it is some barely visible mottling and the densest of filaments. 
+Applying continuum subtraction however, reveals the full splendour of this helium line, and makes the imprint of coronal holes rather obvious.
+
+Processing went much further than continuum subtraction. The delta alone yields a grey-ish image, valueable for inspection, 
+and familiar from the literature, but it doesn't capture the gist of the disk -- which we now know from the direct images of the He I 10830 line. 
+The delta shows a grey background, a bright chromosphere and surface features, but to our intuition, it is not the Sun, it is just data visualisation. 
+Hence, the delta was added-multiplied-logarithmed back onto the disk-at-wavelength, the light blanket over the active regions at the limb 
+got dampened down, to produce this concept image. 
+
+This concept image, in retrospect, is a bullzeye direct hit, as it is surprisingly true to the spirit of the helium features. 
+Back when I worked on the script, I had no idea what a direct image of the He I 10830 would look like, so I used my imagination 
+and experience with other wavelengths and processing methods, namely the raw signal-continuum data and the hydrogen delta vs hydrogen epsilon data.
+
+
+

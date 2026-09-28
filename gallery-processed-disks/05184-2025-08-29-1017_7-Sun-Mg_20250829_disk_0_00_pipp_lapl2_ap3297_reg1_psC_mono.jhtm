@@ -1,0 +1,19 @@
+{
+    "lambda_A": 5183.619,
+    "caption": "Mg I b1",
+    "instrumentId": "2",
+    "processing-steps": "stack of enhanced disks via continuum subtraction, approximate true color",
+    "filename-color": "05184-2025-08-29-1017_7-Sun-Mg_20250829_disk_0_00_pipp_lapl2_ap3297_reg1_psC_color.jpg",
+    "filename-mono": "05184-2025-08-29-1017_7-Sun-Mg_20250829_disk_0_00_pipp_lapl2_ap3297_reg1_psC_mono.jpg",
+    "chemicals": "Mg I",
+    "datetime": ""
+}
+****
+Magnesium and Sodium are really odd balls of the spectrum. They show obvious prominences, bright plages, and very dens filaments do show up. 
+Overall, both the Na I D and the Mg I b disk is an anemic variant of a broad band selection of the Ca II K/H region.
+
+While at this green magnesium, let's mention that there is an ultraviolet Mg triplet, showing similar features, 
+with relatively bright prominences, at around lambda 3838. 
+
+It was the prominence showing up at the UV sibling of this Magnesium that made me dig deep into spectroheliography, 
+to look into the literature, and identify the lines myself.

@@ -1,0 +1,16 @@
+{
+    "lambda_A": 5890,
+    "caption": "Na I D2",
+    "instrumentId": "2",
+    "processing-steps": "stack of enhanced disks via continuum subtraction, approximate true color",
+    "filename-color": "05890-2025-08-02-0922_5-Sun-NaHe_20250802_disk_0_00_pipp_lapl2_ap1289_reg1_ps4_color.jpg",
+    "filename-mono": "05890-2025-08-02-0922_5-Sun-NaHe_20250802_disk_0_00_pipp_lapl2_ap1289_reg1_ps4_mono.jpg",
+    "chemicals": "Na I",
+    "datetime": ""
+}
+****
+Magnesium and Sodium are really odd balls of the spectrum. They show obvious prominences, bright plages, and very dens filaments do show up on the disk. 
+Overall, both the Na I D and the Mg I b disk is an anemic variant of a broad band selection of the Ca II K/H region.
+
+Depending on the features on the Sun and fine tuning the aggressivenes 
+of the processing algorithm, and of course the always problematic atmospheric seeing conditions, varying details can be shown.

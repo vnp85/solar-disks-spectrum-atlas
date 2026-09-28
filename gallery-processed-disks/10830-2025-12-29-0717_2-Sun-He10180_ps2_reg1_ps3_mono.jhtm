@@ -1,0 +1,24 @@
+{
+    "lambda_A": 10830.70,
+    "caption": "He I 10830",
+    "instrumentId": "3",
+    "processing-steps": "stack of disks reconstructed from the wavelength, no continuum subtraction, false color",
+    "filename-color": "10830-2025-12-29-0717_2-Sun-He10180_ps2_reg1_ps3_color.jpg",
+    "filename-mono": "10830-2025-12-29-0717_2-Sun-He10180_ps2_reg1_ps3_mono.jpg",
+    "chemicals": "He I",
+    "prefer-gamma-x100": 300,
+    "datetime": ""
+}
+****
+Compared to the other Helium lines, this one has a very strong signal. While the features are about the same as in yellow, 
+the He I D3 line is nowhere near this strong. I may be the first amateur to directly image the He I 10830 Sun. The proof of concept precedent I know of is a Sun of lower resolution, a continuum subtracted image of Christian Buil -- who provided valuable advice to reach this deep. 
+
+Affectionately, I call this region the Challenger Deep, the coincidence of the numbers on the one hand, 
+and the several challenges of building and operating a spectroheliograph at this wavelength on the other. 
+Visually black materials could be shiny bright at 1100nm, the CMOS sensor is out of spec and its efficiency hits rock bottom, to name just two.
+
+This helium line readily shows the imprint of coronal holes. 
+I could show them in both He I D3, and somewhat in He I 7065, with math, but this line shows them directly, on the reconstructed disk, without further math. 
+Other helium lines, such as that at 4472 with prominences and filaments, 
+the mostly hidden 5017, with very dim prominences and bright flares, 
+the 6678 restricted to dim prominences and the light blanket above the active regions are dwarfed even by the He I D3 line, which in turn is a mere shadow of this line.

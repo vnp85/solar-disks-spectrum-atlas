@@ -1,0 +1,26 @@
+{
+    "lambda_A": 3968.47,
+    "caption": "Calcium H",
+    "instrumentId": "1",
+    "processing-steps": "stack of reconstructed disks at wavelength, minor contrast adjustments, approximate true color",
+    "filename-color": "03969-2025-04-22-0745_5-Sun-CaH_20250422_disk_0_00_pipp_lapl2_ap19257_reg1_ps5_color.jpg",
+    "filename-mono": "03969-2025-04-22-0745_5-Sun-CaH_20250422_disk_0_00_pipp_lapl2_ap19257_reg1_ps5_mono.jpg",
+    "chemicals": "Ca II",
+    "datetime": ""
+}
+****
+With their large widths, spectral lines Calcium K (2 nm) and Calcium H (1.5 nm) 
+are ideal targets for any instrument, be that an etalon or a spectroheliograph. 
+
+The notation is somewhat varied, Ca II (H), CaH, Ca II 3969, Calcium H -- we all know which Fraunhofer line we are talking about here.
+Science is usually done on the K line instead, because it is somewhat stronger, and is further away from the hydrogen epsilon line, thus no fear of contamination.
+
+Brighter prominences are visible through etalons of even 8nm, obvious through 3nm, but the disk is just plages and spots at these FWHMs.
+The spiculae of the chromosphere are revealed by etalons downwards of 5&Aring;, but the dynamic range is still hard to manage, there is still too much
+photosphere shining through.
+
+The strenght of the spectroheliograph is that it can zoom into the K3 (or H3) line core, instead of showing 
+the darkest center of the line blended together with the local valleys (1) and bumps (2). That is where filaments become obvious, 
+spots get overwhelmed by the shining plages and active regions, where the Sun becomes eery in comparison to continuum.
+
+The image above captures the light coming from the H3 line core.

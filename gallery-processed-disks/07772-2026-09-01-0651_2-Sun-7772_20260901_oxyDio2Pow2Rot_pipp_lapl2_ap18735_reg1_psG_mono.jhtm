@@ -1,0 +1,39 @@
+{
+    "lambda_A": 7771.9,
+    "caption": "O I 7772",
+    "instrumentId": "5",
+    "processing-steps": "stack of disks reconstructed from the wavelength, continuum subtraction and further heavy processing and artefact removal, false color",
+    "filename-color": "07772-2026-09-01-0651_2-Sun-7772_20260901_oxyDio2Pow2Rot_pipp_lapl2_ap18735_reg1_psG_color.jpg",
+    "filename-mono": "07772-2026-09-01-0651_2-Sun-7772_20260901_oxyDio2Pow2Rot_pipp_lapl2_ap18735_reg1_psG_mono.jpg",
+    "chemicals": "O I",
+    "prefer-gamma-x100": 100,
+    "datetime": ""
+}
+****
+The Oxygen triplet in the infrared, at 777 nanometers, is a really strange one. A relatively strong signal shows that there is something, but it is very weak on details. However, what details, just what details.
+
+In the row spectrum, much like with helium, it is in emission beyond the limb. 
+There is a very obvious chromosphere, with the triplet protruding well beyond the limb. 
+The light of prominences is sometimes blurry, perhaps due to some Doppler shifts going on, 
+sometimes clearly shifted, and sometimes just straight.
+
+On the disk, it is a different story. On the quiet disk, it is in obvious absorption, 
+but a keen observer will see that it has, here and there on the continuous, somewhat blurry lines, some darker knots, or 
+outright spectacular Doppler shifts with very obvious light deficit around flares.
+
+The reconstructed disk will thus show a generally dull image with lost contrast compared to the continuum, 
+somewhat darker plages, and somewhat less dark sunspots. Flares darken, sometimes considerably. 
+
+With considerable processing, continuum removal etc., further details emerge. 
+Beyond the limb, above active regions, there is a light blanket similar to Helium's. 
+On the disk, the dark flares will show details, 
+and filaments that appear strong, dense and dark in H&alpha;, may reveal themselves. 
+That is right, filaments - Oxygen thus joining the club of elements H, He, Na, Mg, Ca where I've shown filaments.
+
+Then there is the question of <em>smudges</em>. The oxygen disk may show obvious, long lasting darkened spots 
+in places that are rather unassuming in most wavelengths. On this particular picture, on this particular day, there's none, 
+the picture was chosen for the filaments.
+In a previous article I've shown that a smudge is rather unassuming bright-ish plages in:
+H&alpha;, Ca II 8542, Na I D; nothing obvious, small sunspot aside, in: continuum, Fe I 7781, and is dark in
+(O I 7772, hence smudge), He I D3, He I 10830 and H Paschen gamma. From space, a 
+smudge usually corresponds to something smoldering but not flaring in AIA/SUVI 304.

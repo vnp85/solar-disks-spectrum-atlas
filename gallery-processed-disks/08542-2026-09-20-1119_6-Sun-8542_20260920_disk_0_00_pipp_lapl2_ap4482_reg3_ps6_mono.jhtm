@@ -1,0 +1,17 @@
+{
+    "lambda_A": 8542.144,
+    "caption": "Ca II 8542",
+    "instrumentId": "5",
+    "processing-steps": "stack of disks reconstructed from the wavelength, processed for artefact removal, false color",
+    "filename-color": "08542-2026-09-20-1119_6-Sun-8542_20260920_disk_0_00_pipp_lapl2_ap4482_reg3_ps6_mono.jpg",
+    "filename-mono": "08542-2026-09-20-1119_6-Sun-8542_20260920_disk_0_00_pipp_lapl2_ap4482_reg3_ps6_color.jpg",
+    "chemicals": "Ca II",
+    "prefer-gamma-x100": 100,
+    "datetime": ""
+}
+****
+
+Perhaps the most studied line of the infrared calcium triplet, consisting of 8498, 8542 and 8662. 8498 has fainter prominences and features in general, 
+while 8662 is a bit blended with a Paschen hydrogen at 8665 (n=13), and 8542 with 8545.3 (n=15). 
+
+The rendered Ca II 8542 disk looks like an anemic version of Calcium II K, somewhat brighter disk compared to the plages, bright plages surrounded by a bit darker halo on the disk, with less contrast in filaments and prominences. 

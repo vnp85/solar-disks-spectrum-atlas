@@ -1,0 +1,14 @@
+{
+    "lambda_A": 4771.5,
+    "caption": "He I 4472",
+    "instrumentId": "1",
+    "processing-steps": "stack of continuum subtracted, heavily processed frames, approximate true color",
+    "filename-color": "04472-2025-09-07-0837_7-Sun-4471_20250907_outputRotLS_pipp_lapl2_ap722_ps2_reg1_ps4_color.jpg",
+    "filename-mono": "04472-2025-09-07-0837_7-Sun-4471_20250907_outputRotLS_pipp_lapl2_ap722_ps2_reg1_ps4_mono.jpg",
+    "chemicals": "He",
+    "datetime": ""
+}
+****
+This helium line is much weaker than the yellow helium. It hides in a barcode of spectral lines, on the disk, though readily shows prominences off limb.
+With heavy processing, some filaments may be revealed, but the gist of the yellow helium isn't really there. 
+I've not seen flares in this wavelength so far. Light blankets above the active regions, at the disk edge, are there just like with other helium lines.
